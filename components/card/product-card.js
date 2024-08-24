@@ -16,7 +16,7 @@ export default function ProductCard() {
       {/* Product Info */}
       <div className="p-2">
         <p>MacBook M1 Pro</p>
-        <p className="text-red-500">$1998</p>
+        <p className="text-primary">$1998</p>
         <p>Apple</p>
       </div>
     </div>
