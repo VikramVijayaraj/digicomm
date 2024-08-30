@@ -41,7 +41,9 @@ export default function CartPage() {
       </table>
 
       {/* Checkout */}
-      <CartTotal />
+      <div className="w-1/3 m-auto">
+        <CartTotal />
+      </div>
     </div>
   );
 }

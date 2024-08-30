@@ -1,43 +1,25 @@
-import FormInput from "@/components/form/form-input";
-import FormLabel from "@/components/form/form-label";
+"use client";
+
+import CartTotal from "@/components/cart/cart-total";
+import CheckoutForm from "@/components/checkout/checkout-form";
+import PaymentOption from "@/components/checkout/payment-option";
 
 export default function Checkout() {
   return (
-    <div className="global-padding py-10">
-      <h2 className="text-2xl font-semibold mb-10">Billing Details</h2>
+    <div className="global-padding py-10 flex justify-between">
+      {/* Billing Details */}
+      <CheckoutForm />
 
-      <form className="space-y-6">
-        <div>
-          <FormLabel>
-            Full Name <span className="text-required">*</span>
-          </FormLabel>
-          <FormInput type="text" placeholder="Enter your full name" />
+      {/* Summary and Payment */}
+      <div className="w-full">
+        <div className="w-2/3">
+          <CartTotal page="checkout" />
         </div>
-        <div>
-          <FormLabel>
-            Delivery Address <span className="text-required">*</span>
-          </FormLabel>
-          <FormInput type="text" placeholder="Enter your delivery address" />
+
+        <div className="p-8">
+        <PaymentOption />
         </div>
-        <div>
-          <FormLabel>
-            Town/City <span className="text-required">*</span>
-          </FormLabel>
-          <FormInput type="text" placeholder="Enter your town/city" />
-        </div>
-        <div>
-          <FormLabel>
-            Phone Number <span className="text-required">*</span>
-          </FormLabel>
-          <FormInput type="text" placeholder="Enter your phone number" />
-        </div>
-        <div>
-          <FormLabel>
-            Email Address <span className="text-required">*</span>
-          </FormLabel>
-          <FormInput type="text" placeholder="Enter your email address" />
-        </div>
-      </form>
+      </div>
     </div>
   );
 }

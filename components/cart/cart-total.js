@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-export default function CartTotal() {
+export default function CartTotal({ page }) {
   return (
-    <div className="border border-gray-300 rounded-sm p-8 w-1/3 mt-8 m-auto">
+    <div className="border border-gray-300 rounded-sm p-8 w-full mt-8">
       <h4 className="font-bold text-xl">Cart Total</h4>
 
       {/* Cart Summary */}
@@ -20,11 +20,15 @@ export default function CartTotal() {
       </div>
 
       {/* Proceed To Checkout */}
-      <Link href="/cart/checkout">
-        <div className="bg-primary rounded-sm text-center cursor-pointer mt-2 hover:bg-primary-dark">
-          <button className="text-white p-2">Proceed to checkout</button>
-        </div>
-      </Link>
+      {page === "checkout" ? (
+        ""
+      ) : (
+        <Link href="/cart/checkout">
+          <div className="bg-primary rounded-sm text-center cursor-pointer mt-2 hover:bg-primary-dark">
+            <button className="text-white p-2">Proceed to checkout</button>
+          </div>
+        </Link>
+      )}
     </div>
   );
 }
