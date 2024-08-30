@@ -1,20 +1,17 @@
 import Image from "next/image";
 
-import Quantity from "@/components/cart/quantity";
-import AddToCart from "@/components/cart/add-to-cart";
-import AddToFavourites from "@/components/cart/add-to-favourites";
+import Quantity from "@/components/product/quantity";
+import AddToCart from "@/components/product/add-to-cart";
+import AddToFavourites from "@/components/product/add-to-favourites";
+import ProductImages from "@/components/product/product-images";
+import ProductReview from "@/components/product/product-review";
 
 export default function ProductPage() {
   return (
-    <div className="">
-      <div className="global-padding flex justify-between items-start space-x-10">
+    <div className="global-padding">
+      <div className="flex justify-between items-start space-x-10 py-10">
         {/* Image */}
-        <div className="relative w-2/3 h-[40rem]">
-          <Image
-            src="https://images.unsplash.com/photo-1542393545-10f5cde2c810?q=80&w=3165&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            fill
-          />
-        </div>
+        <ProductImages />
 
         {/* Info */}
         <div className="w-5/12 space-y-2">
@@ -54,6 +51,9 @@ export default function ProductPage() {
           </div>
         </div>
       </div>
+
+      {/* Reviews Section */}
+      <ProductReview />
     </div>
   );
 }

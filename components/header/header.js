@@ -8,12 +8,14 @@ import { FaBars } from "react-icons/fa6";
 import { BsCart4 } from "react-icons/bs";
 
 import { categories } from "@/lib/data";
+import UserImage from "./user-image";
 
 const navLinks = [
   // { name: "Contact", href: "/contact" },
   // { name: "About", href: "/about" },
   { name: "Sign in", href: "/signup" },
   { name: <BsCart4 className="text-xl" />, href: "/cart" },
+  { name: <UserImage className="text-xl" />, href: "/my-account" },
 ];
 
 export default function Header() {

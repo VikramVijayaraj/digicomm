@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 
-export default function Quantity() {
-  const [quantity, setQuantity] = useState(0);
+export default function Quantity({ initialValue = 0, width = "auto" }) {
+  const [quantity, setQuantity] = useState(initialValue);
 
   function incrementQuantity() {
     setQuantity(quantity + 1);
@@ -17,7 +17,9 @@ export default function Quantity() {
   }
 
   return (
-    <div className="flex justify-between w-auto border border-gray-400 rounded-sm">
+    <div
+      className={`flex justify-between m-auto w-${width} border border-gray-400 rounded-sm`}
+    >
       <p
         className="cursor-pointer flex items-center justify-center w-8 hover:bg-primary hover:text-white"
         onClick={decrementQuantity}

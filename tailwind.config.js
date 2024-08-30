@@ -13,6 +13,7 @@ module.exports = {
           DEFAULT: "#C7253E", // Default shade
           dark: "#821131", // Darker shade
         },
+        required: "#dc2626",
       },
       // backgroundImage: {
       //   "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
