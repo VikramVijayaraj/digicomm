@@ -1,30 +1,14 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
-import { BsCart4 } from "react-icons/bs";
 
+import NavLinks from "./nav-links";
+import Dropdown from "./dropdown";
 import { categories } from "@/lib/data";
-import UserImage from "./user-image";
+import { verifyAuth } from "@/lib/auth/auth";
 
-const navLinks = [
-  // { name: "Contact", href: "/contact" },
-  // { name: "About", href: "/about" },
-  { name: "Sign in", href: "/signup" },
-  { name: <BsCart4 className="text-xl" />, href: "/cart" },
-  { name: <UserImage className="text-xl" />, href: "/my-account" },
-];
-
-export default function Header() {
-  const pathname = usePathname();
-  const [isCategoriesOpen, SetIsCategoriesOpen] = useState(false);
-
-  function handleCategory() {
-    SetIsCategoriesOpen(!isCategoriesOpen);
-  }
+export default async function Header() {
+  const isLoggedin = await verifyAuth();
 
   return (
     <header className="flex justify-between global-padding py-8 items-center gap-x-12">
@@ -35,25 +19,10 @@ export default function Header() {
         </Link>
 
         {/* Categories */}
-        <div>
-          <div
-            onClick={handleCategory}
-            className="relative flex justify-between items-center gap-x-2 py-2 px-3 cursor-pointer hover:bg-gray-100 hover:rounded-full"
-          >
-            <FaBars />
-            <p>Categories</p>
-          </div>
-
-          {isCategoriesOpen && (
-            <ul className="absolute z-10 w-48 shadow-lg rounded-sm bg-white py-2">
-              {categories.map((category) => (
-                <li className="px-2 py-3 cursor-pointer hover:bg-gray-100">
-                  {category.name}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <Dropdown data={categories}>
+          <FaBars />
+          <p>Categories</p>
+        </Dropdown>
       </div>
 
       {/* Search Icon */}
@@ -67,21 +36,7 @@ export default function Header() {
       </div>
 
       {/* NavLinks */}
-      <nav>
-        <ul className="flex justify-between items-center space-x-4">
-          {navLinks.map((link, index) => (
-            <Link href={link.href} key={index}>
-              <li
-                className={`tracking-wide gap-x-2 py-2 px-3 hover:bg-gray-100 hover:rounded-full
-                ${pathname.startsWith(link.href) && "underline"}
-                `}
-              >
-                {link.name}
-              </li>
-            </Link>
-          ))}
-        </ul>
-      </nav>
+      <NavLinks isAuthenticated={isLoggedin} />
     </header>
   );
 }

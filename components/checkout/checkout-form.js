@@ -67,6 +67,7 @@ export default function CheckoutForm() {
             type="text"
             placeholder="Enter your phone number"
             name="phone"
+            required={true}
           />
         </div>
         <div>
@@ -77,11 +78,17 @@ export default function CheckoutForm() {
             type="text"
             placeholder="Enter your email address"
             name="email"
+            required={true}
           />
         </div>
       </form>
 
-      <button onClick={handleFormSubmit}>Submit</button>
+      <button
+        className="bg-primary px-8 py-2 rounded-sm text-white mt-4 hover:bg-primary-dark"
+        onClick={handleFormSubmit}
+      >
+        Save
+      </button>
     </div>
   );
 }

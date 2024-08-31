@@ -6,18 +6,20 @@ import PaymentOption from "@/components/checkout/payment-option";
 
 export default function Checkout() {
   return (
-    <div className="global-padding py-10 flex justify-between">
+    <div className="global-padding py-10 flex justify-evenly gap-x-4">
       {/* Billing Details */}
-      <CheckoutForm />
+      <div className="w-1/3">
+        <CheckoutForm />
+      </div>
 
       {/* Summary and Payment */}
-      <div className="w-full">
-        <div className="w-2/3">
+      <div className="w-1/3">
+        {/* <div className="w-2/3"> */}
           <CartTotal page="checkout" />
-        </div>
+        {/* </div> */}
 
         <div className="p-8">
-        <PaymentOption />
+          <PaymentOption />
         </div>
       </div>
     </div>

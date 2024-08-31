@@ -2,10 +2,12 @@ import { IoSendOutline } from "react-icons/io5";
 
 import FooterSubHeading from "./footer-sub-heading";
 import FooterLinks from "./footer-links";
+import { footerSections } from "@/lib/data";
 
 export default function Footer() {
   return (
     <div className="global-padding py-20 grid grid-cols-4 bg-black text-white">
+      {/* Main Section */}
       <div>
         <h1 className="text-3xl pb-4">{process.env.NEXT_PUBLIC_APP_NAME}</h1>
         <FooterSubHeading>Subscribe</FooterSubHeading>
@@ -23,27 +25,29 @@ export default function Footer() {
         </form>
       </div>
 
+      {/* Other Sections */}
+      {footerSections.map((section, index) => (
+        <div key={index}>
+          <FooterSubHeading>{section.sectionName}</FooterSubHeading>
+          <FooterLinks links={section.sectionLinks} />
+        </div>
+      ))}
+
       {/* Support */}
-      <div className="">
+      {/* <div className="">
         <FooterSubHeading>Support</FooterSubHeading>
         <FooterLinks
-          links={["Support center", "support@email.com", "ChatBot"]}
+          links={["Support center", "support@email.com", "Sell on Digicomm"]}
         />
-      </div>
-
-      {/* Account */}
-      <div>
-        <FooterSubHeading>Account</FooterSubHeading>
-        <FooterLinks links={["My Account", "Cart", "Favourites", "Shop"]} />
-      </div>
+      </div> */}
 
       {/* About */}
-      <div>
+      {/* <div>
         <FooterSubHeading>About</FooterSubHeading>
         <FooterLinks
           links={["Privacy Policy", "Terms Of Use", "FAQ", "Contact"]}
         />
-      </div>
+      </div> */}
     </div>
   );
 }

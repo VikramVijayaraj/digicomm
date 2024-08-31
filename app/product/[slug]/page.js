@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import Quantity from "@/components/product/quantity";
 import AddToCart from "@/components/product/add-to-cart";
 import AddToFavourites from "@/components/product/add-to-favourites";
