@@ -102,6 +102,7 @@ function ProductReview() {
                         <img
                           className="h-12 rounded-full"
                           src="/images/avatar.png"
+                          alt="User Avatar"
                         />
                         <div>
                           <p className="mb-5">{review.name}</p>

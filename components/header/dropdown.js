@@ -29,8 +29,9 @@ export default function Dropdown({ children, data }) {
 
       {isOpen && (
         <ul className="absolute z-10 w-48 shadow-lg rounded-sm bg-white py-2">
-          {data.map((d) => (
+          {data.map((d, index) => (
             <li
+              key={index}
               onClick={handleMenuOption.bind(null, d.name)}
               className="px-2 py-3 cursor-pointer hover:bg-gray-100"
               name={d.name}

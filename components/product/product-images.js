@@ -28,14 +28,24 @@ export default function ProductImages() {
             key={index}
             className="relative w-24 h-24 mr-5 rounded-sm cursor-pointer"
           >
-            <Image src={image} fill style={{ objectFit: "cover" }} />
+            <Image
+              src={image}
+              fill
+              style={{ objectFit: "cover" }}
+              alt="Product Image"
+            />
           </div>
         ))}
       </div>
 
       {/* Main Image */}
       <div className="relative w-full h-full">
-        <Image src={displayImage} fill style={{ objectFit: "cover" }} />
+        <Image
+          src={displayImage}
+          fill
+          style={{ objectFit: "cover" }}
+          alt="Banner Image"
+        />
       </div>
     </div>
   );

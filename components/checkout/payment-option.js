@@ -26,9 +26,14 @@ export default function PaymentOption() {
         />
         <div className="flex space-x-2 items-center">
           <label for="bank">Bank</label>
-          <Image src="/logos/visa.svg" width={40} height={40} />
-          <Image src="/logos/mastercard.svg" width={30} height={30} />
-          <Image src="/logos/paypal.svg" width={30} height={30} />
+          <Image src="/logos/visa.svg" width={40} height={40} alt="visa" />
+          <Image
+            src="/logos/mastercard.svg"
+            width={30}
+            height={30}
+            alt="mastercard"
+          />
+          <Image src="/logos/paypal.svg" width={30} height={30} alt="paypal" />
         </div>
       </div>
 
