@@ -8,7 +8,7 @@ import { categories } from "@/lib/data";
 import { verifyAuth } from "@/lib/auth/auth";
 
 export default async function Header() {
-  const isLoggedin = await verifyAuth();
+  // const isLoggedin = await verifyAuth();
 
   return (
     <header className="flex justify-between global-padding py-8 items-center gap-x-12">
@@ -36,7 +36,9 @@ export default async function Header() {
       </div>
 
       {/* NavLinks */}
-      <NavLinks isAuthenticated={isLoggedin} />
+      <NavLinks
+      // isAuthenticated={isLoggedin}
+      />
     </header>
   );
 }

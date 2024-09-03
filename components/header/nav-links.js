@@ -23,7 +23,7 @@ export default function NavLinks({ isAuthenticated }) {
             <BsCart4 className="text-xl" />
           </Link>
         </li>
-        <li
+        {/* <li
           className={`tracking-wide gap-x-2 py-2 px-3 hover:bg-gray-100 hover:rounded-full
                 ${
                   (pathname.startsWith("/account") ||
@@ -39,7 +39,7 @@ export default function NavLinks({ isAuthenticated }) {
           ) : (
             <Link href="/authenticate">Sign in</Link>
           )}
-        </li>
+        </li> */}
       </ul>
     </nav>
   );

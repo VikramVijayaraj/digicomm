@@ -4,11 +4,11 @@ import { verifyAuth } from "@/lib/auth/auth";
 import CheckoutForm from "@/components/checkout/checkout-form";
 
 export default async function AccountPage() {
-  const result = await verifyAuth();
+  // const result = await verifyAuth();
 
-  if (!result.user) {
-    return redirect("/authenticate");
-  }
+  // if (!result.user) {
+  //   return redirect("/authenticate");
+  // }
 
   return (
     <div>
