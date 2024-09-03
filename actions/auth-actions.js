@@ -9,6 +9,7 @@ import { createAuthSession, destroySession } from "@/lib/auth/auth";
 export async function signup(prevState, formData) {
   const email = formData.get("email");
   const password = formData.get("password");
+  const rePassword = formData.get("rePassword");
 
   let errors = {};
 
@@ -20,9 +21,13 @@ export async function signup(prevState, formData) {
     errors.password = "Password must be atleast 8 characters long.";
   }
 
+  if (password !== rePassword) {
+    errors.rePassword = "Both passwords must match.";
+  }
+
   if (Object.keys(errors).length > 0) {
     return {
-      errors: errors, // (or) errors -> if both key and values are same just giving once is same in JavaScript.
+      errors: errors,
     };
   }
 

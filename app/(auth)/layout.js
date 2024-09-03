@@ -1,20 +1,19 @@
-import { logout } from "@/actions/auth-actions";
-import "../globals.css";
+// import { logout } from "@/actions/auth-actions";
 
 export const metadata = {
-  title: "Next Auth",
-  description: "Next.js Authentication",
+  title: "User Profile",
+  description: "User Profile",
 };
 
 export default function AuthRootLayout({ children }) {
   return (
     <>
-      <header id="auth-header">
+      {/* <header>
         <p>Welcome back!</p>
         <form action={logout}>
           <button>Logout</button>
         </form>
-      </header>
+      </header> */}
       {children}
     </>
   );

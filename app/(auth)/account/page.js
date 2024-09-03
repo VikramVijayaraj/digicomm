@@ -9,6 +9,7 @@ export default async function AccountPage() {
   if (!result.user) {
     return redirect("/authenticate");
   }
+
   return (
     <div>
       <CheckoutForm />

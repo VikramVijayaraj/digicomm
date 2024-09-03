@@ -13,7 +13,7 @@ export default function AuthForm({ mode }) {
   return (
     <form className="w-1/4 mx-auto my-20" id="auth-form" action={formAction}>
       <div>
-        <h1 className="text-3xl font-semibold tracking-wide mb-4">
+        <h1 className="text-3xl font-semibold tracking-wide mb-10 text-center">
           {mode === "login" ? "Login" : "Create your account"}
         </h1>
       </div>
@@ -33,6 +33,16 @@ export default function AuthForm({ mode }) {
           placeholder="Enter your password"
         />
       </div>
+      {mode === "signup" && (
+        <div>
+          <FormLabel>Re-enter password</FormLabel>
+          <FormInput
+            type="password"
+            name="rePassword"
+            placeholder="Enter your password again"
+          />
+        </div>
+      )}
       {formState.errors && (
         <ul id="form-errors">
           {Object.keys(formState.errors).map((error) => (
@@ -53,7 +63,7 @@ export default function AuthForm({ mode }) {
         )}
         {mode === "signup" && (
           <Link href="authenticate/?mode=login">
-            Login with existing account.
+            Login with existing account
           </Link>
         )}
         {mode === "account" && <Link>Make an account</Link>}
