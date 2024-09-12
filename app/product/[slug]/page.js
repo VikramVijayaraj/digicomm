@@ -3,14 +3,14 @@ import AddToCart from "@/components/product/add-to-cart";
 import AddToFavourites from "@/components/product/add-to-favourites";
 import ProductImages from "@/components/product/product-images";
 import ProductReview from "@/components/product/product-review";
-import { getProduct } from "@/actions/db";
+import { getProduct } from "@/actions/db/products";
 
 export default async function ProductPage({ params }) {
   const result = await getProduct(params.slug);
 
   return (
     <div className="global-padding">
-      <div className="flex justify-between items-start space-x-10 py-10">
+      <div className="flex justify-between items-start space-x-10 pb-10">
         {/* Image */}
         <ProductImages images={result} />
 

@@ -2,7 +2,7 @@ import { revalidatePath } from "next/cache";
 import { CiMobile3 } from "react-icons/ci";
 
 import SectionLayout from "./section-layout";
-import { getCategories } from "@/actions/db";
+import { getCategories } from "@/actions/db/categories";
 
 export default async function Categories() {
   const result = await getCategories();

@@ -5,12 +5,8 @@ import { useState } from "react";
 
 import { logout } from "@/actions/auth-actions";
 
-export default function Dropdown({ children, data }) {
-  const [isOpen, SetIsOpen] = useState(false);
-
-  function toggleDropdown() {
-    SetIsOpen(!isOpen);
-  }
+export default function Dropdown({ children, data, parent = "" }) {
+  const [isOpen, setIsOpen] = useState(false);
 
   function handleMenuOption(option) {
     if (option === "Logout") {
@@ -19,25 +15,27 @@ export default function Dropdown({ children, data }) {
   }
 
   return (
-    <div>
-      <div
-        onClick={toggleDropdown}
-        className="relative flex justify-between items-center gap-x-2 py-2 px-3 cursor-pointer hover:bg-gray-100 hover:rounded-full"
-      >
+    <div
+      onMouseOver={() => setIsOpen(true)}
+      onMouseOut={() => setIsOpen(false)}
+    >
+      <div className="relative flex justify-between items-center gap-x-2 py-2 px-3 cursor-pointer hover:bg-gray-100 hover:rounded-full">
         {children}
       </div>
 
       {isOpen && (
         <ul className="absolute z-10 w-48 shadow-lg rounded-sm bg-white py-2">
-          {data.map((d, index) => (
-            <li
-              key={index}
-              onClick={handleMenuOption.bind(null, d.name)}
-              className="px-2 py-3 cursor-pointer hover:bg-gray-100"
-              name={d.name}
-            >
-              <Link href={d.link}>{d.name}</Link>
-            </li>
+          {data.map((d) => (
+            <Link href={parent + d.slug}>
+              <li
+                key={d.id}
+                onClick={handleMenuOption.bind(null, d.name)}
+                className="px-2 py-3 cursor-pointer hover:bg-gray-100"
+                name={d.name}
+              >
+                {d.name}
+              </li>
+            </Link>
           ))}
         </ul>
       )}

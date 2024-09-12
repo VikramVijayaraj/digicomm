@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Header />
-        {children}
+        <div className="py-10">{children}</div>
         <Footer />
       </body>
     </html>

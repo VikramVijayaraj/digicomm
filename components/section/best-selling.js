@@ -3,14 +3,14 @@ import { revalidatePath } from "next/cache";
 
 import ProductCard from "../card/product-card";
 import SectionLayout from "./section-layout";
-import { getProducts } from "@/actions/db";
+import { getProducts } from "@/actions/db/products";
 
 export default async function BestSelling() {
   const result = await getProducts();
   revalidatePath("/");
 
   const products = result.map((product) => (
-    <Link key={product.image_id} href={`/product/${product.slug}`}>
+    <Link key={product.image_id} href={`/product/${product.product_slug}`}>
       <ProductCard
         name={product.product_name}
         price={product.price}
