@@ -2,14 +2,17 @@ import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 
+import { auth } from "@/auth";
 import NavLinks from "./nav-links";
 import Dropdown from "./dropdown";
-import { verifyAuth } from "@/lib/auth/auth";
 import { getCategories } from "@/actions/db/categories";
 
 export default async function Header() {
-  // const isLoggedin = await verifyAuth();
   const categories = await getCategories();
+  const session = await auth();
+
+  console.log("Printing from {header.js}");
+  console.log(session);
 
   return (
     <header className="flex justify-between global-padding py-8 items-center gap-x-12">
@@ -37,9 +40,7 @@ export default async function Header() {
       </div>
 
       {/* NavLinks */}
-      <NavLinks
-      // isAuthenticated={isLoggedin}
-      />
+      <NavLinks session={session} />
     </header>
   );
 }

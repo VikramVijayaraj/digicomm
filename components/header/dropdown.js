@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { logout } from "@/actions/auth-actions";
+import { signOut } from "next-auth/react";
 
 export default function Dropdown({ children, data, parent = "" }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  function handleMenuOption(option) {
+  async function handleMenuOption(option) {
     if (option === "Logout") {
-      logout();
+      signOut();
     }
   }
 
@@ -26,7 +26,7 @@ export default function Dropdown({ children, data, parent = "" }) {
       {isOpen && (
         <ul className="absolute z-10 w-48 shadow-lg rounded-sm bg-white py-2">
           {data.map((d) => (
-            <Link href={parent + d.slug}>
+            <Link href={parent ? parent + d.slug : d.slug}>
               <li
                 key={d.id}
                 onClick={handleMenuOption.bind(null, d.name)}
