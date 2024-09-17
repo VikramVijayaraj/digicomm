@@ -3,6 +3,7 @@ export default function FormInput({
   placeholder,
   name,
   required = false,
+  defaultValue = "",
 }) {
   return (
     <div className="my-2">
@@ -11,7 +12,8 @@ export default function FormInput({
         type={type}
         placeholder={placeholder}
         name={name}
-        required
+        defaultValue={defaultValue}
+        required={required}
       />
     </div>
   );

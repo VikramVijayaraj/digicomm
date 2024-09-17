@@ -7,7 +7,7 @@ import FormInput from "../form/form-input";
 import FormButton from "../form/form-button";
 import UserDetailsAction from "@/actions/user-details-action";
 
-export default function UserDetails() {
+export default function UserDetails({ data }) {
   const [state, formAction] = useFormState(UserDetailsAction, {});
 
   // const formRef = useRef(null);
@@ -40,6 +40,7 @@ export default function UserDetails() {
             type="text"
             placeholder="Enter your full name"
             name="full-name"
+            defaultValue={data && data.first_name + " " + data.last_name}
           />
         </div>
         <div>
@@ -51,6 +52,7 @@ export default function UserDetails() {
             placeholder="Enter your phone number"
             name="phone"
             required={true}
+            defaultValue={data && data.phone}
           />
         </div>
         <div>
@@ -62,6 +64,7 @@ export default function UserDetails() {
             placeholder="Enter your delivery address line 1"
             name="address-line1"
             required={true}
+            defaultValue={data && data.address_line1}
           />
         </div>
         <div>
@@ -70,6 +73,7 @@ export default function UserDetails() {
             type="text"
             placeholder="Enter your delivery address line 2"
             name="address-line2"
+            defaultValue={data && data.address_line2}
           />
         </div>
         <div>
@@ -80,6 +84,7 @@ export default function UserDetails() {
             type="text"
             placeholder="Enter your town/city"
             name="city"
+            defaultValue={data && data.city}
           />
         </div>
         <div>
@@ -91,6 +96,7 @@ export default function UserDetails() {
             placeholder="Enter your state"
             name="state"
             required={true}
+            defaultValue={data && data.state}
           />
         </div>
         <div>
@@ -102,6 +108,7 @@ export default function UserDetails() {
             placeholder="Enter your country"
             name="country"
             required={true}
+            defaultValue={data && data.country}
           />
         </div>
         <div>
@@ -113,6 +120,7 @@ export default function UserDetails() {
             placeholder="Enter your zip code"
             name="zip-code"
             required={true}
+            defaultValue={data && data.zip_code}
           />
         </div>
 

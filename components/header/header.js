@@ -5,7 +5,8 @@ import { FaBars } from "react-icons/fa6";
 import { auth } from "@/auth";
 import NavLinks from "./nav-links";
 import Dropdown from "./dropdown";
-import { getCategories } from "@/actions/db/categories";
+import { getCategories } from "@/lib/db/categories";
+
 
 export default async function Header() {
   const categories = await getCategories();

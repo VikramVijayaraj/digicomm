@@ -1,6 +1,6 @@
-import { getCategoryName } from "@/actions/db/categories";
-import { getProductsByCategory } from "@/actions/db/products";
 import ProductCard from "@/components/card/product-card";
+import { getCategoryName } from "@/lib/db/categories";
+import { getProductsByCategory } from "@/lib/db/products";
 
 export default async function CategoryProductsPage({ params }) {
   const { name: categoryName } = await getCategoryName(params.slug);

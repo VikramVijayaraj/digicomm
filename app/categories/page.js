@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getCategories } from "@/actions/db/categories";
+import { getCategories } from "@/lib/db/categories";
 
 export default async function CategoriesPage() {
   const result = await getCategories();

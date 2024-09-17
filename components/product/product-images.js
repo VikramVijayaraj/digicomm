@@ -16,7 +16,7 @@ export default function ProductImages({ images }) {
         src={image.image_url}
         fill
         style={{ objectFit: "cover" }}
-        alt={image.alt_text}
+        alt={image.alt_text || "Product Image"}
       />
     </div>
   ));

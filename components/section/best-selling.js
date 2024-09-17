@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 
 import ProductCard from "../card/product-card";
 import SectionLayout from "./section-layout";
-import { getProducts } from "@/actions/db/products";
+import { getProducts } from "@/lib/db/products";
 
 export default async function BestSelling() {
   const result = await getProducts();

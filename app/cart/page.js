@@ -1,11 +1,20 @@
-import { FaTrash } from "react-icons/fa6";
+import { redirect } from "next/navigation";
 
-import TableData from "@/components/cart/table-data";
 import TableHeading from "@/components/cart/table-heading";
-import Quantity from "@/components/product/quantity";
 import CartTotal from "@/components/cart/cart-total";
+import { getCartItems } from "@/lib/db/cart";
+import { auth } from "@/auth";
+import CartItem from "@/components/cart/cart-item";
 
-export default function CartPage() {
+export default async function CartPage() {
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect("/signin");
+  }
+
+  const cartItems = await getCartItems(session.user.email);
+
   return (
     <div className="global-padding">
       <table className="w-full">
@@ -18,25 +27,11 @@ export default function CartPage() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <TableData>MacBook M1 Pro</TableData>
-            <TableData>$1999</TableData>
-            <TableData>
-              <Quantity initialValue={2} width="32" />
-            </TableData>
-            <TableData>${1999 * 2}</TableData>
-            <TableData>
-              <FaTrash className="text-red-500 cursor-pointer hover:text-primary-dark" />
-            </TableData>
-          </tr>
-          <tr>
-            <TableData>MacBook M1 Pro</TableData>
-            <TableData>$1999</TableData>
-            <TableData>
-              <Quantity initialValue={2} width="32" />
-            </TableData>
-            <TableData>${1999 * 2}</TableData>
-          </tr>
+          {cartItems.map((item) => (
+            <tr key={item.product_id}>
+              <CartItem data={item} />
+            </tr>
+          ))}
         </tbody>
       </table>
 

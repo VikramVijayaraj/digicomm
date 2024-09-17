@@ -2,9 +2,9 @@
 
 import { redirect } from "next/navigation";
 
-import { hashUserPassword, verifyPassword } from "@/lib/auth/hash";
-import { createUser, getUserByEmail } from "@/lib/auth/user";
-import { createAuthSession, destroySession } from "@/lib/auth/auth";
+import { hashUserPassword, verifyPassword } from "@/lib/TEMP-auth/hash";
+import { createUser, getUserByEmail } from "@/lib/TEMP-auth/user";
+import { createAuthSession, destroySession } from "@/lib/TEMP-auth/auth";
 
 export async function signup(prevState, formData) {
   const email = formData.get("email");

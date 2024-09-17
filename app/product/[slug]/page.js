@@ -3,7 +3,7 @@ import AddToCart from "@/components/product/add-to-cart";
 import AddToFavourites from "@/components/product/add-to-favourites";
 import ProductImages from "@/components/product/product-images";
 import ProductReview from "@/components/product/product-review";
-import { getProduct } from "@/actions/db/products";
+import { getProduct } from "@/lib/db/products";
 
 export default async function ProductPage({ params }) {
   const result = await getProduct(params.slug);
@@ -24,7 +24,7 @@ export default async function ProductPage({ params }) {
           {/* Actions */}
           <div className="py-4 space-y-8">
             {/* Sizes */}
-            <div>
+            {/* <div>
               <p>
                 Sizes<span className="text-red-500">*</span>
               </p>
@@ -33,12 +33,9 @@ export default async function ProductPage({ params }) {
                 <option>234</option>
                 <option>ey58o</option>
               </select>
-            </div>
+            </div> */}
 
             <div className="flex justify-between h-10 space-x-2">
-              {/* Quantity */}
-              <Quantity />
-
               {/* Add to cart */}
               <AddToCart />
 
@@ -50,7 +47,7 @@ export default async function ProductPage({ params }) {
       </div>
 
       {/* Reviews Section */}
-      <ProductReview />
+      {/* <ProductReview /> */}
     </div>
   );
 }
