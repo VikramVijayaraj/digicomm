@@ -10,7 +10,7 @@ export default async function BestSelling() {
   revalidatePath("/");
 
   const products = result.map((product) => (
-    <Link key={product.image_id} href={`/product/${product.product_slug}`}>
+    <Link key={product.id} href={`/product/${product.product_slug}`}>
       <ProductCard
         name={product.product_name}
         price={product.price}

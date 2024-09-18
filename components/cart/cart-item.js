@@ -1,15 +1,27 @@
 "use client";
 
 import { FaTrash } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import Quantity from "../product/quantity";
 import TableData from "./table-data";
-import { useState } from "react";
-import { getCartItems, removeProductFromCart } from "@/lib/db/cart";
 import { RemoveFromCartAction } from "@/actions/cart-action";
+import { addToTotal } from "@/store/slices/cartSlice";
 
 export default function CartItem({ data }) {
   const [quantity, setQuantity] = useState(data.quantity);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      addToTotal({
+        productId: data.product_id,
+        totalPrice: data.price * quantity,
+      })
+    );
+  }, [quantity]);
 
   function incrementQuantity() {
     setQuantity((q) => q + 1);

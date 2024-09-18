@@ -9,7 +9,7 @@ export default function ProductImages({ images }) {
   const product_images = images.map((image) => (
     <div
       onClick={() => setDisplayImage(image.image_url)}
-      key={image.image_id}
+      key={image.id}
       className="relative w-24 h-24 mr-5 rounded-sm cursor-pointer"
     >
       <Image
