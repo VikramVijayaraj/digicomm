@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 import NavLinks from "./nav-links";
 import Dropdown from "./dropdown";
 import { getCategories } from "@/lib/db/categories";
-import Search from "./Search";
+import Search from "./search";
 
 export default async function Header() {
   const categories = await getCategories();
