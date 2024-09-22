@@ -6,7 +6,7 @@ import { footerSections } from "@/lib/data";
 
 export default function Footer() {
   return (
-    <div className="global-padding py-20 grid grid-cols-4 bg-black text-white">
+    <div className="global-padding py-20 flex justify-evenly bg-black text-white">
       {/* Main Section */}
       <div>
         <h1 className="text-3xl pb-4">{process.env.NEXT_PUBLIC_APP_NAME}</h1>

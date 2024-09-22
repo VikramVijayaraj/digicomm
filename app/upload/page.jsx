@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebaseConfig";
+import { v4 as uuid } from "uuid";
 
 export default function Upload() {
   const [file, setFile] = useState(null); // State to store the selected file
@@ -18,7 +19,7 @@ export default function Upload() {
     if (!file) return; // Return if no file is selected
 
     setUploading(true); // Set uploading state to true
-    const storageRef = ref(storage, `product-images/${file.name}`); // Create a reference to the file in Firebase Storage
+    const storageRef = ref(storage, `product-images/${file.name + uuid()}`); // Create a reference to the file in Firebase Storage
 
     try {
       await uploadBytes(storageRef, file); // Upload the file to Firebase Storage

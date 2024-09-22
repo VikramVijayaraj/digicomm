@@ -4,9 +4,9 @@ export default function FooterLinks({ links }) {
   return (
     <ul>
       {links.map((link) => (
-        <li className="cursor-pointer py-1 hover:underline" key={link.name}>
-          <Link href={link.link}>{link.name}</Link>
-        </li>
+        <Link href={link.link} key={link.name}>
+          <li className="cursor-pointer py-1 hover:underline">{link.name}</li>
+        </Link>
       ))}
     </ul>
   );
