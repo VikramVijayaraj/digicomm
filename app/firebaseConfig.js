@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 // import { getAnalytics } from "firebase/analytics";
-console.log("Firebase Storage Bucket:", process.env.FIREBASE_STORAGE_BUCKET);
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

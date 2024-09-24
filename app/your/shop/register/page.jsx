@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
-import NewShopForm from "@/components/shop/new-shop-form";
+import ShopDetailsForm from "@/components/shop/shop-details-form";
 
-export default async function ShopPage() {
+export default async function RegisterShop() {
   const session = await auth();
 
   if (!session?.user) {
@@ -12,7 +12,7 @@ export default async function ShopPage() {
 
   return (
     <div>
-      <NewShopForm />
+      <ShopDetailsForm />
     </div>
   );
 }

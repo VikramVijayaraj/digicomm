@@ -5,7 +5,8 @@ import { useFormState } from "react-dom";
 import FormLabel from "../form/form-label";
 import FormInput from "../form/form-input";
 import FormButton from "../form/form-button";
-import UserDetailsAction from "@/actions/user-details-action";
+import { UserDetailsAction } from "@/actions/user-actions";
+
 
 export default function UserDetails({ data }) {
   const [state, formAction] = useFormState(UserDetailsAction, {});

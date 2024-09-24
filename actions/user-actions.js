@@ -4,9 +4,9 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 import { auth } from "@/auth";
-import { createUserDetails } from "../lib/db/users";
+import {  createUserDetails } from "../lib/db/users";
 
-export default async function UserDetailsAction(prevState, formData) {
+export async function UserDetailsAction(prevState, formData) {
   const session = await auth();
 
   const fullName = formData.get("full-name").trim();
@@ -34,3 +34,5 @@ export default async function UserDetailsAction(prevState, formData) {
   revalidatePath("/account");
   redirect("/");
 }
+
+
