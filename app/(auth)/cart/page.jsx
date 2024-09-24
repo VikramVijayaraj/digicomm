@@ -13,7 +13,7 @@ export default async function CartPage() {
     redirect("/signin");
   }
 
-  const cartItems = await getCartItems(session.user.email);
+  const cartItems = await getCartItems(session?.user?.email);
 
   return (
     <div className="global-padding">

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import ReactStars from "react-rating-stars-component";
 
@@ -98,11 +99,12 @@ function ProductReview() {
                 {allReviews &&
                   allReviews.map((review) => (
                     <li key={review._id} className="flex justify-between mb-6">
-                      <div className="flex gap-5">
-                        <img
+                      <div className="relative flex gap-5">
+                        <Image
                           className="h-12 rounded-full"
                           src="/images/avatar.png"
                           alt="User Avatar"
+                          fill
                         />
                         <div>
                           <p className="mb-5">{review.name}</p>

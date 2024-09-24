@@ -21,7 +21,7 @@ export default function CartItem({ data }) {
         totalPrice: data.price * quantity,
       })
     );
-  }, [quantity]);
+  }, [quantity, data.price, data.product_id, dispatch]);
 
   function incrementQuantity() {
     setQuantity((q) => q + 1);
