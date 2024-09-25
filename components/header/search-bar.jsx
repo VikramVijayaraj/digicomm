@@ -1,13 +1,13 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { FaSearch } from "react-icons/fa";
+import { Search } from "lucide-react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
-import SearchSuggestionsAction from "@/actions/product-action";
+import { SearchSuggestionsAction } from "@/actions/product-actions";
 
-export default function Search({ placeholder }) {
+export default function SearchBar({ placeholder }) {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const searchRef = useRef("");
@@ -78,8 +78,7 @@ export default function Search({ placeholder }) {
     <div className="w-full relative">
       <div
         className={`flex justify-between px-8 py-4 items-center bg-gray-100 grow ${
-          isSearching ? "rounded-t-3xl" : "rounded-full"
-        }`}
+          isSearching ? "rounded-t-3xl" : "rounded-full" }`}
       >
         <input
           className="bg-gray-100 w-full outline-none"
@@ -93,11 +92,16 @@ export default function Search({ placeholder }) {
             }
           }}
         />
-        <FaSearch
+        <Search
           id="search-icon"
           onClick={handleSearch}
           className="text-gray-500 cursor-pointer"
         />
+        {/* <FaSearch
+          id="search-icon"
+          onClick={handleSearch}
+          className="text-gray-500 cursor-pointer"
+        /> */}
       </div>
 
       {isSearching && (

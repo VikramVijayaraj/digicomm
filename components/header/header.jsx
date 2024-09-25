@@ -5,7 +5,7 @@ import { auth } from "@/auth";
 import NavLinks from "./nav-links";
 import Dropdown from "./dropdown";
 import { getCategories } from "@/lib/db/categories";
-import Search from "./search";
+import SearchBar from "./search-bar";
 
 export default async function Header() {
   const categories = await getCategories();
@@ -30,7 +30,7 @@ export default async function Header() {
       </div>
 
       {/* Search Icon */}
-      <Search placeholder="Search for anything" />
+      <SearchBar placeholder="Search for anything" />
 
       {/* NavLinks */}
       <NavLinks session={session} />

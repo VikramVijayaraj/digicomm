@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/app/firebaseConfig";
@@ -27,17 +26,8 @@ import {
   createSellerAction,
   updateSellerAction,
 } from "@/actions/seller-actions";
+import { shopSchema } from "@/lib/schema";
 
-// Schema for Shop
-const shopSchema = z.object({
-  logo: z.any().optional(),
-  name: z.string().min(3, { message: "Name must be at least 3 characters." }),
-  description: z
-    .string()
-    .min(10, { message: "Description must be at least 10 characters." }),
-});
-
-// Component
 export default function ShopDetailsForm({ session, data }) {
   // React Hook Form
   const form = useForm({

@@ -3,7 +3,10 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { v4 as uuid } from "uuid";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "@/app/firebaseConfig";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,36 +27,16 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { NewListingPreviews } from "./new-listing-previews";
+import { NewProductPreviews } from "./new-product-previews";
+import { productSchema } from "@/lib/schema";
+import { addProductAction } from "@/actions/product-actions";
+import { toast } from "sonner";
 
-const productSchema = z.object({
-  productName: z.string().min(2, { message: "Product name is required" }),
-  description: z
-    .string()
-    .min(10, { message: "Description must be at least 10 characters" }),
-  category: z.string().min(1, { message: "Category is required" }),
-  images: z.any().refine((files) => files && files.length > 0, {
-    message: "At least one image is required",
-  }),
-  stock: z.preprocess(
-    (value) => (value !== "" ? Number(value) : undefined), // Ensure empty strings are not passed as 0
-    z
-      .number({ invalid_type_error: "Stock must be a number" })
-      .min(1, { message: "Stock must be at least 1" }), // Custom message for stock less than 1
-  ),
-  price: z.preprocess(
-    (value) => (value !== "" ? Number(value) : undefined), // Ensure empty strings are not passed as 0
-    z
-      .number({ invalid_type_error: "Price must be a number" })
-      .min(1, { message: "Price must be at least 1 rupee" }), // Custom message for price
-  ),
-});
-
-export default function NewListingForm({ categories }) {
+export default function NewProductForm({ session, categories }) {
   const form = useForm({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      productName: "",
+      name: "",
       description: "",
       category: "",
       images: [],
@@ -62,11 +45,15 @@ export default function NewListingForm({ categories }) {
     },
   });
 
+  const router = useRouter();
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [files, setFiles] = useState([]);
 
   // Function to handle image previews
-  const handleImageChange = (e) => {
+  function handleImageChange(e) {
     const files = e.target.files;
+    setFiles(files);
+
     const previewArray = [];
     for (const file of files) {
       const reader = new FileReader();
@@ -79,11 +66,38 @@ export default function NewListingForm({ categories }) {
       reader.readAsDataURL(file); // Read file as data URL
     }
     form.setValue("images", files); // Update the form value for images
-  };
+  }
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  // Upload Images To Firebase
+  async function handleUpload() {
+    if (!files) return; // Return if no file is selected
+
+    const imageUrls = [];
+    for (const file of files) {
+      const storageRef = ref(storage, `product-images/${file.name + uuid()}`); // Create a reference to the file in Firebase Storage
+
+      try {
+        await uploadBytes(storageRef, file); // Upload the file to Firebase Storage
+        const url = await getDownloadURL(storageRef); // Get the download URL of the uploaded file
+        console.log(`${file.name} Uploaded Successfully`);
+        imageUrls.push(url);
+      } catch (error) {
+        console.error(`Error uploading the ${file.name}: `, error);
+        throw new Error();
+      }
+    }
+    return imageUrls;
+  }
+
+  async function onSubmit(data) {
+    const uploadedImages = await handleUpload();
+    data["images"] = [...uploadedImages];
+
+    await addProductAction(session?.user?.email, data);
+
+    router.back();
+    toast.success("Product Added Successfully.");
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between px-24">
@@ -95,7 +109,7 @@ export default function NewListingForm({ categories }) {
           {/* Product Name */}
           <FormField
             control={form.control}
-            name="productName"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Product Name</FormLabel>
@@ -145,7 +159,7 @@ export default function NewListingForm({ categories }) {
                     </SelectTrigger>
                     <SelectContent>
                       {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.slug}>
+                        <SelectItem key={category.id} value={category.id}>
                           {category.name}
                         </SelectItem>
                       ))}
@@ -226,10 +240,12 @@ export default function NewListingForm({ categories }) {
           />
 
           {/* Image Previews */}
-          <NewListingPreviews images={imagePreviews} />
+          <NewProductPreviews images={imagePreviews} />
 
           {/* Submit Button */}
-          <Button type="submit">Submit</Button>
+          <Button disabled={form.formState.isSubmitting} type="submit">
+            {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+          </Button>
         </form>
       </Form>
     </div>
