@@ -7,12 +7,8 @@ import ShopDetailsForm from "@/components/shop/shop-details-form";
 export default async function ShopDashboard() {
   const session = await auth();
 
-  if (!session?.user) {
-    redirect("/signin");
-  }
-
   const result = await verifySeller(session?.user?.email);
-  const isSeller = result[0].is_seller;
+  const isSeller = result[0]?.is_seller;
 
   if (!isSeller) {
     redirect("/your/shop/register");

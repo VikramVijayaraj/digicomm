@@ -12,8 +12,12 @@ export default function NewProductButton() {
   return (
     <div>
       <Link href={`${pathname}/new-product`}>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" /> Add New Product
+        <Button
+          variant="outline"
+          className="border-primary text-primary hover:bg-primary hover:text-white"
+        >
+          <Plus className="mr-2 h-4 w-4" />
+          New Product
         </Button>
       </Link>
     </div>

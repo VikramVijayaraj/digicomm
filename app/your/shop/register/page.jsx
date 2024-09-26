@@ -11,7 +11,8 @@ export default async function RegisterShop() {
   }
 
   return (
-    <div>
+    <div className="max-w-md m-auto space-y-8">
+      <h2 className="text-2xl font-semibold text-center">Setup New Shop</h2>
       <ShopDetailsForm />
     </div>
   );

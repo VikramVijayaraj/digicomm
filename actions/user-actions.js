@@ -1,15 +1,19 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 import { auth } from "@/auth";
-import {  createUserDetails } from "../lib/db/users";
+import {
+  createUserDetails,
+  getUserByEmail,
+  updateUserDetails,
+} from "../lib/db/users";
+import { redirect } from "next/navigation";
 
-export async function UserDetailsAction(prevState, formData) {
+export async function UserDetailsAction(data) {
   const session = await auth();
 
-  const fullName = formData.get("full-name").trim();
+  const fullName = data.name.trim();
   const firstName = fullName.split(" ")[0];
   const lastName = fullName.split(" ").slice(1).join(" ");
 
@@ -19,20 +23,24 @@ export async function UserDetailsAction(prevState, formData) {
     imageUrl: session?.user?.image,
     firstName,
     lastName,
-    phone: formData.get("phone"),
-    addressLine1: formData.get("address-line1"),
-    addressLine2: formData.get("address-line2"),
-    city: formData.get("city"),
-    state: formData.get("state"),
-    country: formData.get("country"),
-    zipCode: formData.get("zip-code"),
+    phone: data.phone,
+    addressLine1: data.address1,
+    addressLine2: data.address2,
+    city: data.city,
+    state: data.state,
+    country: data.country,
+    zipCode: data.zipCode,
   };
 
-  // Insert into database
-  await createUserDetails(userDetails);
+  // Insert or Update by checking the user
+  const user = await getUserByEmail(userDetails.email);
 
-  revalidatePath("/account");
-  redirect("/");
+  if (user.length > 0) {
+    await updateUserDetails(userDetails);
+  } else {
+    await createUserDetails(userDetails);
+  }
+
+  revalidatePath("/your/account");
+  redirect("/your/account");
 }
-
-

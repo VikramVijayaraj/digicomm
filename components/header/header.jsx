@@ -1,11 +1,19 @@
 import Link from "next/link";
-import { FaBars } from "react-icons/fa6";
 
 import { auth } from "@/auth";
 import NavLinks from "./nav-links";
-import Dropdown from "./dropdown";
 import { getCategories } from "@/lib/db/categories";
 import SearchBar from "./search-bar";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from "@/components/ui/navigation-menu";
 
 export default async function Header() {
   const categories = await getCategories();
@@ -23,10 +31,28 @@ export default async function Header() {
         </Link>
 
         {/* Categories */}
-        <Dropdown data={categories} parent="/categories/">
-          <FaBars />
-          <p>Categories</p>
-        </Dropdown>
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="rounded-full">
+                Categories
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                  {categories.map((category) => (
+                    <Link
+                      href={"/categories/" + category.slug}
+                      className="p-2 rounded-md hover:bg-secondary"
+                      key={category.slug}
+                    >
+                      <li className="">{category.name}</li>
+                    </Link>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
 
       {/* Search Icon */}

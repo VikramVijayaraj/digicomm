@@ -91,7 +91,7 @@ export default function ShopDetailsForm({ session, data }) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-between px-24 space-y-8">
+    <div className="flex flex-col items-center justify-between space-y-8">
       <div className="w-32 h-32 relative">
         {logo ? (
           <div className="mt-4">
@@ -115,7 +115,7 @@ export default function ShopDetailsForm({ session, data }) {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 max-w-md w-full flex flex-col"
+          className="space-y-8 w-full flex flex-col"
         >
           <FormField
             control={form.control}

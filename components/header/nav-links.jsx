@@ -1,41 +1,71 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { BsCart4 } from "react-icons/bs";
+import { ShoppingCart } from "lucide-react";
+import { signOut } from "next-auth/react";
 
-import UserImage from "./user-image";
-import Dropdown from "./dropdown";
-import { loggedUserOptions } from "@/lib/data";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "../ui/button";
 
 export default function NavLinks({ session }) {
-  const pathname = usePathname();
+  let navLink;
+
+  if (!session?.user) {
+    navLink = (
+      <Link href="/signin">
+        <Button variant="ghost" className="rounded-full">
+          Sign in
+        </Button>
+      </Link>
+    );
+  } else {
+    navLink = (
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <Avatar>
+            <AvatarImage src={session?.user?.image} />
+            <AvatarFallback>{session?.user?.name.at(0)}</AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <Link href="/your/account">
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+          </Link>
+          <Link href="/your/shop/dashboard">
+            <DropdownMenuItem>My Shop</DropdownMenuItem>
+          </Link>
+          <DropdownMenuSeparator />
+          <Link href="/">
+            <DropdownMenuItem onClick={() => signOut()}>
+              Sign out
+            </DropdownMenuItem>
+          </Link>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  }
 
   return (
-    <nav>
-      <ul className="flex justify-between items-center space-x-4 w-full">
-        <li
-          className={`tracking-wide gap-x-2 py-2 px-3 hover:bg-gray-100 hover:rounded-full
-            ${pathname.startsWith("/signin") && "bg-gray-100 rounded-full"} `}
-        >
-          {session?.user ? (
-            <Dropdown data={loggedUserOptions}>
-              <UserImage className="text-xl" img={session?.user?.image} />
-            </Dropdown>
-          ) : (
-            <Link href="/signin">Signin</Link>
-          )}
-        </li>
+    <div className="flex justify-center items-center space-x-4">
+      <div>{navLink}</div>
 
-        <li
-          className={`tracking-wide gap-x-2 py-2 px-3 hover:bg-gray-100 hover:rounded-full
-            ${pathname.startsWith("/cart") && "bg-gray-100 rounded-full"} `}
-        >
-          <Link href="/cart">
-            <BsCart4 className="text-2xl" />
-          </Link>
-        </li>
-      </ul>
-    </nav>
+      <div>
+        <Link href="/cart">
+          <Button variant="ghost" className="rounded-full">
+            <ShoppingCart />
+          </Button>
+        </Link>
+      </div>
+    </div>
   );
 }

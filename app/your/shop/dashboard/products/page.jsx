@@ -1,12 +1,17 @@
 import NewProductButton from "@/components/product/new-product/new-product-button";
+import ShopProductsList from "@/components/shop/shop-products-list";
 
-export default function ShopProducts() {
+export default async function ShopProducts() {
   return (
-    <div className="">
+    <div className="space-y-8">
       {/* Add Product Button */}
-      <NewProductButton />
+      <div className="flex justify-between items-center">
+        <h1 className="font-semibold text-3xl">Products</h1>
+        <NewProductButton />
+      </div>
 
-      
+      {/* Products List  */}
+      <ShopProductsList />
     </div>
   );
 }

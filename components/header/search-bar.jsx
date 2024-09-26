@@ -75,7 +75,7 @@ export default function SearchBar({ placeholder }) {
   }, []);
 
   return (
-    <div className="w-full relative">
+    <div className="grow relative">
       <div
         className={`flex justify-between px-8 py-4 items-center bg-gray-100 grow ${
           isSearching ? "rounded-t-3xl" : "rounded-full" }`}
@@ -97,11 +97,6 @@ export default function SearchBar({ placeholder }) {
           onClick={handleSearch}
           className="text-gray-500 cursor-pointer"
         />
-        {/* <FaSearch
-          id="search-icon"
-          onClick={handleSearch}
-          className="text-gray-500 cursor-pointer"
-        /> */}
       </div>
 
       {isSearching && (
