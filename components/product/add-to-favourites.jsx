@@ -1,7 +1,7 @@
 "use client";
 
+import { Heart } from "lucide-react";
 import { useState } from "react";
-import { FaRegHeart, FaHeart } from "react-icons/fa6";
 
 export default function AddToFavourites() {
   const [hovered, setHovered] = useState(false);
@@ -12,11 +12,12 @@ export default function AddToFavourites() {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {hovered ? (
+      {/* {hovered ? (
         <FaHeart className="text-red-500 transition-colors duration-300 text-xl" />
       ) : (
         <FaRegHeart className="text-gray-500 transition-colors duration-300 text-xl" />
-      )}
+      )} */}
+      <Heart />
     </div>
   );
 }

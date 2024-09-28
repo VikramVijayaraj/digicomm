@@ -1,8 +1,11 @@
+import Link from "next/link";
+import { IndianRupee } from "lucide-react";
+
 import AddToCart from "@/components/product/add-to-cart";
 import AddToFavourites from "@/components/product/add-to-favourites";
 import ProductImages from "@/components/product/product-images";
-import ProductReview from "@/components/product/product-review";
 import { getProduct } from "@/lib/db/products";
+import Reviews from "@/components/product/reviews/reviews";
 
 export default async function ProductPage({ params }) {
   const result = await getProduct(params.slug);
@@ -11,14 +14,22 @@ export default async function ProductPage({ params }) {
     <div className="global-padding">
       <div className="flex justify-between items-start space-x-10 pb-10">
         {/* Image */}
-        <ProductImages images={result} />
+        <ProductImages images={result.images} alt_texts={result.alt_texts} />
 
         {/* Info */}
         <div className="w-5/12 space-y-2">
-          <h2 className="text-xl font-bold">{result[0].product_name}</h2>
+          <h2 className="text-xl font-bold">{result.product_name}</h2>
           <p className="">Star Ratings</p>
-          <p className="text-2xl">${result[0].price}</p>
-          <p className="pt-4">{result[0].product_desc}</p>
+          <p className="flex items-center text-2xl">
+            <IndianRupee />
+            {result.price}
+          </p>
+          <p>
+            <Link href="/shop" className="hover:underline">
+              {result.shop_name}
+            </Link>
+          </p>
+          <p className="pt-4">{result.product_desc}</p>
 
           {/* Actions */}
           <div className="py-4 space-y-8">
@@ -39,14 +50,14 @@ export default async function ProductPage({ params }) {
               <AddToCart />
 
               {/* Favourites */}
-              <AddToFavourites />
+              {/* <AddToFavourites /> */}
             </div>
           </div>
         </div>
       </div>
 
       {/* Reviews Section */}
-      {/* <ProductReview /> */}
+      <Reviews productId={result.product_id} sellerId={result.seller_id} />
     </div>
   );
 }

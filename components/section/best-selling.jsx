@@ -23,7 +23,7 @@ export default async function BestSelling() {
   return (
     <section className="global-padding">
       <SectionLayout heading="Best Selling Products">
-        <div className="grid grid-cols-4 gap-x-4 gap-y-6">{products}</div>
+        <div className="grid grid-cols-5 gap-x-4 gap-y-6">{products}</div>
       </SectionLayout>
     </section>
   );

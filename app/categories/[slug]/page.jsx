@@ -20,9 +20,9 @@ export default async function CategoryProductsPage({ params }) {
   ));
 
   return (
-    <div>
+    <div className="global-padding space-y-8">
       <h1 className="text-center text-2xl font-semibold">{categoryName}</h1>
-      <div className="grid grid-cols-4 p-14">{products}</div>
+      <div className="grid grid-cols-4 gap-x-4 gap-y-6">{products}</div>
     </div>
   );
 }

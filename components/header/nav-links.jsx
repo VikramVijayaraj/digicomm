@@ -60,11 +60,11 @@ export default function NavLinks({ session }) {
       <div>{navLink}</div>
 
       <div>
-        <Link href="/cart">
-          <Button variant="ghost" className="rounded-full">
+        <Button asChild variant="ghost" className="rounded-full">
+          <Link href="/your/cart">
             <ShoppingCart />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
     </div>
   );

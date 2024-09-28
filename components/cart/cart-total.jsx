@@ -1,15 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
+import { Button } from "../ui/button";
 
 export default function CartTotal({ page }) {
   const cartItems = useSelector((state) => state.cart.items);
+  const pathname = usePathname();
 
-  // if (cartItems.length === 0) {
-  //   return <div>Loading cart data...</div>;
-  // }
-  console.log(cartItems);
   const subTotal = cartItems.reduce((acc, item) => acc + item.totalPrice, 0);
 
   return (
@@ -32,11 +31,9 @@ export default function CartTotal({ page }) {
 
       {/* Proceed To Checkout */}
       {page !== "checkout" && (
-        <Link href="/cart/checkout">
-          <div className="bg-primary rounded-sm text-center cursor-pointer mt-2 hover:bg-primary-dark">
-            <button className="text-white p-2">Proceed to checkout</button>
-          </div>
-        </Link>
+        <Button asChild className="w-full">
+          <Link href={`${pathname}/checkout`}>Proceed to checkout</Link>
+        </Button>
       )}
     </div>
   );

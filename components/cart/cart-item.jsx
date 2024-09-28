@@ -1,13 +1,14 @@
 "use client";
 
-import { FaTrash } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { X } from "lucide-react";
 
 import Quantity from "../product/quantity";
-import TableData from "./table-data";
 import { RemoveFromCartAction } from "@/actions/cart-action";
-import { addToTotal } from "@/store/slices/cartSlice";
+import { addToTotal, removeFromTotal } from "@/store/slices/cartSlice";
+import { TableCell } from "../ui/table";
+import { toast } from "sonner";
 
 export default function CartItem({ data }) {
   const [quantity, setQuantity] = useState(data.quantity);
@@ -19,7 +20,7 @@ export default function CartItem({ data }) {
       addToTotal({
         productId: data.product_id,
         totalPrice: data.price * quantity,
-      })
+      }),
     );
   }, [quantity, data.price, data.product_id, dispatch]);
 
@@ -33,11 +34,17 @@ export default function CartItem({ data }) {
     }
   }
 
+  async function handleDelete() {
+    await RemoveFromCartAction(data.product_id);
+    dispatch(removeFromTotal({ productId: data.product_id }));
+    toast.info("Item removed from cart");
+  }
+
   return (
     <>
-      <TableData>{data.name}</TableData>
-      <TableData>${data.price}</TableData>
-      <TableData>
+      <TableCell>{data.name}</TableCell>
+      <TableCell>${data.price}</TableCell>
+      <TableCell>
         <div className="w-32 h-12 m-auto">
           <Quantity
             quantity={quantity}
@@ -45,14 +52,14 @@ export default function CartItem({ data }) {
             decrementQuantity={decrementQuantity}
           />
         </div>
-      </TableData>
-      <TableData>${(data.price * quantity).toFixed(2)}</TableData>
+      </TableCell>
+      <TableCell className="text-right font-semibold">
+        ${(data.price * quantity).toFixed(2)}
+      </TableCell>
 
-      <TableData>
-        <button onClick={() => RemoveFromCartAction(data.product_id)}>
-          <FaTrash className="text-red-500 cursor-pointer hover:text-primary-dark" />
-        </button>
-      </TableData>
+      <TableCell>
+        <X className="text-red-500 cursor-pointer" onClick={handleDelete} />
+      </TableCell>
     </>
   );
 }

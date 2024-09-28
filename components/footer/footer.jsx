@@ -1,4 +1,4 @@
-import { IoSendOutline } from "react-icons/io5";
+import { SendHorizontal } from "lucide-react";
 
 import FooterSubHeading from "./footer-sub-heading";
 import FooterLinks from "./footer-links";
@@ -20,7 +20,7 @@ export default function Footer() {
             required
           />
           <button>
-            <IoSendOutline />
+            <SendHorizontal />
           </button>
         </form>
       </div>

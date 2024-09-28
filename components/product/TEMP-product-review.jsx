@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import ReactStars from "react-rating-stars-component";
+// import ReactStars from "react-rating-stars-component";
 
 // import avatar from "/images/avatar.png";
 
@@ -51,7 +51,7 @@ const allReviews = [
   },
 ];
 
-function ProductReview() {
+function TEMPProductReview() {
   const [userReview, setUserReview] = useState({
     name: "",
     email: "",
@@ -112,13 +112,13 @@ function ProductReview() {
                           <p>{review.review}</p>
                         </div>
                       </div>
-                      <ReactStars
+                      {/* <ReactStars
                         count={5}
                         value={review.rating}
                         size={14}
                         activeColor="#FDA256"
                         edit={false}
-                      />
+                      /> */}
                     </li>
                   ))}
               </ul>
@@ -140,12 +140,12 @@ function ProductReview() {
             <p className="uppercase text-sm">
               Your rating <span className="text-red-500">*</span>
             </p>
-            <ReactStars
+            {/* <ReactStars
               count={5}
               onChange={ratingChanged}
               size={14}
               activeColor="#FDA256"
-            />
+            /> */}
           </div>
 
           <form>
@@ -181,7 +181,8 @@ function ProductReview() {
             <button
               onClick={handleSubmit}
               type="button"
-              className="bg-primary text-white p-2 rounded-sm hover:bg-primary-dark lg:px-6 lg:py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-primary text-white p-2 rounded-sm hover:bg-primary-dark lg:px-6 lg:py-3
+                disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={
                 !userReview.name || !userReview.email || !userReview.rating
               }
@@ -195,4 +196,4 @@ function ProductReview() {
   );
 }
 
-export default ProductReview;
+export default TEMPProductReview;

@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 
 import Quantity from "./quantity";
-import CartAction from "@/actions/cart-action";
+import { Button } from "../ui/button";
+import AddToCartAction from "@/actions/cart-action";
 
 export default function AddToCart() {
   const { slug } = useParams();
@@ -31,17 +32,13 @@ export default function AddToCart() {
       />
 
       {/* Add to cart button */}
-      <form
-        action={() => CartAction(slug, quantity)}
+
+      <Button
+        onClick={() => AddToCartAction(slug, quantity)}
         className="flex items-center grow w-28 bg-primary rounded-sm select-none"
       >
-        <button
-          className="cursor-pointer w-full h-full text-white text-sm hover:bg-primary-dark"
-          type="submit"
-        >
-          Add To Cart
-        </button>
-      </form>
+        Add To Cart
+      </Button>
     </>
   );
 }

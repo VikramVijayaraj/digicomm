@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import FormButton from "../form/form-button";
 import Image from "next/image";
+
+import { Button } from "../ui/button";
 
 export default function PaymentOption() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
@@ -51,7 +52,7 @@ export default function PaymentOption() {
       <p>Selected Payment Method: {selectedPaymentMethod}</p>
 
       <div className="w-52">
-        <FormButton>Proceed to Payment</FormButton>
+        <Button>Proceed to Payment</Button>
       </div>
     </form>
   );

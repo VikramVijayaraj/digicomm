@@ -1,5 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
 import { auth } from "@/auth";
 import {
   createCartItem,
@@ -7,18 +10,15 @@ import {
   removeProductFromCart,
 } from "@/lib/db/cart";
 import { getProduct } from "@/lib/db/products";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
-export default async function CartAction(slug, quantity) {
+export default async function AddToCartAction(slug, quantity) {
   const session = await auth();
 
-  if (!session?.user?.email) {
-    throw new Error("Cannot verify your login. Please try again later!");
+  if (!session?.user) {
+    redirect("/signin");
   }
 
   let cartId;
-  let productId;
 
   // Get Cart ID for the current user
   try {
@@ -31,10 +31,11 @@ export default async function CartAction(slug, quantity) {
   }
 
   // Get product ID for the current product
+  let productId;
   try {
     const currentProduct = await getProduct(slug);
-    const { id } = currentProduct[0];
-    productId = id;
+    const { product_id } = currentProduct[0];
+    productId = product_id;
   } catch (error) {
     console.log(error);
     throw new Error("Cannot get product information. Please try again later!");
@@ -48,12 +49,12 @@ export default async function CartAction(slug, quantity) {
     throw new Error("Failed to add the product to cart. Try again!");
   }
 
-  revalidatePath("/cart");
-  redirect("/cart", "push");
+  revalidatePath("/your/cart");
+  redirect("/your/cart");
 }
 
 export async function RemoveFromCartAction(productId) {
   await removeProductFromCart(productId);
-
-  revalidatePath("/cart");
+  
+  revalidatePath("/your/cart");
 }
