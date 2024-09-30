@@ -16,10 +16,13 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import StarRating from "@/components/ui/star-rating";
-import { addProductReviewAction } from "@/actions/review-actions";
+import {
+  addProductReviewAction,
+  addShopReviewAction,
+} from "@/actions/review-actions";
 import { toast } from "sonner";
 
-export default function AddReviewForm({ session, productId }) {
+export default function AddReviewForm({ session, productId, sellerId }) {
   const form = useForm({
     resolver: zodResolver(productReviewSchema),
     defaultValues: {
@@ -31,12 +34,15 @@ export default function AddReviewForm({ session, productId }) {
   const router = useRouter();
 
   async function onSubmit(values) {
-    const reviewData = { ...values, productId };
-
     // Call server action based on the productId or sellerId
     if (productId) {
+      const reviewData = { ...values, productId };
       await addProductReviewAction(session?.user?.email, reviewData);
+    } else if (sellerId) {
+      const reviewData = { ...values, sellerId };
+      await addShopReviewAction(session?.user?.email, reviewData);
     }
+    
     router.back();
     toast.success("Review added successfully.");
   }

@@ -3,7 +3,7 @@
 import { Star } from "lucide-react";
 import { useState } from "react";
 
-export default function StarRating({ rating, setRating }) {
+export default function StarRating({ rating, setRating, disabled = false }) {
   const [hover, setHover] = useState(null);
 
   return (
@@ -18,15 +18,16 @@ export default function StarRating({ rating, setRating }) {
               name="rating"
               value={currentRating}
               onClick={() => setRating(currentRating)}
+              disabled={disabled}
             />
             <Star
-              className="cursor-pointer"
+              className={`${disabled ? "cursor-default" : "cursor-pointer"}`}
               stroke={
                 currentRating <= (hover || rating) ? "#ffc107" : "#e4e5e9"
               }
               fill={currentRating <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
-              onMouseEnter={() => setHover(currentRating)}
-              onMouseLeave={() => setHover(null)}
+              onMouseEnter={() => !disabled && setHover(currentRating)}
+              onMouseLeave={() => !disabled && setHover(null)}
             />
           </label>
         );

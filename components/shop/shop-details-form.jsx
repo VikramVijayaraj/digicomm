@@ -8,6 +8,7 @@ import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/app/firebaseConfig";
 import { redirect, usePathname } from "next/navigation";
+import slugify from "slugify";
 
 import {
   Form,
@@ -76,7 +77,12 @@ export default function ShopDetailsForm({ session, data }) {
     // Update shop details if data is available, otherwise create new.
     if (data) {
       const updatedData = { ...values };
-      updatedData["logo"] = data?.shop_logo;
+      updatedData["logo"] = imageUrl || data?.shop_logo;
+
+      console.log(updatedData);
+      const slug = slugify(updatedData.name);
+      updatedData["slug"] = slug;
+
       await updateSellerAction(session?.user?.email, updatedData);
       toast.success("Shop details updated!");
     } else {

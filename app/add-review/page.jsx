@@ -15,6 +15,9 @@ export default async function AddReviewPage({ searchParams }) {
       {searchParams?.p && (
         <AddReviewForm session={session} productId={searchParams.p} />
       )}
+      {searchParams?.s && (
+        <AddReviewForm session={session} sellerId={searchParams.s} />
+      )}
     </div>
   );
 }

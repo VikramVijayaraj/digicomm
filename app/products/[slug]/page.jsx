@@ -6,6 +6,7 @@ import AddToFavourites from "@/components/product/add-to-favourites";
 import ProductImages from "@/components/product/product-images";
 import { getProduct } from "@/lib/db/products";
 import Reviews from "@/components/product/reviews/reviews";
+import StarRating from "@/components/ui/star-rating";
 
 export default async function ProductPage({ params }) {
   const result = await getProduct(params.slug);
@@ -19,16 +20,24 @@ export default async function ProductPage({ params }) {
         {/* Info */}
         <div className="w-5/12 space-y-2">
           <h2 className="text-xl font-bold">{result.product_name}</h2>
-          <p className="">Star Ratings</p>
+          <div className="">
+            <StarRating disabled={true} />
+          </div>
           <p className="flex items-center text-2xl">
             <IndianRupee />
             {result.price}
           </p>
+
+          {/* Shop */}
           <p>
-            <Link href="/shop" className="hover:underline">
+            <Link
+              href={`/shop/${result.shop_slug}`}
+              className="hover:underline"
+            >
               {result.shop_name}
             </Link>
           </p>
+
           <p className="pt-4">{result.product_desc}</p>
 
           {/* Actions */}

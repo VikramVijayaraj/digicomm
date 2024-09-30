@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
         <ReduxProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
+            defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { useTheme } from "next-themes";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -16,6 +17,8 @@ import {
 import { Button } from "../ui/button";
 
 export default function NavLinks({ session }) {
+  const { setTheme } = useTheme();
+
   let navLink;
 
   if (!session?.user) {
@@ -44,6 +47,14 @@ export default function NavLinks({ session }) {
           <Link href="/your/shop/dashboard">
             <DropdownMenuItem>My Shop</DropdownMenuItem>
           </Link>
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem onClick={() => setTheme("light")}>
+            Light
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTheme("dark")}>
+            Dark
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <Link href="/">
             <DropdownMenuItem onClick={() => signOut()}>
