@@ -33,8 +33,7 @@ export default async function AddToCartAction(slug, quantity) {
   // Get product ID for the current product
   let productId;
   try {
-    const currentProduct = await getProduct(slug);
-    const { product_id } = currentProduct[0];
+    const { product_id } = await getProduct(slug);
     productId = product_id;
   } catch (error) {
     console.log(error);
@@ -55,6 +54,6 @@ export default async function AddToCartAction(slug, quantity) {
 
 export async function RemoveFromCartAction(productId) {
   await removeProductFromCart(productId);
-  
+
   revalidatePath("/your/cart");
 }

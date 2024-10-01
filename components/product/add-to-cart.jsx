@@ -35,7 +35,6 @@ export default function AddToCart() {
       />
 
       {/* Add to cart button */}
-
       <Button
         onClick={() => AddToCartAction(slug, quantity)}
         className="flex items-center text-base grow w-full md:w-28 bg-primary rounded-sm
