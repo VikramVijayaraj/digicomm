@@ -24,7 +24,7 @@ export default async function Home({ searchParams }) {
   }
 
   return (
-    <main className="space-y-10 lg:space-y-16">
+    <main className="space-y-8 lg:space-y-16">
       <Banner />
       <Categories />
       <BestSelling />
