@@ -15,7 +15,7 @@ export default async function AccountPage() {
   }
 
   return (
-    <div className="w-[30rem] m-auto">
+    <div className="global-padding w-full lg:flex justify-center">
       <UserDetailsForm data={result[0]} />
     </div>
   );

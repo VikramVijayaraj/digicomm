@@ -21,7 +21,7 @@ export default async function ShopPage({ params }) {
           <div className="relative w-40 h-40">
             <Image
               className="object-cover"
-              src={shop.shop_logo}
+              src={shop?.shop_logo}
               alt={shop.shop_name}
               fill
             />

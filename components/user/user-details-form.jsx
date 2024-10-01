@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { usePathname } from "next/navigation";
 
 import {
   Form,
@@ -32,19 +33,25 @@ export default function UserDetailsForm({ data }) {
     },
   });
 
+  const pathname = usePathname();
+
   async function onSubmit(values) {
     await UserDetailsAction(values);
     toast.success("Data Saved Successfully.");
   }
 
   return (
-    <div className="flex flex-col items-start justify-between space-y-8">
+    <div className="space-y-8 lg:w-1/2">
+      <h2 className="text-2xl font-semibold text-center">
+        {pathname === "/register" ? "Register" : "Personal Details"}
+      </h2>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 max-w-lg w-full flex flex-col"
+          className="space-y-8 w-full flex flex-col"
         >
-          <div className="flex justify-between items-start gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-4">
             <div className="w-full">
               <FormField
                 control={form.control}
@@ -116,7 +123,7 @@ export default function UserDetailsForm({ data }) {
             )}
           />
 
-          <div className="flex justify-between items-start gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-4">
             <div className="w-full">
               <FormField
                 control={form.control}
@@ -150,7 +157,7 @@ export default function UserDetailsForm({ data }) {
             </div>
           </div>
 
-          <div className="flex justify-between items-start gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-4">
             <div className="w-full">
               <FormField
                 control={form.control}

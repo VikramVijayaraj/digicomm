@@ -20,7 +20,7 @@ export default async function Categories() {
 
   const categories = result.map((category) => (
     <Link key={category.id} href={`categories/${category.slug}`}>
-      <Card className="h-32 text-center hover:scale-105 transition delay-50 ease-in-out">
+      <Card className="h-36 lg:h-32 text-center hover:scale-105 transition delay-50 ease-in-out">
         <CardHeader>
           <CardTitle className="flex m-auto">
             <Package />
@@ -30,22 +30,15 @@ export default async function Categories() {
           <p>{category.name}</p>
         </CardContent>
       </Card>
-      {/* <li
-        className="flex flex-col items-center justify-center h-36 border-2 border-gray-100
-          space-y-2 cursor-pointer hover:bg-red-500"
-      >
-        <p className="text-5xl">
-          <Package />
-        </p>
-        <p className="text-xl">{category.name}</p>
-      </li> */}
     </Link>
   ));
 
   return (
     <section className="global-padding">
       <SectionLayout heading="Browse By Categories">
-        <div className="grid grid-cols-6 gap-2">{categories}</div>
+        <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-2">
+          {categories}
+        </div>
       </SectionLayout>
     </section>
   );

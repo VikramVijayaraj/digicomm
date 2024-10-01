@@ -6,7 +6,7 @@ export default function UserReview({ rating, postedDate, comment }) {
 
   return (
     <div className="space-y-2">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col lg:flex-row justify-between lg:items-center">
         <StarRating rating={rating} disabled={true} />
         <p className="opacity-60">{date}</p>
       </div>

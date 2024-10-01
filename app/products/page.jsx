@@ -3,6 +3,7 @@ import Link from "next/link";
 import ProductCard from "@/components/card/product-card";
 import { getFilteredProducts } from "@/lib/db/products";
 import BestSelling from "@/components/section/best-selling";
+import SectionLayout from "@/components/section/section-layout";
 
 export default async function FilteredProductsPage({ searchParams }) {
   const { query } = searchParams;
@@ -26,14 +27,18 @@ export default async function FilteredProductsPage({ searchParams }) {
         imgUrl={p.image_url}
         name={p.product_name}
         price={p.price}
-        description={p.product_desc}
+        category={p.category_name}
       />
     </Link>
   ));
 
   return (
     <div className="global-padding">
-      <div className="grid grid-cols-4 gap-x-4 gap-y-6">{products}</div>
+      <SectionLayout heading={`showing results for "${query}"`}>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-6">
+          {products}
+        </div>
+      </SectionLayout>
     </div>
   );
 }

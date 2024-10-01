@@ -47,7 +47,7 @@ export default async function CartPage() {
       </Table>
 
       {/* Checkout */}
-      <div className="w-1/3 m-auto">
+      <div className="w-full lg:w-1/3 m-auto">
         <CartTotal />
       </div>
     </div>

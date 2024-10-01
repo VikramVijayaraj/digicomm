@@ -3,7 +3,7 @@ import { IndianRupee } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-export default function ProductCard({ imgUrl, name, price, description }) {
+export default function ProductCard({ imgUrl, name, price, category }) {
   return (
     <>
       <Card className="h-[400px] border-none hover:scale-105 transition delay-50 ease-in-out">
@@ -18,13 +18,13 @@ export default function ProductCard({ imgUrl, name, price, description }) {
             />
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-0 mt-1 space-y-2">
+        <CardContent className="p-1 mt-1 space-y-2">
           <p className="">{name}</p>
           <p className="flex items-center font-semibold">
             <IndianRupee width={16} />
             {price}
           </p>
-          <p className="text-sm opacity-70">{description}</p>
+          <p className="text-sm opacity-70">{category}</p>
         </CardContent>
       </Card>
     </>

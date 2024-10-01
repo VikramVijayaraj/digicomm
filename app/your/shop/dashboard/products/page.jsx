@@ -5,8 +5,10 @@ export default async function ShopProducts() {
   return (
     <div className="space-y-8">
       {/* Add Product Button */}
-      <div className="flex justify-between items-center">
-        <h1 className="font-semibold text-3xl">Products</h1>
+      <div className="flex flex-col md:flex-row justify-between md:items-center space-y-4 md:space-y-0">
+        <h1 className="font-semibold text-xl md:text-2xl lg:text-3xl">
+          Products
+        </h1>
         <NewProductButton />
       </div>
 

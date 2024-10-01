@@ -1,4 +1,5 @@
 import ProductCard from "@/components/card/product-card";
+import SectionLayout from "@/components/section/section-layout";
 import { getCategoryName } from "@/lib/db/categories";
 import { getProductsByCategory } from "@/lib/db/products";
 import Link from "next/link";
@@ -14,15 +15,18 @@ export default async function CategoryProductsPage({ params }) {
         imgUrl={product.images[0]}
         name={product.product_name}
         price={product.price}
-        description={product.product_desc}
+        category={product.category_name}
       />
     </Link>
   ));
 
   return (
-    <div className="global-padding space-y-8">
-      <h1 className="text-center text-2xl font-semibold">{categoryName}</h1>
-      <div className="grid grid-cols-4 gap-x-4 gap-y-6">{products}</div>
+    <div className="global-padding">
+      <SectionLayout heading={categoryName}>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-6">
+          {products}
+        </div>
+      </SectionLayout>
     </div>
   );
 }

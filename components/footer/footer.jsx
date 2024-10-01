@@ -6,13 +6,20 @@ import { footerSections } from "@/lib/data";
 
 export default function Footer() {
   return (
-    <div className="global-padding py-20 flex justify-evenly bg-black text-white">
+    <div
+      className="global-padding py-20 text-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4
+        gap-y-8 lg:gap-0 bg-black text-white"
+    >
       {/* Main Section */}
       <div>
         <h1 className="text-3xl pb-4">{process.env.NEXT_PUBLIC_APP_NAME}</h1>
-        <FooterSubHeading>Subscribe</FooterSubHeading>
+        <p>Aliqua qui amet ex dolore occaecat sint.</p>
+        {/* <FooterSubHeading>Subscribe</FooterSubHeading>
         <p className="pb-2">Get 10% off your first order</p>
-        <form className="flex justify-start items-center border-2 w-64 p-2 rounded-sm">
+        <form
+          className="flex flex-col justify-center lg:justify-start items-center border-2 w-52 lg:w-64 p-2
+            rounded-sm"
+        >
           <input
             className="bg-black outline-none w-full"
             type="email"
@@ -22,7 +29,7 @@ export default function Footer() {
           <button>
             <SendHorizontal />
           </button>
-        </form>
+        </form> */}
       </div>
 
       {/* Other Sections */}
@@ -32,22 +39,6 @@ export default function Footer() {
           <FooterLinks links={section.sectionLinks} />
         </div>
       ))}
-
-      {/* Support */}
-      {/* <div className="">
-        <FooterSubHeading>Support</FooterSubHeading>
-        <FooterLinks
-          links={["Support center", "support@email.com", "Sell on Digicomm"]}
-        />
-      </div> */}
-
-      {/* About */}
-      {/* <div>
-        <FooterSubHeading>About</FooterSubHeading>
-        <FooterLinks
-          links={["Privacy Policy", "Terms Of Use", "FAQ", "Contact"]}
-        />
-      </div> */}
     </div>
   );
 }

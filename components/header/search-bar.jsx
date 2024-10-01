@@ -75,7 +75,7 @@ export default function SearchBar({ placeholder }) {
   }, []);
 
   return (
-    <div className="grow relative">
+    <div className="grow relative w-full">
       <div
         className={`flex justify-between px-8 py-4 items-center bg-gray-100 grow ${
           isSearching ? "rounded-t-3xl" : "rounded-full" }`}

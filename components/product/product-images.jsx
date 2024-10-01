@@ -22,7 +22,7 @@ export default function ProductImages({ images, alt_texts }) {
   ));
 
   return (
-    <div className="relative w-2/3 h-[40rem] flex justify-start space-x-2">
+    <div className="relative w-full lg:w-2/3 h-[30rem] flex justify-start space-x-2">
       {/* Additional Images */}
       <div
         className="space-y-2 overflow-hidden no-scrollbar hover:overflow-auto

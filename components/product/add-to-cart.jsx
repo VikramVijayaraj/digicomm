@@ -23,7 +23,10 @@ export default function AddToCart() {
   }
 
   return (
-    <>
+    <div
+      className="flex flex-col md:flex-row justify-between h-20 md:h-10 md:space-x-2 space-y-4
+        md:space-y-0"
+    >
       {/* Product quantity */}
       <Quantity
         quantity={quantity}
@@ -35,10 +38,11 @@ export default function AddToCart() {
 
       <Button
         onClick={() => AddToCartAction(slug, quantity)}
-        className="flex items-center grow w-28 bg-primary rounded-sm select-none"
+        className="flex items-center text-base grow w-full md:w-28 bg-primary rounded-sm
+          select-none"
       >
         Add To Cart
       </Button>
-    </>
+    </div>
   );
 }

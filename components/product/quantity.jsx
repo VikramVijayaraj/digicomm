@@ -10,7 +10,8 @@ export default function Quantity({
 }) {
   return (
     <div
-      className={`flex justify-between m-auto w-${width} border border-gray-400 rounded-sm h-full`}
+      className={`flex justify-between m-auto w-full md:w-${width} border border-gray-400
+        rounded-sm h-full`}
     >
       <p
         className="cursor-pointer flex items-center justify-center w-8 hover:bg-primary

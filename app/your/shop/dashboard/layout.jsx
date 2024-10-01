@@ -15,12 +15,12 @@ export default async function ShopLayout({ children }) {
   }
 
   return (
-    <div className="global-padding flex min-h-screen gap-4">
-      <div className="w-1/6">
+    <div className="global-padding flex flex-col lg:flex-row min-h-screen gap-8 lg:gap-4">
+      <div className="w-full lg:w-1/6">
         <ShopSidebar />
       </div>
 
-      <div className="w-5/6">{children}</div>
+      <div className="w-full lg:w-5/6">{children}</div>
     </div>
   );
 }

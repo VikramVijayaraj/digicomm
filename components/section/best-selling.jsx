@@ -14,7 +14,7 @@ export default async function BestSelling() {
       <ProductCard
         name={product.product_name}
         price={product.price}
-        description={product.category_name}
+        category={product.category_name}
         imgUrl={product.image_url}
       />
     </Link>
@@ -23,7 +23,9 @@ export default async function BestSelling() {
   return (
     <section className="global-padding">
       <SectionLayout heading="Best Selling Products">
-        <div className="grid grid-cols-5 gap-x-4 gap-y-6">{products}</div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-6">
+          {products}
+        </div>
       </SectionLayout>
     </section>
   );

@@ -11,8 +11,7 @@ export default async function RegisterPage() {
   }
 
   return (
-    <div className="w-[30rem] m-auto">
-    <h2 className="text-2xl font-semibold text-center">Register</h2>
+    <div className="global-padding w-full lg:flex justify-center">
       <UserDetailsForm />
     </div>
   );

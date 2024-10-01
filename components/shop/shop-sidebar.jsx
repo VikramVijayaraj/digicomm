@@ -9,7 +9,7 @@ export default function ShopSidebar() {
 
   return (
     <div>
-      <nav className="flex flex-col space-y-4 lg:px-4">
+      <nav className="flex flex-row lg:flex-col lg:space-y-4 lg:px-4">
         {shopTabs.map((tab) => (
           <Link
             href={tab.link}

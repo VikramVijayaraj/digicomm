@@ -13,23 +13,28 @@ export default async function ProductPage({ params }) {
 
   return (
     <div className="global-padding">
-      <div className="flex justify-between items-start space-x-10 pb-10">
+      <div
+        className="flex flex-col lg:flex-row justify-between items-start space-y-4 lg:space-y-0
+          lg:space-x-10 pb-10"
+      >
         {/* Image */}
         <ProductImages images={result.images} alt_texts={result.alt_texts} />
 
         {/* Info */}
-        <div className="w-5/12 space-y-2">
+        <div className="w-full lg:w-5/12 space-y-2">
           <h2 className="text-xl font-bold">{result.product_name}</h2>
           <div className="">
             <StarRating disabled={true} />
           </div>
-          <p className="flex items-center text-2xl">
+          <p className="flex items-center text-2xl text-green-700 font-semibold">
             <IndianRupee />
             {result.price}
           </p>
 
+          <p>{result.product_desc}</p>
+
           {/* Shop */}
-          <p>
+          <p className="pt-4">
             <Link
               href={`/shop/${result.shop_slug}`}
               className="hover:underline"
@@ -38,29 +43,13 @@ export default async function ProductPage({ params }) {
             </Link>
           </p>
 
-          <p className="pt-4">{result.product_desc}</p>
-
           {/* Actions */}
           <div className="py-4 space-y-8">
-            {/* Sizes */}
-            {/* <div>
-              <p>
-                Sizes<span className="text-red-500">*</span>
-              </p>
-              <select className="w-full bg-gray-100 rounded-sm p-2 select-none">
-                <option>sdf</option>
-                <option>234</option>
-                <option>ey58o</option>
-              </select>
-            </div> */}
+            {/* Add to cart */}
+            <AddToCart />
 
-            <div className="flex justify-between h-10 space-x-2">
-              {/* Add to cart */}
-              <AddToCart />
-
-              {/* Favourites */}
-              {/* <AddToFavourites /> */}
-            </div>
+            {/* Favourites */}
+            {/* <AddToFavourites /> */}
           </div>
         </div>
       </div>
