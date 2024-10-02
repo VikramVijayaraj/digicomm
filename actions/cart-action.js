@@ -34,7 +34,7 @@ export default async function AddToCartAction(slug, quantity) {
   let productId;
   try {
     const { product_id } = await getProduct(slug);
-    productId = product_id;
+    productId = product_id; 
   } catch (error) {
     console.log(error);
     throw new Error("Cannot get product information. Please try again later!");

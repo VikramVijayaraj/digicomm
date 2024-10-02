@@ -6,10 +6,14 @@ import AddToFavourites from "@/components/product/add-to-favourites";
 import ProductImages from "@/components/product/product-images";
 import { getProduct } from "@/lib/db/products";
 import Reviews from "@/components/product/reviews/reviews";
-import StarRating from "@/components/ui/star-rating";
+import { getAvgProductRating } from "@/lib/db/reviews";
+import AvgRatingContainer from "@/components/ui/avg-rating-container";
 
 export default async function ProductPage({ params }) {
-  const result = await getProduct(params.slug);
+  const { slug } = params;
+
+  const result = await getProduct(slug);
+  const rating = await getAvgProductRating(slug);
 
   return (
     <div className="global-padding">
@@ -21,12 +25,15 @@ export default async function ProductPage({ params }) {
         <ProductImages images={result.images} alt_texts={result.alt_texts} />
 
         {/* Info */}
-        <div className="w-full lg:w-5/12 space-y-2">
+        <div className="w-full lg:w-5/12 space-y-3">
           <h2 className="text-xl font-bold">{result.product_name}</h2>
-          <div className="">
-            <StarRating disabled={true} />
-          </div>
-          <p className="flex items-center text-2xl text-green-700 font-semibold">
+
+          <AvgRatingContainer
+            avgRating={rating.avg_rating}
+            totalReviews={rating.total_reviews}
+          />
+
+          <p className="flex items-center text-2xl font-semibold">
             <IndianRupee />
             {result.price}
           </p>
@@ -34,14 +41,14 @@ export default async function ProductPage({ params }) {
           <p>{result.product_desc}</p>
 
           {/* Shop */}
-          <p className="pt-4">
+          <div className="pt-4">
             <Link
               href={`/shop/${result.shop_slug}`}
-              className="hover:underline"
+              className="text-blue-700 hover:underline"
             >
               {result.shop_name}
             </Link>
-          </p>
+          </div>
 
           {/* Actions */}
           <div className="py-4 space-y-8">

@@ -1,17 +1,18 @@
 import Image from "next/image";
 
-import StarRating from "@/components/ui/star-rating";
-import { getShopBySlug, getShopProducts } from "@/lib/db/sellers";
-import { auth } from "@/auth";
+import { getShopBySlug, getShopProductsBySlug } from "@/lib/db/sellers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ShopFeaturedProducts from "@/components/shop/shop-featured-products";
 import ShopReviews from "@/components/product/reviews/shop-reviews";
+import { getAvgShopRating } from "@/lib/db/reviews";
+import AvgRatingContainer from "@/components/ui/avg-rating-container";
 
 export default async function ShopPage({ params }) {
-  const session = await auth();
+  const { slug } = params;
 
-  const shop = await getShopBySlug(params.slug);
-  const products = await getShopProducts(session?.user?.email);
+  const shop = await getShopBySlug(slug);
+  const products = await getShopProductsBySlug(slug);
+  const rating = await getAvgShopRating(slug);
 
   return (
     <div className="global-padding min-h-screen space-y-12">
@@ -29,9 +30,12 @@ export default async function ShopPage({ params }) {
         </div>
         <div className="space-y-2">
           <h3 className="font-semibold text-xl">{shop.shop_name}</h3>
-          <div>
-            <StarRating rating={shop.rating} disabled={true} />
-          </div>
+
+          <AvgRatingContainer
+            avgRating={rating.avg_rating}
+            totalReviews={rating.total_reviews}
+          />
+
           <p>{shop.shop_description}</p>
         </div>
       </div>
