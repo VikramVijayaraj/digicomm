@@ -1,6 +1,6 @@
-import { getCategories } from "@/lib/db/categories";
-import NewProductForm from "@/components/product/new-product/new-product-form";
 import { auth } from "@/auth";
+import { getCategories } from "@/lib/db/categories";
+import ProductDetailsForm from "@/components/product/product-details-form";
 
 export default async function NewProductPage() {
   const session = await auth();
@@ -9,7 +9,7 @@ export default async function NewProductPage() {
 
   return (
     <div>
-      <NewProductForm session={session} categories={categories} />
+      <ProductDetailsForm session={session} categories={categories} />
     </div>
   );
 }

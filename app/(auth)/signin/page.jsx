@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import { auth, signIn } from "@/auth";
 import { Button } from "@/components/ui/button";
 
-export default async function SignIn() {
+export default async function SignIn({ searchParams }) {
+  console.log(searchParams);
   const session = await auth();
 
   if (session?.user) {

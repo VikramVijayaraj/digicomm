@@ -15,11 +15,11 @@ export default async function ShopPage({ params }) {
   const rating = await getAvgShopRating(slug);
 
   return (
-    <div className="global-padding min-h-screen space-y-12">
+    <div className="global-padding min-h-screen space-y-8 md:space-y-10 lg:space-y-12">
       {/* Profile Card */}
-      <div className="flex gap-8">
-        <div>
-          <div className="relative w-40 h-40">
+      <div className="flex flex-col md:flex-row gap-8">
+        <div className="m-auto md:m-0">
+          <div className="relative w-32 h-32 md:w-40 md:h-40">
             <Image
               className="object-cover"
               src={shop?.shop_logo}

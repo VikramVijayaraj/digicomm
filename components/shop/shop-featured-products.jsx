@@ -15,7 +15,7 @@ export default function ShopFeaturedProducts({ products }) {
             >
               <ProductCard
                 imgUrl={product.images[0]}
-                name={product.name}
+                name={product.product_name}
                 category={product.category_name}
                 price={product.price}
               />

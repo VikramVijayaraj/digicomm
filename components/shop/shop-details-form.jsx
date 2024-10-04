@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/app/firebaseConfig";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import slugify from "slugify";
 
 import {
@@ -28,6 +28,7 @@ import {
   updateSellerAction,
 } from "@/actions/seller-actions";
 import { shopSchema } from "@/lib/schema";
+import deleteFromFirebase from "@/utils/firebase";
 
 export default function ShopDetailsForm({ session, data }) {
   // React Hook Form
@@ -40,6 +41,7 @@ export default function ShopDetailsForm({ session, data }) {
     },
   });
 
+  const router = useRouter();
   const pathname = usePathname();
   const [logo, setLogo] = useState(data?.shop_logo);
   const [file, setFile] = useState(null);
@@ -72,27 +74,37 @@ export default function ShopDetailsForm({ session, data }) {
 
   async function onSubmit(values) {
     const imageUrl = await handleUpload();
+    const slug = slugify(values.name);
+
     values["logo"] = imageUrl;
+    values["slug"] = slug;
+
+    // Delete old file from firebase
+    if (imageUrl) {
+      await deleteFromFirebase(`shop-images/logos/${data?.shop_logo}`);
+    }
 
     // Update shop details if data is available, otherwise create new.
     if (data) {
       const updatedData = { ...values };
       updatedData["logo"] = imageUrl || data?.shop_logo;
 
-      console.log(updatedData);
-      const slug = slugify(updatedData.name);
-      updatedData["slug"] = slug;
+      // const slug = slugify(updatedData.name);
+      // updatedData["slug"] = slug;
 
       await updateSellerAction(session?.user?.email, updatedData);
       toast.success("Shop details updated!");
     } else {
+      // const slug = slugify(values.name);
+      // updatedData["slug"] = slug;
+
       await createSellerAction(session?.user?.email, values);
       toast.success("Shop created successfully!");
     }
 
     // After registering the shop, user is redirected to dashboard.
     if (pathname === "/your/shop/register") {
-      redirect("/your/shop/dashboard");
+      router.push("/your/shop/dashboard");
     }
   }
 

@@ -33,7 +33,7 @@ export default function SearchBar({ placeholder }) {
   }
 
   function handleSearch() {
-    const term = searchRef.current.value;
+    const term = searchRef.current.value.trim();
 
     if (!term) {
       setIsSearching(false);

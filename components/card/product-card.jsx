@@ -19,7 +19,7 @@ export default function ProductCard({ imgUrl, name, price, category }) {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-1 mt-1 space-y-2">
-          <p className="">{name}</p>
+          <p className="line-clamp-1">{name}</p>
           <p className="flex items-center font-semibold">
             <IndianRupee width={16} />
             {price}

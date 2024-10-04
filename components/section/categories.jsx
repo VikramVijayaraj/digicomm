@@ -27,7 +27,7 @@ export default async function Categories() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p>{category.name}</p>
+          <p className="text-sm md:text-base">{category.name}</p>
         </CardContent>
       </Card>
     </Link>

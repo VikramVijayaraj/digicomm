@@ -7,6 +7,7 @@ import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "@/app/firebaseConfig";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,26 +28,34 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { NewProductPreviews } from "./new-product-previews";
+import { NewProductPreviews } from "./new-product/new-product-previews";
 import { productSchema } from "@/lib/schema";
-import { addProductAction } from "@/actions/product-actions";
-import { toast } from "sonner";
+import {
+  addProductAction,
+  deleteProductImageAction,
+  updateProductAction,
+} from "@/actions/product-actions";
+import deleteFromFirebase from "@/utils/firebase";
 
-export default function NewProductForm({ session, categories }) {
+export default function ProductDetailsForm({
+  session,
+  categories,
+  productData,
+}) {
   const form = useForm({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      name: "",
-      description: "",
+      name: productData?.product_name || "",
+      description: productData?.product_desc || "",
       category: "",
-      images: [],
-      stock: 0,
-      price: 0,
+      images: productData?.images || [],
+      stock: parseInt(productData?.stock) || 0,
+      price: parseInt(productData?.price) || 0,
     },
   });
 
   const router = useRouter();
-  const [imagePreviews, setImagePreviews] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState(productData?.images);
   const [files, setFiles] = useState([]);
 
   // Function to handle image previews
@@ -91,12 +100,27 @@ export default function NewProductForm({ session, categories }) {
 
   async function onSubmit(data) {
     const uploadedImages = await handleUpload();
+
     data["images"] = [...uploadedImages];
 
-    await addProductAction(session?.user?.email, data);
+    if (productData) {
+      // Delete old images from firebase only if new images are uploaded
+      if (uploadedImages.length > 0) {
+        for (let image of productData.images) {
+          await deleteFromFirebase(`product-images/${image}`);
+          await deleteProductImageAction(image);
+        }
+      }
+      
+      await updateProductAction(productData.product_id, data);
+    } else {
+      await addProductAction(session?.user?.email, data);
+    }
 
     router.back();
-    toast.success("Product Added Successfully.");
+    productData
+      ? toast.success("Product Updated Successfully.")
+      : toast.success("Product Added Successfully.");
   }
 
   return (

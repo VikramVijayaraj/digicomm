@@ -75,7 +75,7 @@ export default async function Header() {
       <div className="global-padding flex gap-4 lg:hidden">
         {/* Categories */}
         <Sheet>
-          <SheetTrigger>
+          <SheetTrigger className="hover:bg-secondary rounded-full px-3">
             <Menu />
           </SheetTrigger>
           <SheetContent side="left">
