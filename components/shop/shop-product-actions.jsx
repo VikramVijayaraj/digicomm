@@ -89,3 +89,6 @@ export const DeleteDialog = React.forwardRef(({ product }, ref) => {
     </Dialog>
   );
 });
+
+// Required to add a displayName for the forwardRef component for debugging
+DeleteDialog.displayName = "DeleteDialog";
