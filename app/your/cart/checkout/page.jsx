@@ -1,27 +1,29 @@
-"use client";
-
+import { auth } from "@/auth";
 import CartTotal from "@/components/cart/cart-total";
-// import CheckoutForm from "@/components/checkout/checkout-form";
 import PaymentOption from "@/components/checkout/payment-option";
+import { getCartItems } from "@/lib/db/cart";
 
-export default function Checkout() {
+export default async function Checkout() {
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect("/signin");
+  }
+
+  const cartItems = await getCartItems(session?.user?.email);
+
+  const subTotal = cartItems?.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0,
+  );
+
   return (
-    <div className="global-padding py-10 flex justify-evenly gap-x-4">
-      {/* Billing Details */}
-      <div className="w-1/3">
-        {/* <CheckoutForm /> */}
-      </div>
-
-      {/* Summary and Payment */}
-      <div className="w-1/3">
-        {/* <div className="w-2/3"> */}
-          <CartTotal page="checkout" />
-        {/* </div> */}
-
-        <div className="p-8">
-          <PaymentOption />
-        </div>
-      </div>
+    <div
+      className="global-padding flex flex-col lg:flex-row lg:justify-between lg:gap-12 xl:gap-20
+        xl:px-72"
+    >
+      <CartTotal subTotal={subTotal} />
+      <PaymentOption totalAmount={subTotal} />
     </div>
   );
 }

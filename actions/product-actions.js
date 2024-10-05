@@ -4,9 +4,11 @@ import { revalidatePath } from "next/cache";
 import slugify from "slugify";
 import { nanoid } from "nanoid";
 
+import deleteFromFirebase from "@/utils/firebase";
 import {
   addProduct,
   addProductImage,
+  deleteProduct,
   deleteProductImage,
   getSearchSuggestions,
   updateProduct,
@@ -58,6 +60,15 @@ export async function updateProductAction(productId, productDetails) {
   }
 
   revalidatePath("/", "layout");
+}
+
+export async function deleteProductAction(productDetails) {
+  // Delete from firebase
+  for (let image of productDetails.images) {
+    await deleteFromFirebase(`product-images/${image}`);
+  }
+
+  await deleteProduct(productDetails.product_id);
 }
 
 export async function deleteProductImageAction(imageUrl) {

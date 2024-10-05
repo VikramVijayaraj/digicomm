@@ -1,4 +1,4 @@
-import { EllipsisVertical, IndianRupee } from "lucide-react";
+import { IndianRupee } from "lucide-react";
 
 import { auth } from "@/auth";
 import { getShopProducts } from "@/lib/db/sellers";
@@ -11,14 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import Link from "next/link";
+import ShopProductActions from "./shop-product-actions";
 
 export default async function ShopProductsList() {
   const session = await auth();
@@ -57,35 +50,11 @@ export default async function ShopProductsList() {
 
             {/* Actions */}
             <TableCell>
-              <ProductActions product={product} />
+              <ShopProductActions product={product} />
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
     </Table>
-  );
-}
-
-export function ProductActions({ product }) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <EllipsisVertical />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="min-w-[5rem]">
-        <DropdownMenuItem asChild>
-          <Link href={`/products/${product.product_slug}`}>View</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link
-            href={`/your/shop/dashboard/products/edit-product?p=${product.product_slug}`}
-          >
-            Edit
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-red-700">Delete</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
   );
 }

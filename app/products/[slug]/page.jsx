@@ -8,12 +8,17 @@ import { getProduct } from "@/lib/db/products";
 import Reviews from "@/components/product/reviews/reviews";
 import { getAvgProductRating } from "@/lib/db/reviews";
 import AvgRatingContainer from "@/components/ui/avg-rating-container";
+import { getCartItems } from "@/lib/db/cart";
+import { auth } from "@/auth";
 
 export default async function ProductPage({ params }) {
   const { slug } = params;
 
   const result = await getProduct(slug);
   const rating = await getAvgProductRating(slug);
+
+  const session = await auth();
+  const cartItems = session?.user ? await getCartItems(session.user.email) : [];
 
   return (
     <div className="global-padding">
@@ -53,7 +58,7 @@ export default async function ProductPage({ params }) {
           {/* Actions */}
           <div className="py-4 space-y-8">
             {/* Add to cart */}
-            <AddToCart />
+            <AddToCart product={result} initialCartItems={cartItems} />
 
             {/* Favourites */}
             {/* <AddToFavourites /> */}

@@ -1,16 +1,11 @@
 import { redirect } from "next/navigation";
+import { MoveRight } from "lucide-react";
+import Link from "next/link";
 
-import CartTotal from "@/components/cart/cart-total";
-import { getCartItems } from "@/lib/db/cart";
 import { auth } from "@/auth";
-import CartItem from "@/components/cart/cart-item";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { getCartItems } from "@/lib/db/cart";
+import OptimisticCart from "./optimistic-cart";
+import { Button } from "@/components/ui/button";
 
 export default async function CartPage() {
   const session = await auth();
@@ -21,35 +16,17 @@ export default async function CartPage() {
 
   const cartItems = await getCartItems(session?.user?.email);
 
-  if (cartItems.length === 0) {
-    return <p className="text-center min-h-screen">Cart is empty!</p>;
-  }
-
   return (
-    <div className="global-padding min-h-screen">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Product</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead className="text-center">Quanitity</TableHead>
-            <TableHead className="text-right">Total</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {cartItems.map((item) => (
-            <TableRow key={item.product_id}>
-              <CartItem data={item} />
-            </TableRow>
-          ))}
-          <TableRow></TableRow>
-        </TableBody>
-      </Table>
-
-      {/* Checkout */}
-      <div className="w-full lg:w-1/3 m-auto">
-        <CartTotal />
+    <div className="global-padding min-h-screen space-y-4">
+      <div className="flex justify-between items-center">
+        <h2 className="text-3xl">Your Cart</h2>
+        <Button asChild className="flex items-center gap-2">
+          <Link href="/your/cart/checkout">
+            Proceed to checkout <MoveRight />
+          </Link>
+        </Button>
       </div>
+      <OptimisticCart initialCartItems={cartItems} />
     </div>
   );
 }

@@ -5,55 +5,63 @@ import Image from "next/image";
 
 import { Button } from "../ui/button";
 
-export default function PaymentOption() {
+export default function PaymentOption({ totalAmount }) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
 
   const handlePaymentChange = (event) => {
     setSelectedPaymentMethod(event.target.value);
   };
   return (
-    <form className="space-y-4" id="payment-form">
-      <h2 className="text-xl font-semibold">Select Payment Option</h2>
+    <div className="lg:w-1/2">
+      <form className="p-4 space-y-4" id="payment-form">
+        <h2 className="text-xl font-semibold">Select Payment Method</h2>
 
-      <div className="space-x-2 flex">
-        <input
-          type="radio"
-          id="bank"
-          name="paymentMethod"
-          value="Bank"
-          checked={selectedPaymentMethod === "Bank"}
-          onChange={handlePaymentChange}
-          required
-        />
-        <div className="flex space-x-2 items-center">
-          <label for="bank">Bank</label>
-          <Image src="/logos/visa.svg" width={40} height={40} alt="visa" />
-          <Image
-            src="/logos/mastercard.svg"
-            width={30}
-            height={30}
-            alt="mastercard"
+        <div className="space-x-2 flex">
+          <input
+            type="radio"
+            id="bank"
+            name="paymentMethod"
+            value="Bank"
+            checked={selectedPaymentMethod === "Bank"}
+            onChange={handlePaymentChange}
+            required
           />
-          <Image src="/logos/paypal.svg" width={30} height={30} alt="paypal" />
+          <div className="flex space-x-2 items-center">
+            <label htmlFor="bank">Bank</label>
+            <Image src="/logos/visa.svg" width={40} height={40} alt="visa" />
+            <Image
+              src="/logos/mastercard.svg"
+              width={30}
+              height={30}
+              alt="mastercard"
+            />
+            <Image
+              src="/logos/paypal.svg"
+              width={30}
+              height={30}
+              alt="paypal"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="space-x-2">
-        <input
-          type="radio"
-          id="cod"
-          name="paymentMethod"
-          value="Cash On Delivery"
-          checked={selectedPaymentMethod === "Cash On Delivery"}
-          onChange={handlePaymentChange}
-        />
-        <label for="cod">Cash On Delivery</label>
-      </div>
-      <p>Selected Payment Method: {selectedPaymentMethod}</p>
-
-      <div className="w-52">
-        <Button>Proceed to Payment</Button>
-      </div>
-    </form>
+        <div className="space-x-2">
+          <input
+            type="radio"
+            id="cod"
+            name="paymentMethod"
+            value="Cash On Delivery"
+            checked={selectedPaymentMethod === "Cash On Delivery"}
+            onChange={handlePaymentChange}
+          />
+          <label htmlFor="cod">Cash On Delivery</label>
+        </div>
+        <br />
+        <p>Selected Payment Method: {selectedPaymentMethod}</p>
+        <br />
+        <Button className="w-full lg:w-[50%]">
+          Pay <span className="font-semibold ml-2">₹{totalAmount}</span>
+        </Button>
+      </form>
+    </div>
   );
 }
