@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useOptimistic } from "react";
+import { useState, useOptimistic, useTransition } from "react";
 import { X } from "lucide-react";
 import { toast } from "sonner";
 
@@ -13,15 +13,18 @@ import { TableCell } from "../ui/table";
 
 export default function CartItem({ data, updateCartItems }) {
   const [quantity, setQuantity] = useState(data.quantity);
-
   const [optimisticQuantity, setOptimisticQuantity] = useOptimistic(quantity);
+  const [isPending, startTransition] = useTransition();
 
   async function updateQuantity(newQuantity) {
-    setOptimisticQuantity(newQuantity);
-    setQuantity(newQuantity);
+    if (newQuantity > data.stock) {
+      toast.error(`Sorry, only ${data.stock} items are available in stock.`);
+      return;
+    }
 
-    try {
-      await updateCartItemQuantityAction(data.product_id, newQuantity);
+    startTransition(() => {
+      setOptimisticQuantity(newQuantity);
+      setQuantity(newQuantity);
       updateCartItems((prevItems) =>
         prevItems.map((item) =>
           item.product_id === data.product_id
@@ -29,15 +32,33 @@ export default function CartItem({ data, updateCartItems }) {
             : item,
         ),
       );
+    });
+
+    try {
+      await updateCartItemQuantityAction(data.product_id, newQuantity);
     } catch (error) {
       toast.error("Failed to update quantity. Please try again.");
-      setOptimisticQuantity(quantity);
-      setQuantity(quantity);
+      startTransition(() => {
+        setOptimisticQuantity(quantity);
+        setQuantity(quantity);
+        updateCartItems((prevItems) =>
+          prevItems.map((item) =>
+            item.product_id === data.product_id
+              ? { ...item, quantity: quantity }
+              : item,
+          ),
+        );
+      });
     }
   }
 
   function incrementQuantity() {
-    updateQuantity(optimisticQuantity + 1);
+    const newQuantity = optimisticQuantity + 1;
+    if (newQuantity <= data.stock) {
+      updateQuantity(newQuantity);
+    } else {
+      toast.error(`Sorry, only ${data.stock} items are available in stock.`);
+    }
   }
 
   function decrementQuantity() {
@@ -47,15 +68,19 @@ export default function CartItem({ data, updateCartItems }) {
   }
 
   async function handleDelete() {
-    updateCartItems((prevItems) =>
-      prevItems.filter((item) => item.product_id !== data.product_id),
-    );
+    startTransition(() => {
+      updateCartItems((prevItems) =>
+        prevItems.filter((item) => item.product_id !== data.product_id),
+      );
+    });
 
     try {
       await removeFromCartAction(data.product_id);
       toast.success("Item removed from cart");
     } catch (error) {
-      updateCartItems((prevItems) => [...prevItems, data]);
+      startTransition(() => {
+        updateCartItems((prevItems) => [...prevItems, data]);
+      });
       toast.error("Failed to remove item from cart. Please try again.");
     }
   }

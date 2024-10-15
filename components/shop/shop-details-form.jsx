@@ -188,7 +188,11 @@ export default function ShopDetailsForm({ session, data }) {
             )}
           />
 
-          <Button disabled={form.formState.isSubmitting} type="submit">
+          <Button
+            className="w-full lg:w-1/4"
+            disabled={form.formState.isSubmitting}
+            type="submit"
+          >
             {form.formState.isSubmitting ? "Submitting..." : "Submit"}
           </Button>
         </form>

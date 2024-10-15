@@ -17,7 +17,7 @@ export default async function ShopDashboard() {
   const details = await getShopDetails(session?.user?.email);
 
   return (
-    <div>
+    <div className="w-full lg:w-[80%]">
       <ShopDetailsForm session={session} data={details} />
     </div>
   );

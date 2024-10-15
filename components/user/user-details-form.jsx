@@ -41,7 +41,7 @@ export default function UserDetailsForm({ data }) {
   }
 
   return (
-    <div className="space-y-8 lg:w-1/2">
+    <div className="flex flex-col items-center justify-between space-y-8">
       <h2 className="text-2xl font-semibold text-center">
         {pathname === "/register" ? "Register" : "Personal Details"}
       </h2>
@@ -195,7 +195,11 @@ export default function UserDetailsForm({ data }) {
             </div>
           </div>
 
-          <Button disabled={form.formState.isSubmitting} type="submit">
+          <Button
+            className="w-full lg:w-1/4"
+            disabled={form.formState.isSubmitting}
+            type="submit"
+          >
             {form.formState.isSubmitting ? "Submitting..." : "Submit"}
           </Button>
         </form>

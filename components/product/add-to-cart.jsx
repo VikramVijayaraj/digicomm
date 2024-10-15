@@ -41,7 +41,9 @@ export default function AddToCart({ product, initialCartItems }) {
   );
 
   function incrementQuantity() {
-    setQuantity((q) => q + 1);
+    if (quantity < product.stock) {
+      setQuantity((q) => q + 1);
+    }
   }
 
   function decrementQuantity() {
@@ -54,6 +56,7 @@ export default function AddToCart({ product, initialCartItems }) {
     setIsAdding(true);
 
     // Optimistically update the cart
+
     const optimisticCartItem = {
       product_id: product.product_id,
       name: product.product_name,
@@ -76,7 +79,7 @@ export default function AddToCart({ product, initialCartItems }) {
       // Remove the optimistic update if there's an error
       addOptimisticCartItem(
         optimisticCartItems.filter(
-          (item) => item.product_id !== optimisticCartItem.product_id,
+          (item) => item.product_id !== optimisticCartItems.product_id,
         ),
       );
     } finally {
@@ -85,26 +88,37 @@ export default function AddToCart({ product, initialCartItems }) {
   }
 
   return (
-    <div
-      className="flex flex-col md:flex-row justify-between h-20 md:h-10 md:space-x-2 space-y-4
-        md:space-y-0"
-    >
-      {/* Product quantity */}
-      <Quantity
-        quantity={quantity}
-        incrementQuantity={incrementQuantity}
-        decrementQuantity={decrementQuantity}
-      />
-
-      {/* Add to cart button */}
-      <Button
-        onClick={handleAddToCart}
-        disabled={isAdding}
-        className="flex items-center text-base grow w-full md:w-28 bg-primary rounded-sm
-          select-none"
+    <div>
+      <div
+        className="flex flex-col md:flex-row justify-between h-24 md:h-10 md:space-x-2 space-y-4
+          md:space-y-0"
       >
-        {isAdding ? "Adding..." : "Add To Cart"}
-      </Button>
+        {/* Product quantity */}
+        <Quantity
+          quantity={quantity}
+          incrementQuantity={incrementQuantity}
+          decrementQuantity={decrementQuantity}
+        />
+
+        {/* Add to cart button */}
+        <Button
+          onClick={handleAddToCart}
+          disabled={isAdding}
+          className="flex items-center text-base grow w-full md:w-28 bg-primary rounded-sm
+            select-none"
+        >
+          {isAdding ? "Adding..." : "Add To Cart"}
+        </Button>
+      </div>
+
+      {/* Stock status */}
+      <div className="text-center md:text-left mt-2">
+        {product.stock <= 10 && (
+          <p className="text-red-700 select-none font-semibold">
+            Only {product.stock} items left!
+          </p>
+        )}
+      </div>
     </div>
   );
 }

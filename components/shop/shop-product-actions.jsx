@@ -30,7 +30,7 @@ export default function ShopProductActions({ product }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <EllipsisVertical />
+        <EllipsisVertical className="stroke-1" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-[5rem]">
         <DropdownMenuItem asChild>

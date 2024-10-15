@@ -1,6 +1,6 @@
 "use client";
 
-import { useOptimistic } from "react";
+import { useOptimistic, useTransition } from "react";
 
 import CartItem from "@/components/cart/cart-item";
 import {
@@ -12,8 +12,15 @@ import {
 } from "@/components/ui/table";
 
 export default function OptimisticCart({ initialCartItems }) {
-  const [optimisticCartItems, updateCartItems] =
+  const [optimisticCartItems, updateOptimisticCartItems] =
     useOptimistic(initialCartItems);
+  const [isPending, startTransition] = useTransition();
+
+  const updateCartItems = (updateFn) => {
+    startTransition(() => {
+      updateOptimisticCartItems(updateFn);
+    });
+  };
 
   if (optimisticCartItems.length === 0) {
     return <p className="text-center min-h-screen">Cart is empty!</p>;
@@ -27,7 +34,6 @@ export default function OptimisticCart({ initialCartItems }) {
           <TableHead>Price</TableHead>
           <TableHead className="text-center">Quantity</TableHead>
           <TableHead className="text-right">Total</TableHead>
-          <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -36,7 +42,6 @@ export default function OptimisticCart({ initialCartItems }) {
             <CartItem data={item} updateCartItems={updateCartItems} />
           </TableRow>
         ))}
-        <TableRow></TableRow>
       </TableBody>
     </Table>
   );

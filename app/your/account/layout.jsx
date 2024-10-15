@@ -1,15 +1,15 @@
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
-import { shopTabs } from "@/lib/data";
+import { accountTabs } from "@/lib/data";
 import Sidebar from "@/components/ui/sidebar";
 
 export const metadata = {
-  title: "My Shop",
-  description: "My Shop Settings.",
+  title: "My Account",
+  description: "My account settings.",
 };
 
-export default async function ShopLayout({ children }) {
+export default async function AccountLayout({ children }) {
   const session = await auth();
 
   if (!session?.user) {
@@ -19,7 +19,7 @@ export default async function ShopLayout({ children }) {
   return (
     <div className="global-padding flex flex-col lg:flex-row min-h-screen gap-8 lg:gap-4">
       <div className="w-full lg:w-1/6">
-        <Sidebar tabs={shopTabs} />
+        <Sidebar tabs={accountTabs} />
       </div>
 
       <div className="w-full lg:w-5/6">{children}</div>
