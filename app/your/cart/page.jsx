@@ -20,11 +20,13 @@ export default async function CartPage() {
     <div className="global-padding min-h-screen space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="text-3xl">Your Cart</h2>
-        <Button asChild className="flex items-center gap-2">
-          <Link href="/your/cart/checkout">
-            Proceed to checkout <MoveRight />
-          </Link>
-        </Button>
+        {cartItems.length > 0 && (
+          <Button asChild className="flex items-center gap-2">
+            <Link href="/your/cart/checkout">
+              Proceed to checkout <MoveRight />
+            </Link>
+          </Button>
+        )}
       </div>
       <OptimisticCart initialCartItems={cartItems} />
     </div>

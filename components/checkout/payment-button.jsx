@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { load } from "@cashfreepayments/cashfree-js";
 import axios from "axios";
@@ -15,6 +15,7 @@ export default function PaymentButton({
 }) {
   const orderIdRef = useRef("");
   const router = useRouter();
+  const [isProcessing, setIsProcessing] = useState(false);
   let cashfree;
 
   async function initializeSDK() {
@@ -41,6 +42,7 @@ export default function PaymentButton({
   }
 
   async function confirmPayment() {
+    setIsProcessing(true);
     try {
       const orderId = orderIdRef.current;
       const res = await axios.post("/api/confirm", { orderId });
@@ -56,6 +58,8 @@ export default function PaymentButton({
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsProcessing(false);
     }
   }
 
@@ -84,7 +88,7 @@ export default function PaymentButton({
   }
 
   return (
-    <Button className="w-full" onClick={handleClick}>
+    <Button disabled={isProcessing} className="w-full" onClick={handleClick}>
       Pay now
     </Button>
   );
