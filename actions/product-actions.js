@@ -7,8 +7,10 @@ import { nanoid } from "nanoid";
 import deleteFromFirebase from "@/utils/firebase";
 import {
   addProduct,
+  addProductFile,
   addProductImage,
   deleteProduct,
+  deleteProductFile,
   deleteProductImage,
   getSearchSuggestions,
   updateProduct,
@@ -42,20 +44,31 @@ export async function addProductAction(email, productDetails) {
     await addProductImage(productId, image);
   }
 
+  // Insert files into product_files table with the returned product id
+  for (const file of productDetails.files) {
+    await addProductFile(productId, file);
+  }
+
   revalidatePath("/", "layout");
 }
 
 export async function updateProductAction(productId, productDetails) {
   // Generate slug from product name
-  const slug = slugify(productDetails.name) + "-" + nanoid(10);
-  productDetails["slug"] = slug;
+  productDetails["slug"] = slugify(productDetails.name) + "-" + nanoid(10);
 
   await updateProduct(productId, productDetails);
 
-  // Insert images only if new images are uploaded
+  // Insert into product_images table only if new images are uploaded
   if (productDetails.images.length > 0) {
     for (const image of productDetails.images) {
       await addProductImage(productId, image);
+    }
+  }
+
+  // Insert into product_files table only if new files are uploaded
+  if (productDetails.files.length > 0) {
+    for (const file of productDetails.files) {
+      await addProductFile(productId, file);
     }
   }
 
@@ -67,11 +80,19 @@ export async function deleteProductAction(productDetails) {
   for (let image of productDetails.images) {
     await deleteFromFirebase(`product-images/${image}`);
   }
+  for (let file of productDetails.files) {
+    await deleteFromFirebase(`product-files/${file}`);
+  }
 
   await deleteProduct(productDetails.product_id);
 }
 
 export async function deleteProductImageAction(imageUrl) {
   await deleteProductImage(imageUrl);
+  revalidatePath("/", "layout");
+}
+
+export async function deleteProductFilesAction(fileUrl) {
+  await deleteProductFile(fileUrl);
   revalidatePath("/", "layout");
 }

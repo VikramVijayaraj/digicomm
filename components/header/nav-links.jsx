@@ -39,8 +39,8 @@ export default function NavLinks({ session }) {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
+          {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
+          {/* <DropdownMenuSeparator /> */}
           <Link href="/your/account">
             <DropdownMenuItem>Profile</DropdownMenuItem>
           </Link>

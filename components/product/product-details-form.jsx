@@ -32,6 +32,7 @@ import { NewProductPreviews } from "./new-product/new-product-previews";
 import { productSchema } from "@/lib/schema";
 import {
   addProductAction,
+  deleteProductFilesAction,
   deleteProductImageAction,
   updateProductAction,
 } from "@/actions/product-actions";
@@ -51,12 +52,14 @@ export default function ProductDetailsForm({
       images: productData?.images || [],
       stock: parseInt(productData?.stock) || 0,
       price: parseInt(productData?.price) || 0,
+      files: productData?.files || [],
     },
   });
 
   const router = useRouter();
   const [imagePreviews, setImagePreviews] = useState(productData?.images);
   const [files, setFiles] = useState([]);
+  const [productFiles, setProductFiles] = useState([]);
 
   // Function to handle image previews
   function handleImageChange(e) {
@@ -77,41 +80,60 @@ export default function ProductDetailsForm({
     form.setValue("images", files); // Update the form value for images
   }
 
-  // Upload Images To Firebase
-  async function handleUpload() {
-    if (!files) return; // Return if no file is selected
+  // Function to handle product file uploads
+  function handleFileChange(e) {
+    const files = e.target.files;
+    setProductFiles(files);
+    form.setValue("files", files); // Update the form value for files
+  }
 
-    const imageUrls = [];
+  // Upload Images To Firebase
+  async function handleUpload(files, folder) {
+    if (!files) return []; // Return empty array if no files are selected
+    const uploadedUrls = [];
+
     for (const file of files) {
-      const storageRef = ref(storage, `product-images/${file.name + uuid()}`); // Create a reference to the file in Firebase Storage
+      const splittedFileName = file.name.toString().split(".");
+      const storageRef = ref(
+        storage,
+        `${folder}/${splittedFileName[0] + "_" + uuid() + "." + splittedFileName[1]}`,
+      ); // Create a reference to the file in Firebase Storage
 
       try {
         await uploadBytes(storageRef, file); // Upload the file to Firebase Storage
         const url = await getDownloadURL(storageRef); // Get the download URL of the uploaded file
         console.log(`${file.name} Uploaded Successfully`);
-        imageUrls.push(url);
+        uploadedUrls.push(url);
       } catch (error) {
         console.error(`Error uploading the ${file.name}: `, error);
         throw new Error();
       }
     }
-    return imageUrls;
+    return uploadedUrls;
   }
 
   async function onSubmit(data) {
-    const uploadedImages = await handleUpload();
+    const uploadedImages = await handleUpload(files, "product-images");
+    const uploadedFiles = await handleUpload(productFiles, "product-files");
 
     data["images"] = [...uploadedImages];
+    data["files"] = [...uploadedFiles];
 
     if (productData) {
-      // Delete old images from firebase only if new images are uploaded
+      // Delete old images and files from firebase only if new ones are uploaded
       if (uploadedImages.length > 0) {
         for (let image of productData.images) {
           await deleteFromFirebase(`product-images/${image}`);
           await deleteProductImageAction(image);
         }
       }
-      
+      if (uploadedFiles.length > 0) {
+        for (let file of productData.files) {
+          await deleteFromFirebase(`product-files/${file}`);
+          await deleteProductFilesAction(file);
+        }
+      }
+
       await updateProductAction(productData.product_id, data);
     } else {
       await addProductAction(session?.user?.email, data);
@@ -141,7 +163,7 @@ export default function ProductDetailsForm({
                   <Input placeholder="Enter product name" {...field} />
                 </FormControl>
                 <FormDescription>
-                  This is the name of your product.
+                  This is the name of your product
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -162,7 +184,7 @@ export default function ProductDetailsForm({
                   />
                 </FormControl>
                 <FormDescription>
-                  Provide a brief description of the product.
+                  Provide a brief description of the product
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -212,7 +234,7 @@ export default function ProductDetailsForm({
                       />
                     </FormControl>
                     <FormDescription>
-                      Indicate how many units of the product are available.
+                      Indicate how many units of the product are available
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -235,13 +257,29 @@ export default function ProductDetailsForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>Enter price in INR.</FormDescription>
+                    <FormDescription>Enter price in INR</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
           </div>
+
+          {/* Files Upload */}
+          <FormField
+            control={form.control}
+            name="files"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Upload Product Files</FormLabel>
+                <FormControl>
+                  <Input type="file" multiple onChange={handleFileChange} />
+                </FormControl>
+                <FormDescription>Actual files of the product</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {/* Images Upload */}
           <FormField
@@ -258,6 +296,9 @@ export default function ProductDetailsForm({
                     onChange={handleImageChange}
                   />
                 </FormControl>
+                <FormDescription>
+                  Images that are shown to customer
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -269,6 +310,15 @@ export default function ProductDetailsForm({
           {/* Submit Button */}
           <Button disabled={form.formState.isSubmitting} type="submit">
             {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+          </Button>
+
+          {/* Cancel Button */}
+          <Button
+            disabled={form.formState.isSubmitting}
+            onClick={() => router.back()}
+            variant="secondary"
+          >
+            Cancel
           </Button>
         </form>
       </Form>

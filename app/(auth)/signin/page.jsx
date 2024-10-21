@@ -20,7 +20,7 @@ export default async function SignIn() {
 
   return (
     <div className="global-padding text-center min-h-screen">
-      <Card className="w-1/2 m-auto space-y-8 h-52">
+      <Card className="w-full md:w-1/2 m-auto space-y-8 h-52">
         <CardHeader>
           <CardTitle>Sign In</CardTitle>
         </CardHeader>

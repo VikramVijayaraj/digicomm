@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { EllipsisVertical } from "lucide-react";
@@ -54,11 +54,14 @@ export default function ShopProductActions({ product }) {
 
 export const DeleteDialog = React.forwardRef(({ product }, ref) => {
   const router = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
 
   async function handleDelete() {
+    setIsDeleting(true);
     await deleteProductAction(product);
     toast.info("Product Deleted Successfully!");
     router.refresh();
+    setIsDeleting(false);
   }
 
   return (
@@ -77,13 +80,19 @@ export const DeleteDialog = React.forwardRef(({ product }, ref) => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <DialogClose asChild>
-            <Button>No</Button>
-          </DialogClose>
+          {!isDeleting && (
+            <DialogClose asChild>
+              <Button>No</Button>
+            </DialogClose>
+          )}
 
-          <Button onClick={handleDelete} variant="secondary">
-            Yes
-          </Button>
+          {!isDeleting && (
+            <Button onClick={handleDelete} variant="secondary">
+              Yes
+            </Button>
+          )}
+
+          {isDeleting && <p className="text-center">Deleting...</p>}
         </DialogFooter>
       </DialogContent>
     </Dialog>

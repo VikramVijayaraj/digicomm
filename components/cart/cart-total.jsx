@@ -10,7 +10,7 @@ export default function CartTotal({ subTotal }) {
         <p>₹{subTotal?.toFixed(2)}</p>
       </div>
       <div className="flex justify-between items-center py-2">
-        <p>Shipping fee:</p>
+        <p>Tax:</p>
         <p>₹0</p>
       </div>
       <div className="flex justify-between items-center py-2">

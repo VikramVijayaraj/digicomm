@@ -16,9 +16,6 @@ export async function POST(request) {
       order_currency: "INR",
       order_id: orderId,
       customer_details: customerDetails,
-      // order_meta: {
-      //   return_url: `http://localhost:3000/your/account/orders?order_id=${orderId}`,
-      // },
     };
 
     const response = await Cashfree.PGCreateOrder(
