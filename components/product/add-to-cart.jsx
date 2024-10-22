@@ -56,7 +56,6 @@ export default function AddToCart({ product, initialCartItems }) {
     setIsAdding(true);
 
     // Optimistically update the cart
-
     const optimisticCartItem = {
       product_id: product.product_id,
       name: product.product_name,
