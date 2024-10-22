@@ -113,7 +113,7 @@ export default function TermsAndConditions() {
                 </li>
                 <li>
                   Buyers are granted a limited license to use purchased content
-                  in accordance with the seller's terms and conditions.
+                  in accordance with the seller&#39;s terms and conditions.
                 </li>
               </ul>
             </section>

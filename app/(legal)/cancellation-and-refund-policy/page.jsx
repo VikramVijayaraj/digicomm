@@ -87,8 +87,8 @@ export default function CancellationAndRefundPolicy() {
               </h2>
               <ul className="list-disc pl-6 text-gray-700 space-y-1">
                 <li>
-                  Refunds will not be provided for cases of buyer's remorse or
-                  for failure to understand the product's use.
+                  Refunds will not be provided for cases of buyer&#39;s remorse
+                  or for failure to understand the product&#39;s use.
                 </li>
                 <li>
                   Custom or personalized digital products are non-refundable
