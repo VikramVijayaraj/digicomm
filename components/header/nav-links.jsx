@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
+import { Moon, ShoppingCart, Sun } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 
@@ -44,17 +44,29 @@ export default function NavLinks({ session }) {
           <Link href="/your/account">
             <DropdownMenuItem>Profile</DropdownMenuItem>
           </Link>
+          <Link href="/your/account/orders">
+            <DropdownMenuItem>Orders</DropdownMenuItem>
+          </Link>
+          <DropdownMenuSeparator />
           <Link href="/your/shop/dashboard">
             <DropdownMenuItem>My Shop</DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem onClick={() => setTheme("light")}>
-            Light
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme("dark")}>
-            Dark
-          </DropdownMenuItem>
+          <div className="flex justify-evenly items-center">
+            <DropdownMenuItem
+              className="w-full flex justify-center"
+              onClick={() => setTheme("light")}
+            >
+              <Sun size={20} />
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="w-full flex justify-center"
+              onClick={() => setTheme("dark")}
+            >
+              <Moon size={20} />
+            </DropdownMenuItem>
+          </div>
           <DropdownMenuSeparator />
           <Link href="/">
             <DropdownMenuItem onClick={() => signOut()}>

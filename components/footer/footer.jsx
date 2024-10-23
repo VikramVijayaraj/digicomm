@@ -3,6 +3,7 @@ import { SendHorizontal } from "lucide-react";
 import FooterSubHeading from "./footer-sub-heading";
 import FooterLinks from "./footer-links";
 import { footerSections } from "@/lib/data";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -13,8 +14,10 @@ export default function Footer() {
       >
         {/* Main Section */}
         <div>
-          <h1 className="text-3xl pb-4">{process.env.NEXT_PUBLIC_APP_NAME}</h1>
-          <p>Aliqua qui amet ex dolore occaecat sint.</p>
+          <h1 className="text-3xl pb-4">
+            <Link href="/">{process.env.NEXT_PUBLIC_APP_NAME}</Link>
+          </h1>
+          <p>A Marketplace for Digital Creators</p>
           {/* <FooterSubHeading>Subscribe</FooterSubHeading>
         <p className="pb-2">Get 10% off your first order</p>
         <form

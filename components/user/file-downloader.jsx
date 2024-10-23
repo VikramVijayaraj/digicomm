@@ -1,8 +1,5 @@
 "use client";
 
-import { Download } from "lucide-react";
-import { Button } from "../ui/button";
-
 export default function FileDownloader({ fileUrls, fileName }) {
   async function handleDownload() {
     try {
@@ -30,8 +27,8 @@ export default function FileDownloader({ fileUrls, fileName }) {
   }
 
   return (
-    <Button onClick={handleDownload} variant="outline" size="icon">
-      <Download size={15} />
-    </Button>
+    <p className="font-normal" onClick={handleDownload}>
+      Download
+    </p>
   );
 }

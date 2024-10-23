@@ -1,6 +1,3 @@
-import Link from "next/link";
-import { Eye } from "lucide-react";
-
 import { auth } from "@/auth";
 import { getOrders } from "@/lib/db/orders";
 import {
@@ -12,8 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { dateConverter } from "@/utils/dateConverter";
-import { Button } from "@/components/ui/button";
-import FileDownloader from "@/components/user/file-downloader";
+import OrderActions from "@/components/user/order-actions";
 
 export default async function OrdersPage() {
   const session = await auth();
@@ -48,20 +44,45 @@ export default async function OrdersPage() {
               <TableCell className="text-right">
                 ₹{(Number(order.price) * order.quantity).toFixed(2)}
               </TableCell>
-              <TableCell>
-                <Button asChild variant="outline" size="icon">
-                  <Link href={`/products/${order.product_slug}`}>
-                    <Eye size={15} />
-                  </Link>
-                </Button>
-              </TableCell>
 
+              {/* Actions */}
               <TableCell>
-                <FileDownloader
-                  fileUrls={order.files} // Pass all file URLs
-                  fileName={order.product_name}
-                />
+                <OrderActions order={order} />
               </TableCell>
+              {/* <TableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <EllipsisVertical className="stroke-1" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="min-w-[5rem]">
+                    <DropdownMenuItem asChild>
+                      <Link href={`/products/${order.product_slug}`}>View</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <FileDownloader
+                        fileUrls={order.files} // Pass all file URLs
+                        fileName={order.product_name}
+                      />
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <Dialog>
+                        <DialogTrigger>Request Refund</DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Are you absolutely sure?</DialogTitle>
+                            <DialogDescription>
+                              This action cannot be undone. This will
+                              permanently delete your account and remove your
+                              data from our servers.
+                            </DialogDescription>
+                          </DialogHeader>
+                        </DialogContent>
+                      </Dialog>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell> */}
             </TableRow>
           ))}
         </TableBody>
