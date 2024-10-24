@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { contactFormSchema } from "@/lib/schema";
-import { sendEmail } from "@/actions/send-email-action";
+import { sendContactEmail } from "@/actions/send-email-action";
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,7 +40,7 @@ export default function ContactPage() {
       formData.append(key, value);
     });
 
-    const result = await sendEmail(formData);
+    const result = await sendContactEmail(formData);
 
     if (result.success) {
       toast.success("Message sent! We'll get back to you as soon as possible.");

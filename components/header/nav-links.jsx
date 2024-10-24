@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 
-export default function NavLinks({ session }) {
+export default function NavLinks({ session, shopDetails }) {
   const { setTheme } = useTheme();
 
   let navLink;
@@ -39,17 +39,22 @@ export default function NavLinks({ session }) {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-          {/* <DropdownMenuSeparator /> */}
-          <Link href="/your/account">
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-          </Link>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
           <Link href="/your/account/orders">
             <DropdownMenuItem>Orders</DropdownMenuItem>
           </Link>
+          <Link href="/your/account">
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+          </Link>
           <DropdownMenuSeparator />
+          <DropdownMenuLabel>My Shop</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <Link href={`/shop/${shopDetails.shop_slug}`}>
+            <DropdownMenuItem>Storefront</DropdownMenuItem>
+          </Link>
           <Link href="/your/shop/dashboard">
-            <DropdownMenuItem>My Shop</DropdownMenuItem>
+            <DropdownMenuItem>Settings</DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator />
 

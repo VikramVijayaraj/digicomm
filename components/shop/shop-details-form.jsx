@@ -35,6 +35,7 @@ export default function ShopDetailsForm({ session, data }) {
   const form = useForm({
     resolver: zodResolver(shopSchema),
     defaultValues: {
+      banner: "",
       logo: "",
       name: data?.shop_name || "",
       description: data?.shop_description || "",
@@ -43,23 +44,39 @@ export default function ShopDetailsForm({ session, data }) {
 
   const router = useRouter();
   const pathname = usePathname();
+  const [banner, setBanner] = useState(data?.shop_banner);
   const [logo, setLogo] = useState(data?.shop_logo);
-  const [file, setFile] = useState(null);
+  const [bannerFile, setBannerFile] = useState(null);
+  const [logoFile, setLogoFile] = useState(null);
+
+  // Banner Preview
+  function handleBannerChange(e) {
+    const image = e.target.files[0];
+    if (image) {
+      setBanner(URL.createObjectURL(image));
+      setBannerFile(image);
+    }
+  }
 
   // Logo Preview
-  function handleImageChange(e) {
+  function handleLogoChange(e) {
     const image = e.target.files[0];
     if (image) {
       setLogo(URL.createObjectURL(image));
-      setFile(image);
+      setLogoFile(image);
     }
   }
 
   // Upload Logo To Firebase
-  async function handleUpload() {
+  async function uploadImage(file, path) {
     if (!file) return; // Return if no file is selected
 
-    const storageRef = ref(storage, `shop-images/logos/${file.name + uuid()}`); // Create a reference to the file in Firebase Storage
+    const splittedFileName = file.name.toString().split(".");
+    const storageRef = ref(
+      storage,
+      `${path}/${splittedFileName[0] + "_" + uuid() + "." + splittedFileName[1]}`,
+    ); // Create a reference to the file in Firebase Storage
+    // const storageRef = ref(storage, `shop-images/logos/${file.name + uuid()}`); // Create a reference to the file in Firebase Storage
 
     try {
       await uploadBytes(storageRef, file); // Upload the file to Firebase Storage
@@ -68,37 +85,47 @@ export default function ShopDetailsForm({ session, data }) {
       return url;
     } catch (error) {
       console.error("Error uploading the file", error);
-      throw new Error();
+      throw new Error("Failed to upload image");
     }
   }
 
   async function onSubmit(values) {
-    const imageUrl = await handleUpload();
+    const logoUrl = await uploadImage(logoFile, "shop-images/logos");
+    const bannerUrl = await uploadImage(bannerFile, "shop-images/banners");
+    // const imageUrl = await uploadImage();
     const slug = slugify(values.name);
 
-    values["logo"] = imageUrl;
-    values["slug"] = slug;
+    const updatedValues = {
+      ...values,
+      logo: logoUrl || data?.shop_logo,
+      banner: bannerUrl || data?.shop_banner,
+      slug,
+    };
+    // values["logo"] = logoUrl;
+    // values["banner"] = bannerUrl;
+    // values["slug"] = slug;
 
-    // Delete old file from firebase
-    if (imageUrl) {
+    // Delete old files from firebase if new ones were uploaded
+    if (logoUrl && data?.shop_logo) {
       await deleteFromFirebase(`shop-images/logos/${data?.shop_logo}`);
     }
+    if (bannerUrl && data?.shop_banner) {
+      await deleteFromFirebase(`shop-images/banners/${data?.shop_banner}`);
+    }
+    // // Delete old file from firebase
+    // if (imageUrl) {
+    //   await deleteFromFirebase(`shop-images/logos/${data?.shop_logo}`);
+    // }
 
     // Update shop details if data is available, otherwise create new.
     if (data) {
-      const updatedData = { ...values };
-      updatedData["logo"] = imageUrl || data?.shop_logo;
+      // const updatedData = { ...values };
+      // updatedData["logo"] = imageUrl || data?.shop_logo;
 
-      // const slug = slugify(updatedData.name);
-      // updatedData["slug"] = slug;
-
-      await updateSellerAction(session?.user?.email, updatedData);
+      await updateSellerAction(session?.user?.email, updatedValues);
       toast.success("Shop details updated!");
     } else {
-      // const slug = slugify(values.name);
-      // updatedData["slug"] = slug;
-
-      await createSellerAction(session?.user?.email, values);
+      await createSellerAction(session?.user?.email, updatedValues);
       toast.success("Shop created successfully!");
     }
 
@@ -110,7 +137,38 @@ export default function ShopDetailsForm({ session, data }) {
 
   return (
     <div className="flex flex-col items-center justify-between space-y-8">
-      <div className="w-32 h-32 relative">
+      <div className="w-full max-w-2xl space-y-4 relative">
+        {banner && (
+          <div className="w-full h-48 relative">
+            <Image
+              src={banner}
+              alt="Shop Banner Preview"
+              className="object-cover"
+              fill
+            />
+          </div>
+        )}
+        <div className="absolute -bottom-20 left-[35%]">
+          <div className="w-32 h-32 relative mx-auto">
+            {logo ? (
+              <Image
+                src={logo}
+                alt="Shop Logo Preview"
+                className="object-cover"
+                fill
+              />
+            ) : (
+              <Image
+                className="object-cover"
+                src="/images/shop-avatar.png"
+                alt="Shop Avatar"
+                fill
+              />
+            )}
+          </div>
+        </div>
+      </div>
+      {/* <div className="w-32 h-32 relative">
         {logo ? (
           <div className="mt-4">
             <Image
@@ -128,24 +186,45 @@ export default function ShopDetailsForm({ session, data }) {
             fill
           />
         )}
-      </div>
+      </div> */}
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full flex flex-col"
+          className="space-y-8 w-full flex flex-col pt-16"
         >
+          {/* Banner Image */}
+          <FormField
+            control={form.control}
+            name="banner"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Shop Banner</FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleBannerChange}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Logo Image */}
           <FormField
             control={form.control}
             name="logo"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Upload Shop Logo</FormLabel>
+                <FormLabel>Shop Logo</FormLabel>
                 <FormControl>
                   <Input
                     type="file"
                     accept="image/*"
-                    onChange={handleImageChange}
+                    onChange={handleLogoChange}
                   />
                 </FormControl>
 

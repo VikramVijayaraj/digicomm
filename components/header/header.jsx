@@ -21,10 +21,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Label } from "../ui/label";
+import { getShopDetails } from "@/lib/db/sellers";
 
 export default async function Header() {
-  const categories = await getCategories();
   const session = await auth();
+
+  const categories = await getCategories();
+  const shopDetails = await getShopDetails(session?.user?.email);
 
   console.log("Printing from {header.js}");
   console.log(session);
@@ -68,7 +71,7 @@ export default async function Header() {
         </div>
 
         {/* NavLinks */}
-        <NavLinks session={session} />
+        <NavLinks session={session} shopDetails={shopDetails} />
       </header>
 
       {/* For md and sm screen sizes */}

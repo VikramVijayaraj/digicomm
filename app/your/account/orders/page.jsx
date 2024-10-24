@@ -47,42 +47,8 @@ export default async function OrdersPage() {
 
               {/* Actions */}
               <TableCell>
-                <OrderActions order={order} />
+                <OrderActions order={order} userEmail={session?.user?.email} />
               </TableCell>
-              {/* <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <EllipsisVertical className="stroke-1" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="min-w-[5rem]">
-                    <DropdownMenuItem asChild>
-                      <Link href={`/products/${order.product_slug}`}>View</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <FileDownloader
-                        fileUrls={order.files} // Pass all file URLs
-                        fileName={order.product_name}
-                      />
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <Dialog>
-                        <DialogTrigger>Request Refund</DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Are you absolutely sure?</DialogTitle>
-                            <DialogDescription>
-                              This action cannot be undone. This will
-                              permanently delete your account and remove your
-                              data from our servers.
-                            </DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell> */}
             </TableRow>
           ))}
         </TableBody>

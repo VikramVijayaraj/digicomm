@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { EllipsisVertical } from "lucide-react";
+import { toast } from "sonner";
 
 import {
   DropdownMenu,
@@ -13,7 +14,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -22,10 +22,36 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import FileDownloader from "@/components/user/file-downloader";
-import { toast } from "sonner";
+import { sendRefundEmail } from "@/actions/send-email-action";
 
-export default function OrderActions({ order }) {
+export default function OrderActions({ order, userEmail }) {
   const [openDialog, setOpenDialog] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  async function handleRequest() {
+    setIsSubmitting(true);
+    const formData = new FormData();
+
+    const data = {
+      orderItemId: order.order_item_id,
+      email: userEmail,
+    };
+
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    const result = await sendRefundEmail(formData);
+
+    if (result.success) {
+      toast.success("Request sent! We'll get back to you as soon as possible.");
+    } else {
+      toast.error("An unexpected error occurred. Please try again.");
+    }
+
+    setIsSubmitting(false);
+    setOpenDialog(false);
+  }
 
   return (
     <>
@@ -64,16 +90,20 @@ export default function OrderActions({ order }) {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
             <Button
+              disabled={isSubmitting}
+              onClick={() => setOpenDialog(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              disabled={isSubmitting}
               variant="outline"
               onClick={() => {
-                // Handle refund request here
-                setOpenDialog(false);
-                toast.success("Refund request sent.");
+                handleRequest();
               }}
             >
-              Request Refund
+              {isSubmitting ? "Sending..." : "Request Refund"}
             </Button>
           </DialogFooter>
         </DialogContent>
