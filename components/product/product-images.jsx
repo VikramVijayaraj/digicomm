@@ -2,9 +2,13 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { X } from "lucide-react";
+
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 export default function ProductImages({ images, alt_texts }) {
   const [displayImage, setDisplayImage] = useState(images[0]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const product_images = images.map((image, index) => (
     <div
@@ -32,14 +36,35 @@ export default function ProductImages({ images, alt_texts }) {
       </div>
 
       {/* Display Image */}
-      <div className="relative w-full h-full">
-        <Image
-          src={displayImage}
-          fill
-          style={{ objectFit: "cover" }}
-          alt="Display Image"
-        />
-      </div>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <div className="relative w-full h-full cursor-zoom-in">
+            <Image
+              src={displayImage}
+              fill
+              style={{ objectFit: "cover" }}
+              alt="Display Image"
+            />
+          </div>
+        </DialogTrigger>
+        <DialogContent className="max-w-[60vw] max-h-[90vh] p-0">
+          <div className="relative w-full h-[90vh]">
+            <Image
+              src={displayImage}
+              fill
+              style={{ objectFit: "contain" }}
+              alt="Full Size Image"
+            />
+            {/* <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-4 right-4 p-2 bg-black bg-opacity-50 rounded-full text-white
+                hover:bg-opacity-75 transition-opacity"
+            >
+              <X size={24} />
+            </button> */}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

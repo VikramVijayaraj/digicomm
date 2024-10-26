@@ -10,6 +10,7 @@ import { getAvgProductRating } from "@/lib/db/reviews";
 import AvgRatingContainer from "@/components/ui/avg-rating-container";
 import { getCartItems } from "@/lib/db/cart";
 import { auth } from "@/auth";
+import ShortDesc from "./short-desc";
 
 export default async function ProductPage({ params }) {
   const { slug } = params;
@@ -21,7 +22,7 @@ export default async function ProductPage({ params }) {
   const cartItems = session?.user ? await getCartItems(session.user.email) : [];
 
   return (
-    <div className="global-padding">
+    <div className="global-padding scroll-smooth">
       <div
         className="flex flex-col lg:flex-row justify-between items-start space-y-4 lg:space-y-0
           lg:space-x-10 pb-10"
@@ -43,10 +44,12 @@ export default async function ProductPage({ params }) {
             {result.price}
           </p>
 
-          <p>{result.product_desc}</p>
+          {/* Short Desciption */}
+          <ShortDesc result={result} />
 
           {/* Shop */}
           <div className="pt-4">
+            by{" "}
             <Link
               href={`/shop/${result.shop_slug}`}
               className="text-blue-700 hover:underline"
@@ -64,6 +67,12 @@ export default async function ProductPage({ params }) {
             {/* <AddToFavourites /> */}
           </div>
         </div>
+      </div>
+
+      {/* Full Description */}
+      <div id="desc" className="py-12 space-y-4">
+        <h4 className="text-xl font-semibold">Product Description</h4>
+        <p>{result.product_desc}</p>
       </div>
 
       {/* Reviews Section */}
