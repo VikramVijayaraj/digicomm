@@ -1,17 +1,17 @@
 export default function AboutPage() {
   return (
-    <div class="container max-w-4xl mx-auto p-6 md:px-20">
+    <div class="container max-w-4xl mx-auto p-4 md:px-10">
       <header class="mb-8">
         <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-900">
           About Us
         </h1>
         <p class="text-center text-sm text-gray-500 mt-2">
-          Welcome to {process.env.NEXT_PUBLIC_APP_NAME} – A Marketplace for
-          Digital Creators
+          Welcome to {process.env.NEXT_PUBLIC_APP_NAME} –{" "}
+          {process.env.NEXT_PUBLIC_APP_TAGLINE}
         </p>
       </header>
 
-      <section class="bg-white p-8">
+      <section class="bg-white p-4">
         <h2 class="text-2xl font-semibold mb-4 text-gray-900">Who We Are</h2>
         <p class="text-gray-700 mb-6">
           At {process.env.NEXT_PUBLIC_APP_NAME}, we believe in empowering

@@ -47,17 +47,21 @@ export default function NavLinks({ session, shopDetails }) {
           <Link href="/your/account">
             <DropdownMenuItem>Settings</DropdownMenuItem>
           </Link>
-          <DropdownMenuSeparator />
-          <DropdownMenuLabel>My Shop</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <Link href={`/shop/${shopDetails.shop_slug}`}>
-            <DropdownMenuItem>Storefront</DropdownMenuItem>
-          </Link>
-          <Link href="/your/shop/dashboard">
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-          </Link>
-          <DropdownMenuSeparator />
 
+          {shopDetails && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>My Shop</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href={`/shop/${shopDetails.shop_slug}`}>Storefront</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/your/shop/dashboard">Settings</Link>
+              </DropdownMenuItem>
+            </>
+          )}
+          <DropdownMenuSeparator />
           <div className="flex justify-evenly items-center">
             <DropdownMenuItem
               className="w-full flex justify-center"
@@ -72,6 +76,7 @@ export default function NavLinks({ session, shopDetails }) {
               <Moon size={20} />
             </DropdownMenuItem>
           </div>
+
           <DropdownMenuSeparator />
           <Link href="/">
             <DropdownMenuItem onClick={() => signOut()}>

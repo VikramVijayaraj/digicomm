@@ -6,8 +6,8 @@ import Footer from "@/components/footer/footer";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
-  title: "DigiComm",
-  description: "An e-commerce platform for digital-only products.",
+  title: process.env.NEXT_PUBLIC_APP_NAME,
+  description: process.env.NEXT_PUBLIC_APP_TAGLINE,
 };
 
 export default function RootLayout({ children }) {
