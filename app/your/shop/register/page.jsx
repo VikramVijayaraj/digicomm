@@ -11,7 +11,7 @@ export default async function RegisterShop() {
   }
 
   return (
-    <div className="max-w-md m-auto space-y-8">
+    <div className="global-padding w-full md:w-[80%] lg:w-[50%] m-auto space-y-16">
       <h2 className="text-2xl font-semibold text-center">Setup New Shop</h2>
       <ShopDetailsForm session={session} />
     </div>

@@ -17,7 +17,7 @@ export default function Footer() {
           <h1 className="text-3xl pb-4">
             <Link href="/">{process.env.NEXT_PUBLIC_APP_NAME}</Link>
           </h1>
-          <p>A Marketplace for Digital Creators</p>
+          <p>{process.env.NEXT_PUBLIC_APP_TAGLINE}</p>
           {/* <FooterSubHeading>Subscribe</FooterSubHeading>
         <p className="pb-2">Get 10% off your first order</p>
         <form

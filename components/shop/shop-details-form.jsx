@@ -149,7 +149,7 @@ export default function ShopDetailsForm({ session, data }) {
           </div>
         )}
         <div className="absolute -bottom-20 left-[35%]">
-          <div className="w-32 h-32 relative mx-auto">
+          <div className="w-32 h-32 relative m-auto">
             {logo ? (
               <Image
                 src={logo}
@@ -268,7 +268,7 @@ export default function ShopDetailsForm({ session, data }) {
           />
 
           <Button
-            className="w-full lg:w-1/4"
+            className="w-full"
             disabled={form.formState.isSubmitting}
             type="submit"
           >

@@ -146,7 +146,7 @@ export default function ProductDetailsForm({
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between px-24">
+    <div className="flex min-h-screen flex-col items-center justify-between md:px-24">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
