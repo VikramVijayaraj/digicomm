@@ -47,7 +47,7 @@ export default function ProductImages({ images, alt_texts }) {
             />
           </div>
         </DialogTrigger>
-        <DialogContent className="max-w-[60vw] max-h-[90vh] p-0">
+        <DialogContent className="max-w-[60vw] max-h-[90vh] p-0 text-white bg-black border-none">
           <div className="relative w-full h-[90vh]">
             <Image
               src={displayImage}

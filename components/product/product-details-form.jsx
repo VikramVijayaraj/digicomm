@@ -50,7 +50,7 @@ export default function ProductDetailsForm({
       description: productData?.product_desc || "",
       category: "",
       images: productData?.images || [],
-      stock: parseInt(productData?.stock) || 0,
+      // stock: parseInt(productData?.stock) || 0,
       price: parseInt(productData?.price) || 0,
       files: productData?.files || [],
     },
@@ -217,9 +217,9 @@ export default function ProductDetailsForm({
             )}
           />
 
-          <div className="flex justify-between gap-4">
+          {/* <div className="flex justify-between gap-4"> */}
             {/* Stock */}
-            <div className="w-1/2">
+            {/* <div className="w-1/2">
               <FormField
                 control={form.control}
                 name="stock"
@@ -240,10 +240,10 @@ export default function ProductDetailsForm({
                   </FormItem>
                 )}
               />
-            </div>
+            </div> */}
 
             {/* Price */}
-            <div className="w-1/2">
+            <div className="">
               <FormField
                 control={form.control}
                 name="price"
@@ -263,7 +263,7 @@ export default function ProductDetailsForm({
                 )}
               />
             </div>
-          </div>
+          {/* </div> */}
 
           {/* Files Upload */}
           <FormField

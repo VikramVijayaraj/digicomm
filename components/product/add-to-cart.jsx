@@ -41,9 +41,9 @@ export default function AddToCart({ product, initialCartItems }) {
   );
 
   function incrementQuantity() {
-    if (quantity < product.stock) {
-      setQuantity((q) => q + 1);
-    }
+    // if (quantity < product.stock) {
+    setQuantity((q) => q + 1);
+    // }
   }
 
   function decrementQuantity() {
@@ -62,7 +62,7 @@ export default function AddToCart({ product, initialCartItems }) {
       quantity: quantity,
       price: product.price,
       description: product.product_desc,
-      stock: product.stock,
+      // stock: product.stock,
       slug: product.slug,
       total_price: quantity * product.price,
     };
@@ -111,13 +111,13 @@ export default function AddToCart({ product, initialCartItems }) {
       </div>
 
       {/* Stock status */}
-      <div className="text-center md:text-left mt-2">
+      {/* <div className="text-center md:text-left mt-2">
         {product.stock <= 10 && (
           <p className="text-red-700 select-none font-semibold">
             Only {product.stock} items left!
           </p>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

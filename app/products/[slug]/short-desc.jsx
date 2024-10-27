@@ -16,7 +16,7 @@ export default function ShortDesc({ result }) {
             .scrollIntoView({ behavior: "smooth" });
         }}
       >
-        See full description
+        See full description 
       </Link>
     </div>
   );
