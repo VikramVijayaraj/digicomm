@@ -523,12 +523,12 @@ export default function PrivacyPolicy() {
             <li>
               By visiting this page on our website:{" "}
               <a
-                href="https://crelands.vercel.app/contact"
+                href="https://crelands.vercel.app/contact-us"
                 className="text-blue-600 hover:underline"
                 rel="external nofollow noopener"
                 target="_blank"
               >
-                https://crelands.vercel.app/contact
+                https://crelands.vercel.app/contact-us
               </a>
             </li>
           </ul>
