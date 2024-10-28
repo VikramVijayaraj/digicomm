@@ -1,4 +1,8 @@
+import { notFound } from "next/navigation";
+
 export default function CancellationAndRefundPolicy() {
+  return notFound();
+
   return (
     <div className="min-h-screen pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white overflow-hidden">

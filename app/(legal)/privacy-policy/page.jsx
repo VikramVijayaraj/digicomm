@@ -91,12 +91,12 @@ export default function PrivacyPolicy() {
               <strong>Website</strong> refers to{" "}
               {process.env.NEXT_PUBLIC_APP_NAME}, accessible from{" "}
               <a
-                href="https://digicomm.vercel.app"
+                href="https://crelands.vercel.app"
                 className="text-blue-600 hover:underline"
                 rel="external nofollow noopener"
                 target="_blank"
               >
-                https://digicomm.vercel.app
+                https://crelands.vercel.app
               </a>
             </li>
             <li>
@@ -186,21 +186,12 @@ export default function PrivacyPolicy() {
             Cookies can be &quot;Persistent&quot; or &quot;Session&quot;
             Cookies. Persistent Cookies remain on Your personal computer or
             mobile device when You go offline, while Session Cookies are deleted
-            as soon as You close Your web browser. Learn more about cookies on
-            the{" "}
-            <a
-              href="https://www.freeprivacypolicy.com/blog/sample-privacy-policy-template/#Use_Of_Cookies_And_Tracking"
-              className="text-blue-600 hover:underline"
-              target="_blank"
-            >
-              Free Privacy Policy website
-            </a>{" "}
-            article.
+            as soon as You close Your web browser.
           </p>
-          <p>
+          {/* <p>
             We use both Session and Persistent Cookies for the purposes set out
             below:
-          </p>
+          </p> */}
           <ul className="list-disc pl-6 space-y-2">
             <li>
               <p>
@@ -532,12 +523,12 @@ export default function PrivacyPolicy() {
             <li>
               By visiting this page on our website:{" "}
               <a
-                href="https://digicomm.vercel.app/contact"
+                href="https://crelands.vercel.app/contact"
                 className="text-blue-600 hover:underline"
                 rel="external nofollow noopener"
                 target="_blank"
               >
-                https://digicomm.vercel.app/contact
+                https://crelands.vercel.app/contact
               </a>
             </li>
           </ul>
