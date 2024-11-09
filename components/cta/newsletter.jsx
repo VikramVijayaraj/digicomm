@@ -15,7 +15,7 @@ export default function Newsletter() {
           required
         />
         <button className="bg-white p-4 rounded-r-full hover:bg-black hover:text-white">
-          Subscibe
+          Subscribe
         </button>
       </form>
     </div>

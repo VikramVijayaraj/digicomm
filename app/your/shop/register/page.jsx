@@ -7,7 +7,7 @@ export default async function RegisterShop() {
   const session = await auth();
 
   if (!session?.user) {
-    redirect("/signin");
+    redirect("/auth/signin");
   }
 
   return (

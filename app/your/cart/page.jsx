@@ -11,7 +11,7 @@ export default async function CartPage() {
   const session = await auth();
 
   if (!session?.user) {
-    redirect("/signin");
+    redirect("/auth/signin");
   }
 
   const cartItems = await getCartItems(session?.user?.email);

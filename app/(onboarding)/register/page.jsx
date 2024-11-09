@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import UserDetailsForm from "@/components/user/user-details-form";
 
-export default async function RegisterPage() {
+export default async function RegisterPage({ searchParams }) {
   const session = await auth();
 
   if (!session?.user) {
@@ -12,7 +12,7 @@ export default async function RegisterPage() {
 
   return (
     <div className="global-padding w-full lg:flex justify-center">
-      <UserDetailsForm />
+      <UserDetailsForm callbackUrl={searchParams.callback} />
     </div>
   );
 }

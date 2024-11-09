@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { userSchema } from "@/lib/schema";
 import { UserDetailsAction } from "@/actions/user-actions";
 
-export default function UserDetailsForm({ data }) {
+export default function UserDetailsForm({ data, callbackUrl }) {
   const form = useForm({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -38,6 +38,10 @@ export default function UserDetailsForm({ data }) {
   async function onSubmit(values) {
     await UserDetailsAction(values);
     toast.success("Data Saved Successfully.");
+    
+    if (callbackUrl) {
+      window.location.href = callbackUrl;
+    }
   }
 
   return (

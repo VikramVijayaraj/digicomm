@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
+import { handleSignOut } from "@/actions/auth-actions";
 
 export default function NavLinks({ session, shopDetails }) {
   const { setTheme } = useTheme();
@@ -23,7 +24,7 @@ export default function NavLinks({ session, shopDetails }) {
 
   if (!session?.user) {
     navLink = (
-      <Link href="/signin">
+      <Link href="/auth/signin">
         <Button variant="ghost" className="rounded-full">
           Sign in
         </Button>
@@ -35,7 +36,7 @@ export default function NavLinks({ session, shopDetails }) {
         <DropdownMenuTrigger>
           <Avatar>
             <AvatarImage src={session?.user?.image} />
-            <AvatarFallback>{session?.user?.name.at(0)}</AvatarFallback>
+            <AvatarFallback>{session?.user?.email?.at(0)}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -80,6 +81,7 @@ export default function NavLinks({ session, shopDetails }) {
           <DropdownMenuSeparator />
           <Link href="/">
             <DropdownMenuItem onClick={() => signOut()}>
+              {/* <DropdownMenuItem onClick={() => handleSignOut()}> */}
               Sign out
             </DropdownMenuItem>
           </Link>

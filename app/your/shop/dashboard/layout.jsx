@@ -13,7 +13,7 @@ export default async function ShopLayout({ children }) {
   const session = await auth();
 
   if (!session?.user) {
-    redirect("/signin");
+    redirect("/auth/signin");
   }
 
   return (

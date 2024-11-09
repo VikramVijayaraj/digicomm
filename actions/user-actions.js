@@ -1,14 +1,31 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import {
+  createUser,
   createUserDetails,
   getUserByEmail,
   updateUserDetails,
 } from "../lib/db/users";
-import { redirect } from "next/navigation";
+import { saltAndHashPassword } from "@/utils/password";
+
+export async function createUserAction(userData) {
+  const { name, email, password } = userData;
+  const hashedPassword = await saltAndHashPassword(password);
+
+  const userDetails = {
+    username: name,
+    email,
+    password: hashedPassword,
+  };
+  const user = await createUser(userDetails);
+
+  revalidatePath("/");
+  return user;
+}
 
 export async function UserDetailsAction(data) {
   const session = await auth();
@@ -41,6 +58,11 @@ export async function UserDetailsAction(data) {
     await createUserDetails(userDetails);
   }
 
-  revalidatePath("/your/account");
-  redirect("/your/account");
+  revalidatePath("/");
+  // redirect("/your/account");
+}
+
+export async function getUserByEmailAction(email) {
+  const user = await getUserByEmail(email);
+  return user[0];
 }

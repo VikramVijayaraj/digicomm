@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 import { auth } from "@/auth";
 import CartTotal from "@/components/cart/cart-total";
 import PaymentButton from "@/components/checkout/payment-button";
@@ -10,11 +12,15 @@ export default async function Checkout() {
   const session = await auth();
 
   if (!session?.user) {
-    redirect("/signin");
+    redirect("/auth/signin");
   }
 
   const user = await getUserDetailsByEmail(session?.user?.email);
   const cartItems = await getCartItems(session?.user?.email);
+
+  if (user.length === 0) {
+    redirect("/register?callback=/your/cart/checkout");
+  }
 
   const subTotal = cartItems?.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -46,7 +52,7 @@ export default async function Checkout() {
     await createPayment(paymentDetails);
 
     // Clean up the cart after the payment
-    await removeCart(cartItems[0].cart_id)
+    await removeCart(cartItems[0].cart_id);
   }
 
   return (

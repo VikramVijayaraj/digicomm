@@ -5,7 +5,7 @@ import BestSelling from "@/components/section/best-selling";
 import Banner from "@/components/banner/banner";
 import Newsletter from "@/components/cta/newsletter";
 import { auth } from "@/auth";
-import { getUserByEmail } from "@/lib/db/users";
+import { getUserByEmail } from "@/lib/db/users"; 
 import FilteredProductsPage from "./products/page";
 
 export default async function Home({ searchParams }) {
