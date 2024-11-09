@@ -35,7 +35,7 @@ export default function CredentialsCard({ page }) {
           type="submit"
           // variant="secondary"
         >
-          <Image src="/logos/google.svg" width={15} height={15} />
+          <Image src="/logos/google.svg" width={15} height={15} alt="" />
           Continue with Google
         </Button>
         {/* <form
@@ -74,7 +74,7 @@ export default function CredentialsCard({ page }) {
 
         {page === "signin" ? (
           <p className="text-sm text-center">
-            Don't have an account?
+            Don&#39;t have an account?
             <Link
               href="signup"
               className="text-sm ml-1 text-blue-700 hover:underline"

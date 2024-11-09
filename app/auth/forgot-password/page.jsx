@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
             <CardTitle>Reset Link Sent</CardTitle>
           </CardHeader>
           <CardContent>
-            We've sent a reset link to your email. Please check your inbox.
+            We&#39;ve sent a reset link to your email. Please check your inbox.
           </CardContent>
           <CardFooter>
             <Button asChild className="w-full">
