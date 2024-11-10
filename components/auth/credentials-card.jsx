@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
@@ -18,6 +19,30 @@ import SignInForm from "./signin-form";
 import SignUpForm from "./signup-form";
 
 export default function CredentialsCard({ page }) {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
+  const router = useRouter();
+
+  async function handleSignIn(e) {
+    e.preventDefault();
+    try {
+      const result = await signIn("google", {
+        callbackUrl: callbackUrl || "/",
+        redirect: false,
+      });
+
+      if (result?.error) {
+        // Handle errors, e.g., show an error message
+        console.error("Sign in error:", result.error);
+      } else if (result?.url) {
+        // Successful sign-in, redirect using Next.js router
+        router.push(result.url);
+      }
+    } catch (error) {
+      console.error("Unexpected error during sign in:", error);
+    }
+  }
+
   return (
     <Card className="w-full md:w-[400px] m-auto">
       <CardHeader>
@@ -30,7 +55,7 @@ export default function CredentialsCard({ page }) {
       </CardHeader>
       <CardContent className="space-y-4">
         <Button
-          onClick={() => signIn("google", { redirectTo: "/" })}
+          onClick={handleSignIn}
           className="w-full gap-2"
           type="submit"
           // variant="secondary"

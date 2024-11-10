@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import { productReviewSchema } from "@/lib/schema";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,6 @@ import {
   addProductReviewAction,
   addShopReviewAction,
 } from "@/actions/review-actions";
-import { toast } from "sonner";
 
 export default function AddReviewForm({ session, productId, sellerId }) {
   const form = useForm({
@@ -42,7 +42,7 @@ export default function AddReviewForm({ session, productId, sellerId }) {
       const reviewData = { ...values, sellerId };
       await addShopReviewAction(session?.user?.email, reviewData);
     }
-    
+
     router.back();
     toast.success("Review added successfully.");
   }

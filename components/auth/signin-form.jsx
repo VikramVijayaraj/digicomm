@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { LoaderCircle } from "lucide-react";
@@ -17,10 +19,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/lib/schema";
 import { handleCredentialsSignIn } from "@/actions/auth-actions";
-import { useState } from "react";
 
 export default function SignInForm() {
   const [error, setError] = useState(null);
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
 
   // 1. Define your form.
   const form = useForm({
@@ -33,7 +36,7 @@ export default function SignInForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values) {
-    const result = await handleCredentialsSignIn(values);
+    const result = await handleCredentialsSignIn(values, callbackUrl);
     setError(result?.message);
   }
 

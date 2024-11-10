@@ -8,13 +8,16 @@ import { signIn, signOut } from "@/auth";
 import { getUserByEmail } from "@/lib/db/users";
 import { saltAndHashPassword, verifyPassword } from "@/utils/password";
 
-export async function handleCredentialsSignIn({ email, password, name }) {
+export async function handleCredentialsSignIn(
+  { email, password, name },
+  callbackUrl,
+) {
   try {
     await signIn("credentials", {
       email,
       password,
       name,
-      redirectTo: "/",
+      redirectTo: callbackUrl,
     });
   } catch (error) {
     if (error instanceof AuthError) {
