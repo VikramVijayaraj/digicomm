@@ -5,8 +5,9 @@ import BestSelling from "@/components/section/best-selling";
 import Banner from "@/components/banner/banner";
 import Newsletter from "@/components/cta/newsletter";
 import { auth } from "@/auth";
-import { getUserByEmail } from "@/lib/db/users"; 
+import { getUserByEmail } from "@/lib/db/users";
 import FilteredProductsPage from "./products/page";
+import BannerCarousel from "@/components/banner/banner-carousel";
 
 export default async function Home({ searchParams }) {
   const session = await auth();
@@ -25,7 +26,8 @@ export default async function Home({ searchParams }) {
 
   return (
     <main className="space-y-8 lg:space-y-16">
-      {/* <Banner /> */}
+      <Banner />
+      {/* <BannerCarousel /> */}
       <Categories />
       <BestSelling />
       <Newsletter />
