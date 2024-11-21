@@ -6,7 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function ProductCard({ imgUrl, name, price, category }) {
   return (
     <>
-      <Card className="h-[400px] border-none hover:scale-105 transition delay-50 ease-in-out">
+      <Card
+        className="h-[400px] border-none shadow-none hover:scale-105 transition delay-50
+          ease-in-out"
+      >
         <CardHeader className="p-0 m-0">
           <CardTitle className="relative w-full h-[300px]">
             <Image
