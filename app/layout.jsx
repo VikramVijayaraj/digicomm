@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 import "./globals.css";
 import { ReduxProvider } from "./redux-provider";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -13,6 +15,22 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        {/* <!-- Google tag (gtag.js) --> */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-WRHHRN09L9"
+        ></Script>
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-WRHHRN09L9');
+          `}
+        </Script>
+      </head>
       <body>
         <ReduxProvider>
           <ThemeProvider

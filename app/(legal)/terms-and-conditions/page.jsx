@@ -1,118 +1,283 @@
+import Link from "next/link";
+
 export default function TermsAndConditions() {
   return (
-    <div className="min-h-screen pb-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white overflow-hidden">
-        <div className="px-4 py-5 sm:p-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            Terms and Conditions
-          </h1>
-          <p className="text-sm text-gray-600 mb-6">
-            Last updated on: 28-10-2024 11:38:30
+    <div className="min-h-screen">
+      <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 max-w-4xl">
+        <h1 className="text-3xl font-bold mb-6 text-gray-900">
+          Terms and Conditions
+        </h1>
+        <p className="text-gray-700 mb-4">
+          <strong>Last updated:</strong> November 28, 2024
+        </p>
+        <div className="space-y-6 text-gray-700">
+          <p>
+            Welcome to Crelands! These Terms and Conditions (&quot;Terms&quot;)
+            govern your use of our website,{" "}
+            <a href="https://crelands.com">
+              <strong>https://crelands.com</strong>
+            </a>{" "}
+            (&quot;Website&quot;), and the services we provide through our
+            digital products marketplace for creators. By accessing or using the
+            Website, you agree to comply with these Terms.
+          </p>
+          <p>
+            If you do not agree with these Terms, please do not use our Website.
           </p>
 
-          <p className="text-gray-700 mb-4">
-            These Terms and Conditions, along with privacy policy or other terms
-            (“Terms”) constitute a binding agreement by and between MURUGESAN
-            VIKRAM VIJAYARAJ, ( “Website Owner” or “we” or “us” or “our”) and
-            you (“you” or “your”) and relate to your use of our website, goods
-            (as applicable) or services (as applicable) (collectively,
-            “Services”).
-          </p>
-          <p className="text-gray-700 mb-4">
-            By using our website and availing the Services, you agree that you
-            have read and accepted these Terms (including the Privacy Policy).
-            We reserve the right to modify these Terms at any time and without
-            assigning any reason. It is your responsibility to periodically
-            review these Terms to stay informed of updates.
-          </p>
-          <p className="text-gray-700 mb-4">
-            The use of this website or availing of our Services is subject to
-            the following terms of use:
-          </p>
-
-          <ul className="list-disc pl-6 text-gray-700 space-y-2">
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            1. Definitions
+          </h2>
+          <ul className="list-disc pl-6 space-y-2">
             <li>
-              To access and use the Services, you agree to provide true,
-              accurate and complete information to us during and after
-              registration, and you shall be responsible for all acts done
-              through the use of your registered account.
+              <strong>
+                &quot;We,&quot; &quot;Us,&quot; or &quot;Our&quot;
+              </strong>{" "}
+              refers to Crelands, the owner and operator of the Website.
             </li>
             <li>
-              Neither we nor any third parties provide any warranty or guarantee
-              as to the accuracy, timeliness, performance, completeness or
-              suitability of the information and materials offered on this
-              website or through the Services, for any specific purpose. You
-              acknowledge that such information and materials may contain
-              inaccuracies or errors and we expressly exclude liability for any
-              such inaccuracies or errors to the fullest extent permitted by
-              law.
+              <strong>
+                &quot;User,&quot; &quot;You,&quot; or &quot;Your&quot;
+              </strong>{" "}
+              refers to anyone accessing or using the Website, including buyers
+              and sellers.
             </li>
             <li>
-              Your use of our Services and the website is solely at your own
-              risk and discretion. You are required to independently assess and
-              ensure that the Services meet your requirements.
+              <strong>&quot;Seller&quot;</strong> refers to creators who list
+              and sell digital products on the Website.
             </li>
             <li>
-              The contents of the Website and the Services are proprietary to Us
-              and you will not have any authority to claim any intellectual
-              property rights, title, or interest in its contents.
+              <strong>&quot;Buyer&quot;</strong> refers to individuals
+              purchasing digital products through the Website.
             </li>
             <li>
-              You acknowledge that unauthorized use of the Website or the
-              Services may lead to action against you as per these Terms or
-              applicable laws.
-            </li>
-            <li>
-              You agree to pay us the charges associated with availing the
-              Services.
-            </li>
-            <li>
-              You agree not to use the website and/ or Services for any purpose
-              that is unlawful, illegal or forbidden by these Terms, or Indian
-              or local laws that might apply to you.
-            </li>
-            <li>
-              You agree and acknowledge that website and the Services may
-              contain links to other third party websites. On accessing these
-              links, you will be governed by the terms of use, privacy policy
-              and such other policies of such third party websites.
-            </li>
-            <li>
-              You understand that upon initiating a transaction for availing the
-              Services you are entering into a legally binding and enforceable
-              contract with the us for the Services.
-            </li>
-            <li>
-              You shall be entitled to claim a refund of the payment made by you
-              in case we are not able to provide the Service. The timelines for
-              such return and refund will be according to the specific Service
-              you have availed or within the time period provided in our
-              policies (as applicable). In case you do not raise a refund claim
-              within the stipulated time, then this would make you ineligible
-              for a refund.
-            </li>
-            <li>
-              Notwithstanding anything contained in these Terms, the parties
-              shall not be liable for any failure to perform an obligation under
-              these Terms if performance is prevented or delayed by a force
-              majeure event.
-            </li>
-            <li>
-              These Terms and any dispute or claim relating to it, or its
-              enforceability, shall be governed by and construed in accordance
-              with the laws of India.
-            </li>
-            <li>
-              All disputes arising out of or in connection with these Terms
-              shall be subject to the exclusive jurisdiction of the courts in
-              Tiruchirappalli, Tamil Nadu.
-            </li>
-            <li>
-              All concerns or communications relating to these Terms must be
-              communicated to us using the contact information provided on this
-              website.
+              <strong>&quot;Content&quot;</strong> refers to any digital
+              products, text, images, or other materials uploaded, shared, or
+              sold on the Website.
             </li>
           </ul>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            2. Eligibility
+          </h2>
+          <p>
+            You must be at least 18 years old to use the Website. By accessing
+            or using our services, you represent and warrant that:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              You are legally capable of entering into a binding contract.
+            </li>
+            <li>
+              All information provided by you is accurate, complete, and
+              current.
+            </li>
+          </ul>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            3. Account Registration
+          </h2>
+          <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-900">
+            a. Account Creation
+          </h3>
+          <p>
+            To access certain features of the Website, such as buying or selling
+            digital products, you must create an account. You are responsible
+            for maintaining the confidentiality of your account credentials and
+            for all activities under your account.
+          </p>
+          <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-900">
+            b. Account Termination
+          </h3>
+          <p>
+            We reserve the right to suspend or terminate your account at our
+            discretion for any violation of these Terms or applicable laws.
+          </p>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            4. Use of the Website
+          </h2>
+          <p>
+            You agree to use the Website only for lawful purposes and in
+            compliance with these Terms. Prohibited activities include:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              Using the Website to distribute harmful or malicious software.
+            </li>
+            <li>Misrepresenting your identity or affiliation.</li>
+            <li>Infringing on the intellectual property rights of others.</li>
+            <li>Circumventing security measures on the Website.</li>
+          </ul>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            5. Sellers and Listings
+          </h2>
+          <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-900">
+            a. Responsibilities of Sellers
+          </h3>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              Sellers must ensure all digital products listed on the Website are
+              original, lawful, and do not infringe on third-party rights.
+            </li>
+            <li>
+              Sellers are solely responsible for the accuracy of product
+              descriptions and compliance with applicable laws.
+            </li>
+          </ul>
+          <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-900">
+            b. Prohibited Listings
+          </h3>
+          <p>The following types of content are prohibited:</p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Illegal or fraudulent products.</li>
+            <li>Content that promotes violence, hate, or discrimination.</li>
+            <li>Content containing malware, viruses, or harmful code.</li>
+          </ul>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            6. Purchases and Payments
+          </h2>
+          <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-900">
+            a. Buyer Responsibilities
+          </h3>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              Buyers must carefully review product descriptions before
+              purchasing.
+            </li>
+            <li>
+              All sales are final unless otherwise stated in the seller’s refund
+              policy.
+            </li>
+          </ul>
+          <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-900">
+            b. Payment Processing
+          </h3>
+          <p>
+            Payments are processed through secure third-party payment gateways.
+            We are not responsible for errors or disputes arising from payment
+            processing.
+          </p>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            7. Intellectual Property
+          </h2>
+          <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-900">
+            a. Ownership of Content
+          </h3>
+          <p>
+            Sellers retain ownership of their digital products. By listing
+            products on the Website, sellers grant us a non-exclusive license to
+            display, market, and sell their products.
+          </p>
+          <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-900">
+            b. Crelands Intellectual Property
+          </h3>
+          <p>
+            All content on the Website, excluding user-generated content, is
+            owned by Crelands or licensed to us. Unauthorized use of our content
+            is prohibited.
+          </p>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            8. Limitation of Liability
+          </h2>
+          <p>To the fullest extent permitted by law:</p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              Crelands is not liable for indirect, incidental, or consequential
+              damages arising from your use of the Website.
+            </li>
+            <li>
+              We do not guarantee uninterrupted or error-free access to the
+              Website.
+            </li>
+            <li>
+              Crelands is not responsible for disputes between buyers and
+              sellers.
+            </li>
+          </ul>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            9. Indemnification
+          </h2>
+          <p>
+            You agree to indemnify and hold harmless Crelands, its officers,
+            employees, and affiliates from any claims, damages, or losses
+            arising out of:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Your violation of these Terms.</li>
+            <li>Your use of the Website.</li>
+            <li>Your infringement of third-party rights.</li>
+          </ul>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            10. Privacy
+          </h2>
+          <p>
+            Your use of the Website is subject to our{" "}
+            <Link href="/privacy-policy">
+              <strong>Privacy Policy</strong>
+            </Link>
+            . Please review it to understand how we collect, use, and protect
+            your personal data.
+          </p>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            11. Termination
+          </h2>
+          <p>
+            We may suspend or terminate your access to the Website at our sole
+            discretion for any reason, including violation of these Terms.
+          </p>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            12. Governing Law
+          </h2>
+          <p>
+            These Terms are governed by the laws of India, without regard to
+            conflict of law principles. Any disputes shall be subject to the
+            exclusive jurisdiction of the courts located in Trichy, Tamil Nadu,
+            India.
+          </p>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            13. Changes to These Terms
+          </h2>
+          <p>
+            We reserve the right to update or modify these Terms at any time.
+            Changes will be posted on this page with the updated effective date.
+            Your continued use of the Website constitutes acceptance of the
+            revised Terms.
+          </p>
+
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">
+            14. Contact Us
+          </h2>
+          <p>
+            If you have questions or concerns about these Terms, please contact
+            us:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              <strong>Business Name:</strong> Crelands
+            </li>
+            <li>
+              <strong>Email:</strong> vikram31.m@gmail.com
+            </li>
+            <li>
+              <strong>Address:</strong> No 2, JS Garden, Mela Valadi, Lalgudi,
+              Trichy, Tamil Nadu, India
+            </li>
+          </ul>
+
+          <p>
+            By using Crelands, you acknowledge that you have read, understood,
+            and agreed to these Terms and Conditions.
+          </p>
         </div>
       </div>
     </div>

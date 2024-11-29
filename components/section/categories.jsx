@@ -63,6 +63,7 @@ export default async function Categories() {
                   src={category.image_url}
                   className="object-cover rounded-md"
                   fill
+                  alt={category.name}
                 />
               </div>
               <p className="mt-2 text-sm md:text-base text-center w-20 h-12 md:w-28">
