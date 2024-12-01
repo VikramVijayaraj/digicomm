@@ -50,7 +50,7 @@ export default async function Categories() {
     <section className="global-padding">
       <SectionLayout heading="Categories">
         {/* <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4"> */}
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-4">
           {/* {categoryCards} */}
           {categories.map((category) => (
             <Link

@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 import { auth } from "@/auth";
 import CartTotal from "@/components/cart/cart-total";
@@ -14,6 +15,8 @@ export default async function Checkout() {
   if (!session?.user) {
     redirect("/auth/signin");
   }
+
+  revalidatePath("/");
 
   const user = await getUserDetailsByEmail(session?.user?.email);
   const cartItems = await getCartItems(session?.user?.email);

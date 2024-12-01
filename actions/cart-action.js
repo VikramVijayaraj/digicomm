@@ -9,12 +9,14 @@ import {
   updateCartItemQuantity,
 } from "@/lib/db/cart";
 import { getProduct } from "@/lib/db/products";
+import { redirect } from "next/navigation";
 
 export async function addToCartAction(slug, quantity) {
   const session = await auth();
 
   if (!session?.user) {
-    throw new Error("User not authenticated");
+    redirect(`/auth/signin?callbackUrl=/products/${slug}`);
+    // throw new Error("User not authenticated");
   }
 
   let cartId;

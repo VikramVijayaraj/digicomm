@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
 
 import { auth } from "@/auth";
 import { getCartItems } from "@/lib/db/cart";
@@ -13,6 +14,8 @@ export default async function CartPage() {
   if (!session?.user) {
     redirect("/auth/signin?callbackUrl=/your/cart");
   }
+
+  revalidatePath("/");
 
   const cartItems = await getCartItems(session?.user?.email);
 
