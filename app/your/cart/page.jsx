@@ -21,10 +21,10 @@ export default async function CartPage() {
 
   return (
     <div className="global-padding min-h-screen space-y-4">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-0">
         <h2 className="text-3xl">Your Cart</h2>
         {cartItems.length > 0 && (
-          <Button asChild className="flex items-center gap-2">
+          <Button asChild className="flex items-center gap-2 w-full md:w-fit">
             <Link href="/your/cart/checkout">
               Proceed to checkout <MoveRight />
             </Link>

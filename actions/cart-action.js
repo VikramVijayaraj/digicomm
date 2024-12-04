@@ -1,15 +1,16 @@
 "use server";
 
+import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
 import { auth } from "@/auth";
 import {
   createCartItem,
   createCartUserByEmail,
   removeProductFromCart,
-  updateCartItemQuantity,
 } from "@/lib/db/cart";
 import { getProduct } from "@/lib/db/products";
-import { redirect } from "next/navigation";
 
 export async function addToCartAction(slug, quantity) {
   const session = await auth();
@@ -49,9 +50,9 @@ export async function addToCartAction(slug, quantity) {
   revalidatePath("/your/cart");
 }
 
-export async function removeFromCartAction(productId) {
+export async function removeFromCartAction(cartId, productId) {
   try {
-    await removeProductFromCart(productId);
+    await removeProductFromCart(cartId, productId);
     revalidatePath("/your/cart");
   } catch (error) {
     console.log(error);
@@ -59,9 +60,18 @@ export async function removeFromCartAction(productId) {
   }
 }
 
-export async function updateCartItemQuantityAction(productId, quantity) {
+export async function updateCartItemQuantityAction(
+  cartId,
+  productId,
+  quantity,
+) {
   try {
-    await updateCartItemQuantity(productId, quantity);
+    // await updateCartItemQuantity(productId, quantity);
+    await sql`
+      UPDATE cart_items
+      SET quantity = ${quantity}
+      WHERE cart_id = ${cartId} and product_id = ${productId};
+    `;
     revalidatePath("/your/cart");
   } catch (error) {
     console.log(error);

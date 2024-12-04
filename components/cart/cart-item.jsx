@@ -35,7 +35,11 @@ export default function CartItem({ data, updateCartItems }) {
     });
 
     try {
-      await updateCartItemQuantityAction(data.product_id, newQuantity);
+      await updateCartItemQuantityAction(
+        data.cart_id,
+        data.product_id,
+        newQuantity,
+      );
     } catch (error) {
       toast.error("Failed to update quantity. Please try again.");
       startTransition(() => {
@@ -75,7 +79,7 @@ export default function CartItem({ data, updateCartItems }) {
     });
 
     try {
-      await removeFromCartAction(data.product_id);
+      await removeFromCartAction(data.cart_id, data.product_id);
       toast.success("Item removed from cart");
     } catch (error) {
       startTransition(() => {

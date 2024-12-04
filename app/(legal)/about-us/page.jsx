@@ -94,10 +94,10 @@ export default function AboutPage() {
           {process.env.NEXT_PUBLIC_APP_NAME}! Feel free to reach out to us
           anytime at{" "}
           <a
-            href="https://digicomm.vercel.app/contact"
+            href="https://www.crelands.com/contact-us"
             className="text-blue-600 hover:underline"
           >
-            https://digicomm.vercel.app/contact
+            https://www.crelands.com/contact-us
           </a>{" "}
           with any questions or feedback.
         </p>
