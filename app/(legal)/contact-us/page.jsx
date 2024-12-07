@@ -121,7 +121,7 @@ export default function ContactPage() {
         </div>
 
         {/* Contact Info */}
-        {/* <div className="container px-4 py-8 max-w-md mx-auto text-sm w-full lg:w-1/2">
+        <div className="container px-4 py-8 max-w-md mx-auto text-sm w-full lg:w-1/2">
           <p className="text-gray-600">Last updated on 28-10-2024 11:28:22</p>
           <br />
           <p>You may contact us using the information below:</p>
@@ -157,7 +157,7 @@ export default function ContactPage() {
               </a>
             </li>
           </ul>
-        </div> */}
+        </div>
       </div>
     </div>
   );

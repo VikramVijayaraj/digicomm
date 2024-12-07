@@ -150,8 +150,9 @@ export default function RefundsAndReturnsPolicy() {
               <strong>Email:</strong> vikram31.m@gmail.com
             </li>
             <li>
-              <strong>Address:</strong> No 2, JS Garden, Mela Valadi, Lalgudi,
-              Trichy, Tamil Nadu, India
+              <strong>Address:</strong> 7/221, No 2 JS Garden, Therkku
+              chattiram, Mela valadi POST, Lalgudi TALUK, Tiruchirappalli, Tamil
+              Nadu, PIN: 621218
             </li>
           </ul>
 
