@@ -20,7 +20,7 @@ export default function PaymentButton({
 
   async function initializeSDK() {
     cashfree = await load({
-      mode: "sandbox",
+      mode: "production", // "sandbox"
     });
   }
   initializeSDK();
@@ -68,6 +68,7 @@ export default function PaymentButton({
 
     try {
       const sessionId = await getSessionId();
+      console.log(sessionId);
       const checkoutOptions = {
         paymentSessionId: sessionId,
         redirectTarget: "_modal",

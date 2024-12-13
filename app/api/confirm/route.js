@@ -6,7 +6,7 @@ export async function POST(request) {
     const { orderId } = await request.json();
 
     const response = await axios.get(
-      `https://sandbox.cashfree.com/pg/orders/${orderId}`,
+      `https://api.cashfree.com/pg/orders/${orderId}`,
       {
         headers: {
           accept: "application/json",
