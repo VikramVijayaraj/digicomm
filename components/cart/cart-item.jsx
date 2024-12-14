@@ -57,12 +57,13 @@ export default function CartItem({ data, updateCartItems }) {
   }
 
   function incrementQuantity() {
-    const newQuantity = optimisticQuantity + 1;
-    if (newQuantity <= data.stock) {
-      updateQuantity(newQuantity);
-    } else {
-      toast.error(`Sorry, only ${data.stock} items are available in stock.`);
-    }
+    updateQuantity(optimisticQuantity + 1);
+    // const newQuantity = optimisticQuantity + 1;
+    // if (newQuantity <= data.stock) {
+    //   updateQuantity(newQuantity);
+    // } else {
+    //   toast.error(`Sorry, only ${data.stock} items are available in stock.`);
+    // }
   }
 
   function decrementQuantity() {

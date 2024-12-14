@@ -63,7 +63,7 @@ export default function OrderActions({ order, userEmail }) {
           <DropdownMenuItem asChild>
             <Link href={`/products/${order.product_slug}`}>View</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem >
             <FileDownloader
               fileUrls={order.files}
               fileName={order.product_name}

@@ -18,11 +18,11 @@ export default function PaymentButton({
   const [isProcessing, setIsProcessing] = useState(false);
   let cashfree;
 
-  async function initializeSDK() {
+  var initializeSDK = async function () {
     cashfree = await load({
-      mode: "production", // "sandbox"
+      mode: "production",
     });
-  }
+  };
   initializeSDK();
 
   async function getSessionId() {
@@ -47,15 +47,40 @@ export default function PaymentButton({
       const orderId = orderIdRef.current;
       const res = await axios.post("/api/confirm", { orderId });
 
-      if (res.data && res.data.order_status == "PAID") {
+      let getOrderResponse = res.data;
+      let orderStatus;
+
+      if (
+        getOrderResponse.filter(
+          (transaction) => transaction.payment_status === "SUCCESS",
+        ).length > 0
+      ) {
+        orderStatus = "Success";
         router.replace("/your/account/orders");
         await action(orderId);
         router.refresh();
         toast.success(`Payment Successful!`);
+      } else if (
+        getOrderResponse.filter(
+          (transaction) => transaction.payment_status === "PENDING",
+        ).length > 0
+      ) {
+        orderStatus = "Pending";
       } else {
+        orderStatus = "Failure";
         toast.error("Payment failed!");
         router.refresh();
       }
+
+      // if (res.data && res.data.order_status == "PAID") {
+      //   router.replace("/your/account/orders");
+      //   await action(orderId);
+      //   router.refresh();
+      //   toast.success(`Payment Successful!`);
+      // } else {
+      //   toast.error("Payment failed!");
+      //   router.refresh();
+      // }
     } catch (error) {
       console.error(error);
     } finally {
@@ -68,21 +93,42 @@ export default function PaymentButton({
 
     try {
       const sessionId = await getSessionId();
-      console.log(sessionId);
       const checkoutOptions = {
         paymentSessionId: sessionId,
         redirectTarget: "_modal",
       };
 
-      cashfree
-        .checkout(checkoutOptions)
-        .then(() => {
-          console.log("Payment initiated successfully!");
+      cashfree.checkout(checkoutOptions).then((result) => {
+        if (result.error) {
+          // This will be true whenever user clicks on close icon inside the modal or any error happens during the payment
+          console.log(
+            "User has closed the popup or there is some payment error, Check for Payment Status",
+          );
+          console.log(result.error);
+        }
+        if (result.redirect) {
+          // This will be true when the payment redirection page couldnt be opened in the same window
+          // This is an exceptional case only when the page is opened inside an inAppBrowser
+          // In this case the customer will be redirected to return url once payment is completed
+          console.log("Payment will be redirected");
+        }
+        if (result.paymentDetails) {
+          // This will be called whenever the payment is completed irrespective of transaction status
+          console.log("Payment has been completed, Check for Payment Status");
+          console.log(result.paymentDetails.paymentMessage);
           confirmPayment();
-        })
-        .catch((error) => {
-          console.error("Payment initiation failed:", error);
-        });
+        }
+      });
+
+      // cashfree
+      //   .checkout(checkoutOptions)
+      //   .then(() => {
+      //     console.log("Payment initiated successfully!");
+      //     confirmPayment();
+      //   })
+      //   .catch((error) => {
+      //     console.error("Payment initiation failed:", error);
+      //   });
     } catch (error) {
       console.error("An error occurred:", error);
     }

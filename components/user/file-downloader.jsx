@@ -27,7 +27,7 @@ export default function FileDownloader({ fileUrls, fileName }) {
   }
 
   return (
-    <p className="font-normal" onClick={handleDownload}>
+    <p className="font-normal w-full h-full" onClick={handleDownload}>
       Download
     </p>
   );
