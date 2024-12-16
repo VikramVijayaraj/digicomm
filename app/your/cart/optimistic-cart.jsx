@@ -27,7 +27,7 @@ export default function OptimisticCart({ initialCartItems }) {
   }
 
   return (
-    <Table>
+    <Table className="select-none">
       <TableHeader>
         <TableRow>
           <TableHead>Product</TableHead>

@@ -17,10 +17,10 @@ export default function CartItem({ data, updateCartItems }) {
   const [isPending, startTransition] = useTransition();
 
   async function updateQuantity(newQuantity) {
-    if (newQuantity > data.stock) {
-      toast.error(`Sorry, only ${data.stock} items are available in stock.`);
-      return;
-    }
+    // if (newQuantity > data.stock) {
+    //   toast.error(`Sorry, only ${data.stock} items are available in stock.`);
+    //   return;
+    // }
 
     startTransition(() => {
       setOptimisticQuantity(newQuantity);

@@ -28,7 +28,7 @@ export default async function ShopProductsList() {
         <TableRow>
           <TableHead>Product</TableHead>
           <TableHead>Category</TableHead>
-          <TableHead>Stock</TableHead>
+          {/* <TableHead>Stock</TableHead> */}
           <TableHead>Price</TableHead>
           <TableHead>Modified At</TableHead>
           <TableHead className="w-4"></TableHead>
@@ -39,7 +39,7 @@ export default async function ShopProductsList() {
           <TableRow key={product.product_id}>
             <TableCell>{product.product_name}</TableCell>
             <TableCell className="truncate">{product.category_name}</TableCell>
-            <TableCell>{product.stock}</TableCell>
+            {/* <TableCell>{product.stock}</TableCell> */}
             <TableCell>
               <p className="flex items-center">
                 <IndianRupee size={15} />
