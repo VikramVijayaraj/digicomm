@@ -105,6 +105,7 @@ export default function PaymentButton({
             "User has closed the popup or there is some payment error, Check for Payment Status",
           );
           console.log(result.error);
+          toast.error("Some payment error occurred. Retry the payment!")
         }
         if (result.redirect) {
           // This will be true when the payment redirection page couldnt be opened in the same window
@@ -114,8 +115,8 @@ export default function PaymentButton({
         }
         if (result.paymentDetails) {
           // This will be called whenever the payment is completed irrespective of transaction status
-          console.log("Payment has been completed, Check for Payment Status");
-          console.log(result.paymentDetails.paymentMessage);
+          // console.log("Payment has been completed, Check for Payment Status");
+          // console.log(result.paymentDetails.paymentMessage);
           confirmPayment();
         }
       });
