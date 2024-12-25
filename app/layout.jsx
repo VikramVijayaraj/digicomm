@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 import { ReduxProvider } from "./redux-provider";
@@ -45,6 +46,7 @@ export default function RootLayout({ children }) {
             <Footer />
           </ThemeProvider>
         </ReduxProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
