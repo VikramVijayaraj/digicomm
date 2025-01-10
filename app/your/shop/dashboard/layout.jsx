@@ -5,7 +5,7 @@ import { shopTabs } from "@/lib/data";
 import Sidebar from "@/components/ui/sidebar";
 
 export const metadata = {
-  title: "My Shop",
+  title: "My Shop Page",
   description: "My Shop Settings.",
 };
 

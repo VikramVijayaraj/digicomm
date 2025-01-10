@@ -1,5 +1,9 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Terms and Conditions",
+};
+
 export default function TermsAndConditions() {
   return (
     <div className="min-h-screen">

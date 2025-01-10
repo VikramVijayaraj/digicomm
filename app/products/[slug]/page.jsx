@@ -1,3 +1,4 @@
+import { cache } from "react";
 import Link from "next/link";
 import { IndianRupee } from "lucide-react";
 
@@ -12,10 +13,40 @@ import { getCartItems } from "@/lib/db/cart";
 import { auth } from "@/auth";
 import ShortDesc from "./short-desc";
 
+// Cache the product data to avoid fetching it multiple times for the same slug when not using fetch
+const currentProduct = cache(async (slug) => {
+  const product = await getProduct(slug);
+  return product;
+});
+
+export async function generateMetadata({ params }) {
+  const { slug } = params;
+  const result = await currentProduct(slug);
+
+  const maxLength = 160;
+  // Truncate description to fit within maxLength, accounting for ellipsis
+  const description =
+    result.product_desc.length > maxLength
+      ? result.product_desc.substring(0, maxLength - 3) + "..."
+      : result.product_desc;
+
+  return {
+    title: result.product_name,
+    description: description,
+    openGraph: {
+      images: [
+        {
+          url: result.images[0],
+        },
+      ],
+    },
+  };
+}
+
 export default async function ProductPage({ params }) {
   const { slug } = params;
 
-  const result = await getProduct(slug);
+  const result = await currentProduct(slug);
   const rating = await getAvgProductRating(slug);
 
   const session = await auth();

@@ -1,3 +1,7 @@
+export const metadata = {
+  title: "About Us",
+};
+
 export default function AboutPage() {
   return (
     <div class="container max-w-4xl mx-auto p-4 md:px-10">

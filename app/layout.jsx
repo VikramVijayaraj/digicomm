@@ -9,8 +9,19 @@ import Footer from "@/components/footer/footer";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
-  title: process.env.NEXT_PUBLIC_APP_NAME,
+  metadataBase: new URL(
+    process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000",
+  ),
+  title: {
+    default: process.env.NEXT_PUBLIC_APP_NAME,
+    template: "%s | " + process.env.NEXT_PUBLIC_APP_NAME,
+  },
   description: process.env.NEXT_PUBLIC_APP_TAGLINE,
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({ children }) {

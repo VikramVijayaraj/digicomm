@@ -1,3 +1,7 @@
+export const metadata = {
+  title: "Refunds and Returns Policy",
+};
+
 export default function RefundsAndReturnsPolicy() {
   return (
     <div className="min-h-screen">
