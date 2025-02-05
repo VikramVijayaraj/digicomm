@@ -21,6 +21,7 @@ export default function ProductImages({ images, alt_texts }) {
         fill
         style={{ objectFit: "cover" }}
         alt={alt_texts[index] || "Product Image"}
+        onContextMenu={(e) => e.preventDefault()}
       />
     </div>
   ));
@@ -44,6 +45,7 @@ export default function ProductImages({ images, alt_texts }) {
               fill
               style={{ objectFit: "cover" }}
               alt="Display Image"
+              onContextMenu={(e) => e.preventDefault()}
             />
           </div>
         </DialogTrigger>
@@ -54,6 +56,7 @@ export default function ProductImages({ images, alt_texts }) {
               fill
               style={{ objectFit: "contain" }}
               alt="Full Size Image"
+              onContextMenu={(e) => e.preventDefault()}
             />
             {/* <button
               onClick={() => setIsOpen(false)}

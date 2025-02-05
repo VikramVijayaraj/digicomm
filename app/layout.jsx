@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import { Toaster } from "@/components/ui/sonner";
+import FacebookPixel from "@/components/FacebookPixel";
 
 export const metadata = {
   metadataBase: new URL(
@@ -58,6 +59,7 @@ export default function RootLayout({ children }) {
           </ThemeProvider>
         </ReduxProvider>
         <SpeedInsights />
+        <FacebookPixel />
       </body>
     </html>
   );

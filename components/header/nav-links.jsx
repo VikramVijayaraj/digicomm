@@ -64,8 +64,8 @@ export default function NavLinks({ session, shopDetails }) {
           )}
 
           {/* Theme */}
-          {/* <DropdownMenuSeparator /> */}
-          {/* <div className="flex justify-evenly items-center">
+          <DropdownMenuSeparator />
+          <div className="flex justify-evenly items-center">
             <DropdownMenuItem
               className="w-full flex justify-center"
               onClick={() => setTheme("light")}
@@ -78,7 +78,7 @@ export default function NavLinks({ session, shopDetails }) {
             >
               <Moon size={20} />
             </DropdownMenuItem>
-          </div> */}
+          </div>
 
           <DropdownMenuSeparator />
 
