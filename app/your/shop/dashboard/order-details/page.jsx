@@ -11,20 +11,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { dateConverter } from "@/utils/dateConverter";
+import OrderTrackingEmailForm from "@/components/shop/order-tracking-email-form";
 
 export default async function ShopOrderDetails({ searchParams }) {
   const { order_id: orderId, item_id: itemId } = searchParams;
-
   const buyerDetails = await getBuyerDetails(orderId, itemId);
-
+  console.log("Logging from order-details/page.jsx");
+  console.log(buyerDetails);
   return (
-    <div>
+    <div className="space-y-4">
       <Card>
         <CardHeader>
           <div className="flex justify-between items-start">
             <div>
               <Link
-                asChild
                 href={`/products/${buyerDetails.product_slug}`}
                 className="hover:underline cursor-pointer"
               >
@@ -68,6 +68,13 @@ export default async function ShopOrderDetails({ searchParams }) {
           <p>
             <strong>Phone:</strong> {buyerDetails.phone}
           </p>
+        </CardContent>
+      </Card>
+
+      <Card className="border-none shadow-none">
+        <CardContent>
+          {/* Email form for tracking info */}
+          <OrderTrackingEmailForm buyerDetails={buyerDetails} />
         </CardContent>
       </Card>
     </div>

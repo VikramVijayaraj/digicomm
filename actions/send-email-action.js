@@ -4,7 +4,11 @@ import { sql } from "@vercel/postgres";
 import { Resend } from "resend";
 import crypto from "crypto";
 
-import { contactEmailSchema, refundEmailSchema } from "@/lib/schema";
+import {
+  contactEmailSchema,
+  orderTrackingEmailSchema,
+  refundEmailSchema,
+} from "@/lib/schema";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -108,5 +112,56 @@ export async function sendResetLink(email) {
       success: false,
       error: "Failed to send reset link email. Try again!",
     };
+  }
+}
+
+export async function sendOrderTrackingEmail(buyerDetails, formData) {
+  const result = orderTrackingEmailSchema.safeParse({
+    deliveryServiceProvider: formData.get("deliveryServiceProvider"),
+    trackingNumber: formData.get("trackingNumber"),
+  });
+
+  if (!result.success) {
+    return { success: false, error: "Invalid form data" };
+  }
+
+  const { deliveryServiceProvider, trackingNumber } = result.data;
+
+  try {
+    await resend.emails.send({
+      from: "Crelands <orders@crelands.com>",
+      to: buyerDetails.email,
+      subject: "Your Order Tracking Information",
+      text: `
+      Dear Customer,
+
+      We are pleased to inform you that your order has been shipped. Below are the details of your shipment:
+
+      Product Name: ${buyerDetails.product_name}
+      Delivery Service Provider: ${deliveryServiceProvider}
+      Tracking Number: ${trackingNumber}
+
+      Thank you for shopping with us. If you have any questions or need further assistance, please do not hesitate to contact our customer support.
+
+      Best regards,
+      The Crelands Team
+    `,
+      html: `
+      <p>Dear Customer,</p>
+      <p>We are pleased to inform you that your order has been shipped. Below are the details of your shipment:</p>
+      <ul>
+        <li><strong>Product Name:</strong> ${buyerDetails.product_name}</li>
+        <li><strong>Delivery Service Provider:</strong> ${deliveryServiceProvider}</li>
+        <li><strong>Tracking Number:</strong> ${trackingNumber}</li>
+      </ul>
+      <p>Thank you for shopping with us. If you have any questions or need further assistance, please do not hesitate to contact our customer support.</p>
+      <p>Best regards,<br/>The Crelands Team</p>
+    `,
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending email:", error);
+    return { success: false, error: "Failed to send email" };
   }
 }
