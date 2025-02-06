@@ -16,8 +16,7 @@ import OrderTrackingEmailForm from "@/components/shop/order-tracking-email-form"
 export default async function ShopOrderDetails({ searchParams }) {
   const { order_id: orderId, item_id: itemId } = searchParams;
   const buyerDetails = await getBuyerDetails(orderId, itemId);
-  console.log("Logging from order-details/page.jsx");
-  console.log(buyerDetails);
+
   return (
     <div className="space-y-4">
       <Card>

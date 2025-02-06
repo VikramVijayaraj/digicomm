@@ -27,7 +27,7 @@ export async function sendContactEmail(formData) {
 
   try {
     await resend.emails.send({
-      from: "DigiComm <onboarding@resend.dev>",
+      from: "Crelands <contact@crelands.com>",
       to: "vikramvijayaraj31@gmail.com", // Replace with your email
       subject: "New Contact Form Submission",
       text: `
@@ -58,7 +58,7 @@ export async function sendRefundEmail(formData) {
 
   try {
     await resend.emails.send({
-      from: "DigiComm <onboarding@resend.dev>",
+      from: "Crelands <refund@crelands.com>",
       to: "vikramvijayaraj31@gmail.com", // Replace with your email
       subject: "New Refund Request",
       text: `
@@ -81,7 +81,7 @@ export async function sendResetLink(email) {
 
   const baseUrl =
     process.env.NODE_ENV === "production"
-      ? "https://crelands.vercel.app"
+      ? "https://www.crelands.com/"
       : "http://localhost:3000";
 
   // Update the users table
@@ -96,8 +96,8 @@ export async function sendResetLink(email) {
 
     // Send the reset link email
     await resend.emails.send({
-      from: "DigiComm <onboarding@resend.dev>",
-      to: "vikramvijayaraj31@gmail.com", //email
+      from: "Crelands <passwordreset@crelands.com>",
+      to: email,
       subject: "Reset Password Request",
       text: `
         To reset your password, please visit:
