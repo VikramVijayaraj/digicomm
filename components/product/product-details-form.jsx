@@ -37,6 +37,7 @@ import {
   updateProductAction,
 } from "@/actions/product-actions";
 import deleteFromFirebase from "@/utils/firebase";
+import { Checkbox } from "../ui/checkbox";
 
 export default function ProductDetailsForm({
   session,
@@ -53,6 +54,7 @@ export default function ProductDetailsForm({
       // stock: parseInt(productData?.stock) || 0,
       price: parseInt(productData?.price) || 0,
       files: productData?.files || [],
+      isDigital: productData?.isDigital || false,
     },
   });
 
@@ -217,9 +219,49 @@ export default function ProductDetailsForm({
             )}
           />
 
+          {/* Digital Product Checkbox */}
+          {/* <FormField
+            control={form.control}
+            name="isDigital"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>Digital Product</FormLabel>
+                  <FormDescription>
+                    Check this if you are selling a digital product
+                  </FormDescription>
+                </div>
+              </FormItem>
+            )}
+          /> */}
+
+          {/* Files Upload */}
+          {/* {form.watch("isDigital") && (
+            <FormField
+              control={form.control}
+              name="files"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Upload Product Files</FormLabel>
+                  <FormControl>
+                    <Input type="file" multiple onChange={handleFileChange} />
+                  </FormControl>
+                  <FormDescription>Actual files of the product</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )} */}
+
           {/* <div className="flex justify-between gap-4"> */}
-            {/* Stock */}
-            {/* <div className="w-1/2">
+          {/* Stock */}
+          {/* <div className="w-1/2">
               <FormField
                 control={form.control}
                 name="stock"
@@ -242,44 +284,24 @@ export default function ProductDetailsForm({
               />
             </div> */}
 
-            {/* Price */}
-            <div className="">
-              <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Price</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Enter price"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>Enter price in INR</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+          {/* Price */}
+          <div className="">
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="Enter price" {...field} />
+                  </FormControl>
+                  <FormDescription>Enter price in INR</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           {/* </div> */}
-
-          {/* Files Upload */}
-          <FormField
-            control={form.control}
-            name="files"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Upload Product Files</FormLabel>
-                <FormControl>
-                  <Input type="file" multiple onChange={handleFileChange} />
-                </FormControl>
-                <FormDescription>Actual files of the product</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
 
           {/* Images Upload */}
           <FormField
@@ -307,6 +329,22 @@ export default function ProductDetailsForm({
           {/* Image Previews */}
           <NewProductPreviews images={imagePreviews} />
 
+          {/* Files Upload for Digital Products */}
+          <FormField
+            control={form.control}
+            name="files"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Upload Files For Digital Product</FormLabel>
+                <FormControl>
+                  <Input type="file" multiple onChange={handleFileChange} />
+                </FormControl>
+                <FormDescription>Only for digital products</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           {/* Submit Button */}
           <Button disabled={form.formState.isSubmitting} type="submit">
             {form.formState.isSubmitting ? "Submitting..." : "Submit"}
@@ -316,7 +354,7 @@ export default function ProductDetailsForm({
           <Button
             disabled={form.formState.isSubmitting}
             onClick={() => router.back()}
-            variant="secondary"
+            variant="outline"
           >
             Cancel
           </Button>

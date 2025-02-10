@@ -45,7 +45,6 @@ export async function generateMetadata({ params }) {
 
 export default async function ProductPage({ params }) {
   const { slug } = params;
-
   const result = await currentProduct(slug);
   const rating = await getAvgProductRating(slug);
 
