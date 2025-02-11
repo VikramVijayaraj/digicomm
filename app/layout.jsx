@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* <!-- Google tag (gtag.js) --> */}
+        {/* Google tag (gtag.js) */}
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-WRHHRN09L9"
@@ -43,6 +43,12 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-WRHHRN09L9');
           `}
         </Script>
+
+        {/* Facebook Domain Verification */}
+        <meta
+          name="facebook-domain-verification"
+          content="reqlxzifjs2ql6zst9fod7o2t53mzh"
+        />
       </head>
       <body>
         <ReduxProvider>
@@ -58,7 +64,10 @@ export default function RootLayout({ children }) {
             <Footer />
           </ThemeProvider>
         </ReduxProvider>
+
+        {/* Vercel's Speed Insights */}
         <SpeedInsights />
+
         <FacebookPixel />
       </body>
     </html>
