@@ -46,24 +46,52 @@ export async function sendContactEmail(formData) {
 
 export async function sendRefundEmail(formData) {
   const result = refundEmailSchema.safeParse({
-    email: formData.get("email"),
+    buyerEmail: formData.get("buyerEmail"),
+    sellerEmail: formData.get("sellerEmail"),
     orderItemId: formData.get("orderItemId"),
+    sellerFirstName: formData.get("sellerFirstName"),
+    productName: formData.get("productName"),
+    quantity: formData.get("quantity"),
+    price: formData.get("price"),
+    orderPlacedAt: formData.get("orderPlacedAt"),
   });
 
   if (!result.success) {
     return { success: false, error: "Invalid form data" };
   }
 
-  const { email, orderItemId } = result.data;
+  const {
+    buyerEmail,
+    sellerEmail,
+    orderItemId,
+    sellerFirstName,
+    productName,
+    quantity,
+    price,
+    orderPlacedAt,
+  } = result.data;
 
   try {
     await resend.emails.send({
       from: "Crelands <refund@crelands.com>",
-      to: "vikramvijayaraj31@gmail.com", // Replace with your email
-      subject: "New Refund Request",
+      to: sellerEmail,
+      subject: "Refund Request - Order #" + orderItemId,
       text: `
-        User Email: ${email}
-        Order Item Id: ${orderItemId}
+        Dear ${sellerFirstName},
+
+        A refund has been requested for the following order:
+
+        Order Item ID: ${orderItemId}
+        Product Name: ${productName}
+        Quantity: ${quantity}
+        Price: ${price}
+        Order Placed At: ${orderPlacedAt}
+        Buyer Email: ${buyerEmail}
+
+        Please review the request and take necessary action.
+
+        Best regards,
+        The Crelands Team
       `,
     });
 

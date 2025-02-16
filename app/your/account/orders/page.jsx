@@ -13,7 +13,6 @@ import OrderActions from "@/components/user/order-actions";
 
 export default async function OrdersPage() {
   const session = await auth();
-
   const orders = await getOrders(session?.user?.email);
 
   if (orders.length === 0) {

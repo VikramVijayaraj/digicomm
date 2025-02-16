@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import {
   createSeller,
   createSellerBankDetails,
+  getSellerDetails,
   getShopDetails,
   updateSellerBankDetails,
   updateShopDetails,
@@ -36,4 +37,9 @@ export async function updateSellerBankDetailsAction(email, bankDetails) {
 
   await updateSellerBankDetails(bankDetails);
   revalidatePath("/");
+}
+
+export async function getSellerDetailsAction(orderItemId) {
+  const sellerDetails = await getSellerDetails(orderItemId);
+  return sellerDetails;
 }

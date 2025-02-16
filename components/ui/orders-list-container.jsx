@@ -14,6 +14,7 @@ import { dateConverter } from "@/utils/dateConverter";
 import Link from "next/link";
 
 export default function OrdersListContainer({ orderData }) {
+  console.log(orderData);
   return (
     <>
       {orderData.map((order) => (
@@ -32,13 +33,16 @@ export default function OrdersListContainer({ orderData }) {
                   className="rounded-t-md"
                 />
               </div>
-              <div>
+              <div className="flex flex-col justify-between">
                 <p className="font-semibold line-clamp-1 lg:line-clamp-2">
                   {order.product_name}
                 </p>
-                <CardDescription>Quantity: {order.quantity}</CardDescription>
+                <CardDescription>{order.item_id}</CardDescription>
               </div>
-              <p>Ordered at: {dateConverter(order.order_date)}</p>
+              <div className="flex flex-col justify-between">
+                <p>Quantity: {order.quantity}</p>
+                <p>{dateConverter(order.order_date)}</p>
+              </div>
               {/* <p>₹{order.price}</p> */}
               <p className="font-semibold">
                 ₹{(Number(order.price) * order.quantity).toFixed(2)}

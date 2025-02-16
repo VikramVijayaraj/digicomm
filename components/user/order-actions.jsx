@@ -23,6 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import FileDownloader from "@/components/user/file-downloader";
 import { sendRefundEmail } from "@/actions/send-email-action";
+import { getSellerDetailsAction } from "@/actions/seller-actions";
 
 export default function OrderActions({ order, userEmail }) {
   const [openDialog, setOpenDialog] = useState(false);
@@ -31,10 +32,16 @@ export default function OrderActions({ order, userEmail }) {
   async function handleRequest() {
     setIsSubmitting(true);
     const formData = new FormData();
-
+    const sellerDetails = await getSellerDetailsAction(order.order_item_id);
     const data = {
+      buyerEmail: userEmail,
+      sellerEmail: sellerDetails.email,
       orderItemId: order.order_item_id,
-      email: userEmail,
+      sellerFirstName: sellerDetails.first_name,
+      productName: order.product_name,
+      quantity: order.quantity,
+      price: order.price,
+      orderPlacedAt: order.order_placed_at,
     };
 
     Object.entries(data).forEach(([key, value]) => {
@@ -63,7 +70,7 @@ export default function OrderActions({ order, userEmail }) {
           <DropdownMenuItem asChild>
             <Link href={`/products/${order.product_slug}`}>View</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem >
+          <DropdownMenuItem>
             <FileDownloader
               fileUrls={order.files}
               fileName={order.product_name}
