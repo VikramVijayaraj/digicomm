@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Moon, ShoppingCart, Sun } from "lucide-react";
+import { Moon, ShoppingCart, Store, Sun } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 
@@ -20,10 +20,11 @@ import { handleSignOut } from "@/actions/auth-actions";
 export default function NavLinks({ session, shopDetails }) {
   const { setTheme } = useTheme();
 
-  let navLink;
+  let profileIcon;
+  let storeIcon;
 
   if (!session?.user) {
-    navLink = (
+    profileIcon = (
       <Link href="/auth/signin">
         <Button variant="ghost" className="rounded-full">
           Sign in
@@ -31,7 +32,7 @@ export default function NavLinks({ session, shopDetails }) {
       </Link>
     );
   } else {
-    navLink = (
+    profileIcon = (
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar>
@@ -48,20 +49,6 @@ export default function NavLinks({ session, shopDetails }) {
           <Link href="/your/account">
             <DropdownMenuItem>Settings</DropdownMenuItem>
           </Link>
-
-          {shopDetails && (
-            <>
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>My Shop</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href={`/shop/${shopDetails.shop_slug}`}>Storefront</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/your/shop/dashboard">Settings</Link>
-              </DropdownMenuItem>
-            </>
-          )}
 
           {/* Theme */}
           {/* <DropdownMenuSeparator />
@@ -93,10 +80,39 @@ export default function NavLinks({ session, shopDetails }) {
     );
   }
 
+  storeIcon = (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild className="">
+        <Button variant="ghost" className="rounded-full">
+          <Store />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>Shop</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+
+        {shopDetails ? (
+          <>
+            <DropdownMenuItem asChild>
+              <Link href={`/shop/${shopDetails.shop_slug}`}>Storefront</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/your/shop/dashboard">Settings</Link>
+            </DropdownMenuItem>
+          </>
+        ) : (
+          <DropdownMenuItem asChild>
+            <Link href={"/your/shop/register"}>Setup Shop</Link>
+          </DropdownMenuItem>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
   return (
     <div className="flex justify-center items-center space-x-4">
-      <div>{navLink}</div>
-
+      <div>{profileIcon}</div>
+      <div>{storeIcon}</div>
       <div>
         <Button asChild variant="ghost" className="rounded-full">
           <Link href="/your/cart">
