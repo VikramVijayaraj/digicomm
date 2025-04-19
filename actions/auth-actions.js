@@ -1,12 +1,15 @@
 "use server";
 
-import { sql } from "@vercel/postgres";
+// import { sql } from "@vercel/postgres";
+import { neon } from "@neondatabase/serverless";
 import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
 
 import { signIn, signOut } from "@/auth";
 import { getUserByEmail } from "@/lib/db/users";
 import { saltAndHashPassword, verifyPassword } from "@/utils/password";
+
+const sql = neon(process.env.DATABASE_URL);
 
 export async function handleCredentialsSignIn(
   { email, password, name },
@@ -58,7 +61,7 @@ export async function getUserIfExists(email, password) {
 
 export async function verifyPasswordResetToken(token) {
   try {
-    const { rows } = await sql`
+    const rows = await sql`
     SELECT * FROM users
     WHERE reset_password_token = ${token};
   `;

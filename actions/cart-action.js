@@ -1,6 +1,7 @@
 "use server";
 
-import { sql } from "@vercel/postgres";
+// import { sql } from "@vercel/postgres";
+import { neon } from "@neondatabase/serverless";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -11,6 +12,8 @@ import {
   removeProductFromCart,
 } from "@/lib/db/cart";
 import { getProduct } from "@/lib/db/products";
+
+const sql = neon(process.env.DATABASE_URL);
 
 export async function addToCartAction(slug, quantity) {
   const session = await auth();

@@ -1,6 +1,7 @@
 "use server";
 
-import { sql } from "@vercel/postgres";
+// import { sql } from "@vercel/postgres";
+import { neon } from "@neondatabase/serverless";
 import { Resend } from "resend";
 import crypto from "crypto";
 
@@ -10,6 +11,9 @@ import {
   refundEmailSchema,
 } from "@/lib/schema";
 
+const sql = neon(process.env.DATABASE_URL);
+
+// Initialize Resend with your API key
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendContactEmail(formData) {
