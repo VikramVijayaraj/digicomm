@@ -9,8 +9,7 @@ export default function robots() {
     ],
     sitemaps: [
       {
-        url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}/sitemap.xml`,
-        lastModified: new Date().toISOString(),
+        url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}/sitemap`,
       },
     ],
   };
