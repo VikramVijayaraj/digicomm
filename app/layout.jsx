@@ -19,7 +19,8 @@ export const metadata = {
     default: process.env.NEXT_PUBLIC_APP_NAME,
     template: "%s | " + process.env.NEXT_PUBLIC_APP_NAME,
   },
-  description: process.env.NEXT_PUBLIC_APP_TAGLINE,
+  description:
+    "Buy and sell digital and physical products with ease on Crelands — India’s go-to marketplace for creators, designers, developers, and entrepreneurs.",
   twitter: {
     card: "summary_large_image",
   },
