@@ -1,6 +1,32 @@
-import { ref, deleteObject } from "firebase/storage";
-
+import { v4 as uuid } from "uuid";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "@/app/firebaseConfig";
+
+export async function uploadToFirebase(file, path) {
+  if (!file) return; // Return if no file is selected
+
+  const splittedFileName = file.name.toString().split(".");
+  const storageRef = ref(
+    storage,
+    `${path}/${splittedFileName[0] + "_" + uuid() + "." + splittedFileName[1]}`,
+  ); // Create a reference to the file in Firebase Storage
+  // const storageRef = ref(storage, `shop-images/logos/${file.name + uuid()}`); // Create a reference to the file in Firebase Storage
+
+  try {
+    await uploadBytes(storageRef, file); // Upload the file to Firebase Storage
+    const url = await getDownloadURL(storageRef); // Get the download URL of the uploaded file
+    console.log("File Uploaded Successfully");
+    return url;
+  } catch (error) {
+    console.error("Error uploading the file", error);
+    throw new Error("Failed to upload file");
+  }
+}
 
 export default async function deleteFromFirebase(fileUrl) {
   try {
