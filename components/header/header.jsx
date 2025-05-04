@@ -37,7 +37,12 @@ export default async function Header() {
       <header className="flex justify-between global-padding py-8 items-center gap-x-12">
         {/* Logo */}
         <Link href="/">
-          <h1 className="text-xl">{process.env.NEXT_PUBLIC_APP_NAME}</h1>
+          {/* <h1 className="text-xl">{process.env.NEXT_PUBLIC_APP_NAME}</h1> */}
+          <img
+            src="/logos/crelands.png"
+            alt="Crelands Logo"
+            className="object-contain w-24 h-10 lg:w-40"
+          />
         </Link>
 
         {/* For lg and above screen sizes */}

@@ -4,6 +4,8 @@
 import { neon } from "@neondatabase/serverless";
 import { Resend } from "resend";
 import crypto from "crypto";
+import fs from "fs/promises";
+import path from "path";
 
 import {
   contactEmailSchema,
@@ -189,6 +191,44 @@ export async function sendOrderTrackingEmail(buyerDetails, formData) {
       <p>Thank you for shopping with us. If you have any questions or need further assistance, please do not hesitate to contact our customer support.</p>
       <p>Best regards,<br/>The Crelands Team</p>
     `,
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending email:", error);
+    return { success: false, error: "Failed to send email" };
+  }
+}
+
+export async function sendEbookDownloadLink(email) {
+  try {
+    // Read the PDF file
+    const filePath = path.join(process.cwd(), "public", "files", "ebook.pdf");
+    const fileContent = await fs.readFile(filePath);
+    const base64Content = fileContent.toString("base64");
+
+    await resend.emails.send({
+      from: "Crelands <download@crelands.com>",
+      to: email,
+      subject: "Your Ebook is Here!",
+      text: `
+      Hi there,
+
+      Thanks for signing up! We've attached your free ebook to this email.
+
+      Happy reading!
+
+      Best regards,
+      The Crelands Team
+      `,
+      attachments: [
+        {
+          content: base64Content,
+          filename: "ebook.pdf",
+          type: "application/pdf",
+          disposition: "attachment",
+        },
+      ],
     });
 
     return { success: true };

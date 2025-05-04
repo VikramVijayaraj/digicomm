@@ -7,13 +7,18 @@ import { getBlogPosts } from "@/lib/db/blog";
 export default async function BlogPage() {
   const posts = await getBlogPosts();
 
-  revalidatePath("/");
+  // Revalidate the path to ensure the latest data is fetched
+  revalidatePath("/blog");
 
   return (
     <div className="global-padding">
       <h2 className="text-xl text-center md:text-2xl lg:text-4xl font-bold pb-5 md:pb-10">
         Blog
       </h2>
+
+      {posts.length === 0 && (
+        <p className="text-center h-screen">No posts available</p>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {posts.map((post) => (
