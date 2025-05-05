@@ -13,10 +13,14 @@ export default function Footer() {
           gap-y-8 lg:gap-0"
       >
         {/* Main Section */}
-        <div>
-          <h1 className="text-3xl pb-4">
-            <Link href="/">{process.env.NEXT_PUBLIC_APP_NAME}</Link>
-          </h1>
+        <div className="flex flex-col items-center mt-5 space-y-4">
+          <Link href="/">
+            <img
+              src="/logos/crelands.png"
+              alt="Crelands Logo"
+              className="object-contain w-28 h-10 lg:w-40"
+            />
+          </Link>
           <p>{process.env.NEXT_PUBLIC_APP_TAGLINE}</p>
           {/* <FooterSubHeading>Subscribe</FooterSubHeading>
         <p className="pb-2">Get 10% off your first order</p>

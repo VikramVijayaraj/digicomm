@@ -1,12 +1,19 @@
+import { getActiveBlogPosts } from "@/lib/db/blog";
 import { getProducts } from "@/lib/db/products";
 
 export async function GET() {
   try {
     const products = await getProducts();
+    const blogPosts = await getActiveBlogPosts();
 
     const productPaths = products.map((product) => ({
       url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}/products/${product.product_slug}`,
       lastModified: new Date(product.updated_at).toISOString(),
+    }));
+
+    const blogPostsPaths = blogPosts.map((post) => ({
+      url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}/blog/${post.slug}`,
+      lastModified: new Date(post.updated_at).toISOString(),
     }));
 
     const staticPaths = [
@@ -39,7 +46,7 @@ export async function GET() {
     // Generate sitemap XML
     const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      ${[...productPaths, ...staticPaths]
+      ${[...productPaths, ...blogPostsPaths, ...staticPaths]
         .map(
           (path) => `
         <url>
