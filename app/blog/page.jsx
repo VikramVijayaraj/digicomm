@@ -6,6 +6,7 @@ import { getBlogPosts } from "@/lib/db/blog";
 
 export default async function BlogPage() {
   const posts = await getBlogPosts();
+  const activePosts = posts.filter((post) => post.published_status);
 
   // Revalidate the path to ensure the latest data is fetched
   revalidatePath("/blog");
@@ -21,7 +22,7 @@ export default async function BlogPage() {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {posts.map((post) => (
+        {activePosts.map((post) => (
           <Link href={"/blog/" + post.slug} key={post.id}>
             <PostCard
               title={post.title}

@@ -1,14 +1,31 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default async function AdminPage() {
   return (
     <div className="">
-      <h1 className="text-center">Admin Dashboard</h1>
+      <h1 className="text-center text-2xl font-semibold mb-10">
+        Admin Dashboard
+      </h1>
 
-      <Button asChild className="mt-20">
-        <Link href="/admin/new-post">New Blog Post</Link>
-      </Button>
+      <Link href="/admin/blog">
+        <Card>
+          <CardHeader>
+            <CardTitle>Blog</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>Manage blog posts</p>
+          </CardContent>
+        </Card>
+      </Link>
     </div>
   );
 }

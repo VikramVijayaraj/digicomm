@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import slugify from "slugify";
@@ -8,8 +9,8 @@ import { toast } from "sonner";
 
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { uploadToFirebase } from "@/utils/firebase";
-import { createPostAction } from "@/actions/blog-actions";
+import deleteFromFirebase, { uploadToFirebase } from "@/utils/firebase";
+import { createPostAction, updatePostAction } from "@/actions/blog-actions";
 
 // Dynamically import ReactQuill with no SSR
 const ReactQuill = dynamic(() => import("react-quill"), {
@@ -46,12 +47,19 @@ const formats = [
   "image",
 ];
 
-export default function CreatePost() {
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
+export default function BlogPostForm({
+  currentTitle,
+  currentCategory,
+  currentContent,
+  currentImage,
+}) {
+  const [title, setTitle] = useState(currentTitle || "");
+  const [category, setCategory] = useState(currentCategory || "");
+  const [content, setContent] = useState(currentContent || "");
   const [file, setFile] = useState(null);
-  const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const router = useRouter();
 
   // Handle file upload
   function handleFile(e) {
@@ -66,8 +74,12 @@ export default function CreatePost() {
     setIsSubmitting(true);
     e.preventDefault();
 
-    // Upload the file to Firebase and get the URL
     const imageUrl = await uploadToFirebase(file, "blog-images");
+
+    // If new image is uploaded, delete the old one from Firebase
+    if (imageUrl && currentImage !== imageUrl) {
+      await deleteFromFirebase(currentImage);
+    }
 
     // Create slug from title
     const slug = slugify(title, { lower: true, strict: true });
@@ -80,9 +92,21 @@ export default function CreatePost() {
       imageUrl,
       published_status: true,
     };
-    await createPostAction(post);
 
-    toast.success("Post created successfully!");
+    // Check if currentTitle is provided and if true then update the post
+    if (currentTitle) {
+      await updatePostAction({
+        ...post,
+        currentTitle,
+        currentCategory,
+        currentContent,
+      });
+      toast.success("Post updated successfully!");
+      router.replace("/admin/blog");
+    } else {
+      await createPostAction(post);
+      toast.success("Post created successfully!");
+    }
 
     // Reset the form
     setTitle("");

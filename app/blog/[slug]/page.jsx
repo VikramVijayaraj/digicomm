@@ -1,14 +1,19 @@
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import parse from "html-react-parser";
 
 import { getBlogPostBySlug } from "@/lib/db/blog";
-import Image from "next/image";
 
 export default async function PostPage({ params }) {
   const post = await getBlogPostBySlug(params.slug);
 
-  if (!post) {
-    return <div className="text-center">Post not found</div>;
+  // If the post is not found or not published, return a 404 page
+  if (!post || !post.published_status) {
+    return notFound();
   }
+
+  revalidatePath("/");
 
   return (
     <div className="global-padding space-y-8 w-full md:w-[80%] xl:w-[70%] m-auto">

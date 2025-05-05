@@ -1,6 +1,7 @@
-import CreatePost from "@/components/blog/create-post";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+
+import BlogPostForm from "@/components/blog/blog-post-form";
+import { Button } from "@/components/ui/button";
 
 export default function NewPostPage() {
   return (
@@ -11,7 +12,8 @@ export default function NewPostPage() {
           <Link href="/blog">View all posts</Link>
         </Button>
       </div>
-      <CreatePost />
+    
+      <BlogPostForm />
     </div>
   );
 }
