@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import parse from "html-react-parser";
 
 import { getBlogPostBySlug } from "@/lib/db/blog";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 // Cache the product data to avoid fetching it multiple times for the same slug when not using fetch
 const getCurrentPost = cache(async (slug) => {
@@ -52,6 +54,13 @@ export default async function PostPage({ params }) {
 
       <div className="mx-auto prose prose-neutral prose-p:my-0 prose-h2:mt-0 prose-h2:mb-2">
         {parse(post.content)}
+      </div>
+
+      {/* CTA button */}
+      <div className="flex justify-center">
+        <Button className="bg-primary-brand text-lg font-semibold md:p-6">
+          <Link href={"/your/shop/dashboard"}>Sign Up Now</Link>
+        </Button>
       </div>
     </div>
   );
