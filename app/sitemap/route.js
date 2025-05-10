@@ -41,6 +41,10 @@ export async function GET() {
         url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}/refunds-and-returns-policy`,
         lastModified: new Date().toISOString(),
       },
+      {
+        url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}/blog`,
+        lastModified: new Date().toISOString(),
+      },
     ];
 
     // Generate sitemap XML

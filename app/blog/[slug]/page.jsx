@@ -40,7 +40,9 @@ export default async function PostPage({ params }) {
 
   return (
     <div className="global-padding space-y-8 w-full md:w-[80%] xl:w-[70%] m-auto">
-      <h1 className="text-[40px] font-semibold">{post.title}</h1>
+      <h1 className="text-[30px] md:text-[40px] font-extrabold leading-10 md:leading-[50px]">
+        {post.title}
+      </h1>
 
       <div className="relative w-full h-[300px] md:h-[350px] lg:h-[400px]">
         <Image
