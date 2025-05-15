@@ -14,7 +14,9 @@ export async function createPostAction(data) {
       VALUES (${title}, ${category}, ${slug}, ${content}, ${imageUrl}, ${published_status})
     `;
 
-    revalidatePath("/");
+    // Revalidate both the blog page and sitemap
+    revalidatePath("/blog");
+    revalidatePath("/sitemap");
   } catch (error) {
     console.error(error);
     throw new Error("Failed to create post");
@@ -49,7 +51,8 @@ export async function updatePostAction(data) {
 
     await sql.query(query, params);
 
-    revalidatePath("/");
+    revalidatePath("/blog");
+    revalidatePath("/sitemap");
   } catch (error) {
     console.error(error);
     throw new Error("Failed to update post");
@@ -64,7 +67,8 @@ export async function togglePostStatusAction(postId, status) {
       WHERE id = ${postId}
     `;
 
-    revalidatePath("/");
+    revalidatePath("/blog");
+    revalidatePath("/sitemap");
   } catch (error) {
     console.error(error);
     throw new Error("Failed to toggle post status");

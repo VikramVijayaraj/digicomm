@@ -1,8 +1,12 @@
+import { revalidatePath } from "next/cache";
+
 import { getActiveBlogPosts } from "@/lib/db/blog";
 import { getProducts } from "@/lib/db/products";
 
 export async function GET() {
   try {
+    revalidatePath("/sitemap");
+
     const products = await getProducts();
     const blogPosts = await getActiveBlogPosts();
 
@@ -65,7 +69,8 @@ export async function GET() {
     return new Response(sitemapXml, {
       headers: {
         "Content-Type": "application/xml",
-        "Cache-Control": "public, max-age=3600",
+        // Reduce cache time (30 min) to ensure more frequent updates and add must-revalidate directive
+        "Cache-Control": "public, max-age=1800, must-revalidate",
       },
     });
   } catch (error) {
