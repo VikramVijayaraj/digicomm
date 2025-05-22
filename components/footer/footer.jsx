@@ -6,6 +6,8 @@ import { footerSections } from "@/lib/data";
 import Link from "next/link";
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <div className="bg-black text-white">
       <div
@@ -49,7 +51,8 @@ export default function Footer() {
         ))}
       </div>
       <p className="text-center pb-10 font-light">
-        &copy; {process.env.NEXT_PUBLIC_APP_NAME}. All rights reserved.
+        &copy; {currentYear} {process.env.NEXT_PUBLIC_APP_NAME}. All rights
+        reserved.
       </p>
     </div>
   );

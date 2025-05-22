@@ -34,7 +34,7 @@ export async function sendContactEmail(formData) {
   try {
     await resend.emails.send({
       from: "Crelands <contact@crelands.com>",
-      to: "vikramvijayaraj31@gmail.com", // Replace with your email
+      to: email, // Replace with your email
       subject: "New Contact Form Submission",
       text: `
         Name: ${name}

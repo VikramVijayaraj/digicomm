@@ -148,12 +148,12 @@ export default function ContactForm() {
             </li>
             {/* <li>
               <p>Telephone No:</p>
-              <p>9626119020</p>
+              <p>9876543210</p>
             </li> */}
             <li>
               <p>E-Mail ID:</p>
-              <a href="mailto:vikram31.m@gmail.com" className="hover:underline">
-                vikram31.m@gmail.com
+              <a href="mailto:contact@crelands.com" className="hover:underline">
+                contact@crelands.com
               </a>
             </li>
           </ul>
