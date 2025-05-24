@@ -65,6 +65,7 @@ export default function EbookModal({ loggedInUserEmail }) {
       setEmail("");
       setEmailSuccess(true);
       setEmailError("");
+      console.log("Ebook download link sent successfully");
     } else {
       alert("Failed to send the ebook download link. Please try again.");
     }
