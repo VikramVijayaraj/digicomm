@@ -31,7 +31,7 @@ export default function Banner() {
             <CarouselItem key={image.id}>
               <Card className="border-0 rounded-none">
                 <CardContent className="p-0">
-                  <div className="relative w-full aspect-[21/9] md:aspect-[28/9] lg:aspect-[35/9]">
+                  <div className="relative w-full aspect-[21/9] md:aspect-[28/9] lg:aspect-[35/12]">
                     <Image
                       src={image.src}
                       fill

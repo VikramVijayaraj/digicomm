@@ -88,10 +88,11 @@ export default function EbookModal({ loggedInUserEmail }) {
 
             {!emailSuccess ? (
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <div className="w-1/2 h-[250px]">
+                <div className="w-1/2 h-fit">
                   <img
-                    className="object-cover w-full h-full mx-auto"
-                    src="https://images.unsplash.com/photo-1629992101753-56d196c8aabb?q=80&w=3690&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    className="object-cover w-full h-full mx-auto rounded-xl"
+                    src="/images/ebook-cover.png"
+                    alt="Ebook Cover"
                   />
                   {/* <Image
                   src="https://images.unsplash.com/photo-1629992101753-56d196c8aabb?q=80&w=3690&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -105,12 +106,20 @@ export default function EbookModal({ loggedInUserEmail }) {
 
                 <div className="w-full md:w-1/2">
                   <h2 className="text-xl lg:text-2xl text-center md:text-left font-bold mb-4 md:mb-8 w-full">
-                    Unlock the Guide to Selling Digital Products in India
+                    Free Ebook: Start Your Digital Product Business in India
                   </h2>
+                  <p className="text-center md:text-left mb-4">
+                    Want to turn your skills into income? This free ebook
+                    reveals the best digital products to sell, platforms to use,
+                    and smart marketing strategies tailored for the Indian
+                    market. <br />
+                    <br /> 👉 Grab your copy and kickstart your digital journey
+                    today.
+                  </p>
                   <Input
                     type="email"
                     placeholder="Enter your email"
-                    className="mb-4 border border-gray-300 rounded-md p-2 w-full"
+                    className="mb-2 md:mt-8 md:mb-4 border border-gray-300 rounded-md p-2 w-full"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -125,7 +134,7 @@ export default function EbookModal({ loggedInUserEmail }) {
                     onClick={handleSubmit}
                     className="w-full"
                   >
-                    {isSubmitting ? "Sending..." : "Send me the guide"}
+                    {isSubmitting ? "Sending..." : "Send me the ebook"}
                   </Button>
                 </div>
               </div>

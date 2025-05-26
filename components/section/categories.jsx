@@ -1,6 +1,6 @@
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
-import { Package } from "lucide-react";
+import Image from "next/image";
 
 import SectionLayout from "./section-layout";
 import { getCategories } from "@/lib/db/categories";
@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
 
 export default async function Categories() {
   const categories = await getCategories();
@@ -49,26 +48,35 @@ export default async function Categories() {
   return (
     <section className="global-padding">
       <SectionLayout heading="Categories">
-        {/* <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4"> */}
-        <div className="flex flex-wrap gap-4">
+        <div
+          className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-2 lg:gap-x-8
+            gap-y-6"
+        >
+          {/* <div className="flex flex-wrap gap-4"> */}
           {/* {categoryCards} */}
           {categories.map((category) => (
             <Link
-              className="m-auto hover:scale-105 transition delay-50 ease-in-out"
+              className="m-auto"
               key={category.id}
               href={`categories/${category.slug}`}
             >
-              <div className="relative h-20 w-20 md:h-28 md:w-28">
+              <div
+                className="relative h-[100px] w-[100px] lg:h-[200px] lg:w-[200px] overflow-hidden
+                  rounded-xl group hover:scale-105 transition delay-50 ease-in-out"
+              >
                 <Image
                   src={category.image_url}
-                  className="object-cover rounded-md"
+                  className="object-cover"
                   fill
                   alt={category.name}
                 />
+                {/* Permanent overlay with text */}
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-md">
+                  <p className="text-white font-semibold lg:text-2xl text-center px-4">
+                    {category.name}
+                  </p>
+                </div>
               </div>
-              <p className="mt-2 text-sm md:text-base text-center w-20 h-12 md:w-28">
-                {category.name}
-              </p>
             </Link>
           ))}
         </div>
