@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function PostCard({ title, category, image }) {
   return (
     <div
-      className="h-[320px] rounded-lg cursor-pointer hover:scale-105 transition delay-50
+      className="rounded-lg cursor-pointer hover:scale-105 transition delay-50
         ease-in-out"
     >
       <div className="relative w-full h-[200px]">

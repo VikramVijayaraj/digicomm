@@ -21,7 +21,7 @@ export default async function BlogPage() {
         <p className="text-center h-screen">No posts available</p>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-x-6 lg:gap-y-8">
         {activePosts.map((post) => (
           <Link href={"/blog/" + post.slug} key={post.id}>
             <PostCard

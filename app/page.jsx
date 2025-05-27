@@ -9,6 +9,7 @@ import { getUserByEmail } from "@/lib/db/users";
 import FilteredProductsPage from "./products/page";
 import BannerCarousel from "@/components/banner/banner-carousel";
 import EbookModal from "@/components/card/ebook-modal";
+import BannerCTA from "@/components/cta/banner-cta";
 
 export default async function Home({ searchParams }) {
   const session = await auth();
@@ -28,7 +29,8 @@ export default async function Home({ searchParams }) {
   return (
     <main className="space-y-8 lg:space-y-16">
       <EbookModal loggedInUserEmail={session?.user?.email} />
-      <Banner />
+      <BannerCTA />
+      {/* <Banner /> */}
       {/* <BannerCarousel /> */}
       <Categories />
       <BestSelling />

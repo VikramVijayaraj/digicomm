@@ -1,18 +1,18 @@
-import { SendHorizontal } from "lucide-react";
+import Link from "next/link";
+import { FaFacebookF, FaInstagram, FaPinterestP } from "react-icons/fa6";
 
 import FooterSubHeading from "./footer-sub-heading";
 import FooterLinks from "./footer-links";
 import { footerSections } from "@/lib/data";
-import Link from "next/link";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="bg-black text-white">
+    <div className="global-padding bg-black text-white">
       <div
-        className="global-padding py-20 text-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4
-          gap-y-8 lg:gap-0"
+        className="py-20 text-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-8
+          lg:gap-0"
       >
         {/* Main Section */}
         <div className="flex flex-col items-center mt-5 space-y-4">
@@ -50,10 +50,30 @@ export default function Footer() {
           </div>
         ))}
       </div>
-      <p className="text-center pb-10 font-light">
-        &copy; {currentYear} {process.env.NEXT_PUBLIC_APP_NAME}. All rights
-        reserved.
-      </p>
+
+      <div className="pb-10 flex flex-col items-center gap-8">
+        <div className="flex items-center gap-4">
+          <Link
+            href={"https://www.instagram.com/crelands_official/"}
+            target="_blank"
+          >
+            <FaInstagram size={25} />
+          </Link>
+          <Link
+            href={"https://www.facebook.com/profile.php?id=61572316867099"}
+            target="_blank"
+          >
+            <FaFacebookF size={25} />
+          </Link>
+          <Link href={"https://www.pinterest.com/crelands/"} target="_blank">
+            <FaPinterestP size={25} />
+          </Link>
+        </div>
+        <p className="font-light">
+          &copy; {currentYear} {process.env.NEXT_PUBLIC_APP_NAME}. All rights
+          reserved.
+        </p>
+      </div>
     </div>
   );
 }

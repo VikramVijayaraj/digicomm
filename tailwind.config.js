@@ -12,7 +12,7 @@ module.exports = {
         primary: {
           light: "#E85C0D",
           DEFAULT: "hsl(var(--primary))",
-          brand: "#FF413B",
+          brand: "#FB201A",
           dark: "#821131",
           foreground: "hsl(var(--primary-foreground))",
         },
