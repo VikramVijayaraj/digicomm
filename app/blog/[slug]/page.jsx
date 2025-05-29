@@ -39,7 +39,7 @@ export default async function PostPage({ params }) {
   revalidatePath("/");
 
   return (
-    <div className="global-padding space-y-8 w-full md:w-[80%] xl:w-[70%] m-auto">
+    <article className="global-padding space-y-8 w-full md:w-[80%] xl:w-[70%] m-auto">
       <h1 className="text-[30px] md:text-[40px] font-extrabold leading-10 md:leading-[50px]">
         {post.title}
       </h1>
@@ -63,7 +63,7 @@ export default async function PostPage({ params }) {
           prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
           prose-blockquote:text-gray-600 prose-blockquote:border-gray-300
           prose-code:text-gray-800 prose-code:bg-gray-100 prose-pre:bg-gray-100
-          prose-pre:text-gray-800 prose-img:rounded-lg"
+          prose-pre:text-gray-800 prose-img:rounded-lg prose-h1:mb-0 prose-img:my-0"
       >
         {parse(post.content)}
       </div>
@@ -74,6 +74,6 @@ export default async function PostPage({ params }) {
           <Link href={"/your/shop/dashboard"}>Sign Up Now</Link>
         </Button>
       </div>
-    </div>
+    </article>
   );
 }
