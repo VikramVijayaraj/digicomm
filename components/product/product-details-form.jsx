@@ -37,7 +37,6 @@ import {
   updateProductAction,
 } from "@/actions/product-actions";
 import deleteFromFirebase from "@/utils/firebase";
-import { Checkbox } from "../ui/checkbox";
 
 export default function ProductDetailsForm({
   session,

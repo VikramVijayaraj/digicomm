@@ -82,7 +82,7 @@ export default function RefundsAndReturnsPolicy() {
           <ul className="list-disc pl-6 space-y-2">
             <li>
               Contact our customer support at{" "}
-              <strong>vikram31.m@gmail.com</strong> with the subject line
+              <strong>contact@crelands.com</strong> with the subject line
               &quot;Refund Request – [Order ID].&quot;
             </li>
             <li>
@@ -135,7 +135,7 @@ export default function RefundsAndReturnsPolicy() {
           </h2>
           <p>
             If you are dissatisfied with the outcome of a refund request, you
-            can contact us at vikram31.m@gmail.com to escalate the matter. We
+            can contact us at contact@crelands.com to escalate the matter. We
             are committed to addressing disputes fairly and promptly.
           </p>
 
@@ -151,7 +151,7 @@ export default function RefundsAndReturnsPolicy() {
               <strong>Business Name:</strong> Crelands
             </li>
             <li>
-              <strong>Email:</strong> vikram31.m@gmail.com
+              <strong>Email:</strong> contact@crelands.com
             </li>
             <li>
               <strong>Address:</strong> 7/221, No 2 JS Garden, Therkku

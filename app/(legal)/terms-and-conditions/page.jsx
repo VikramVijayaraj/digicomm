@@ -270,7 +270,7 @@ export default function TermsAndConditions() {
               <strong>Business Name:</strong> Crelands
             </li>
             <li>
-              <strong>Email:</strong> vikram31.m@gmail.com
+              <strong>Email:</strong> contact@crelands.com
             </li>
             <li>
               <strong>Address:</strong> 7/221, No 2 JS Garden, Therkku

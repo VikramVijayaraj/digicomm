@@ -214,7 +214,7 @@ export default function PrivacyPolicy() {
           </h2>
           <p>
             To exercise any of your rights, please contact us via email:
-            <strong>vikram31.m@gmail.com</strong>.
+            <strong>contact@crelands.com</strong>.
           </p>
           <p>
             Please provide sufficient information to verify your identity before
@@ -272,7 +272,7 @@ export default function PrivacyPolicy() {
               <strong>Business Name:</strong> Crelands
             </li>
             <li>
-              <strong>Email:</strong> vikram31.m@gmail.com
+              <strong>Email:</strong> contact@crelands.com
             </li>
             <li>
               <strong>Address:</strong> 7/221, No 2 JS Garden, Therkku
