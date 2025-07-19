@@ -13,13 +13,14 @@ import {
 import { saltAndHashPassword } from "@/utils/password";
 
 export async function createUserAction(userData) {
-  const { name, email, password } = userData;
+  const { name, email, password, source } = userData;
   const hashedPassword = await saltAndHashPassword(password);
 
   const userDetails = {
     username: name,
     email,
     password: hashedPassword,
+    source,
   };
   const user = await createUser(userDetails);
 

@@ -16,16 +16,40 @@ export default async function AdminPage() {
         Admin Dashboard
       </h1>
 
-      <Link href="/admin/blog">
-        <Card>
-          <CardHeader>
-            <CardTitle>Blog</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>Manage blog posts</p>
-          </CardContent>
-        </Card>
-      </Link>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Link href="/admin/blog">
+          <Card>
+            <CardHeader>
+              <CardTitle>Blog</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p>Manage blog posts</p>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link href="/admin/users">
+          <Card>
+            <CardHeader>
+              <CardTitle>Users</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p>Manage users</p>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link href="/admin/sellers-bank-details">
+          <Card>
+            <CardHeader>
+              <CardTitle>Sellers Bank Details</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p>Manage sellers bank details</p>
+            </CardContent>
+          </Card>
+        </Link>
+      </div>
     </div>
   );
 }
