@@ -31,7 +31,13 @@ export async function addProductAction(email, productDetails) {
   const { id: sellerId } = await getShopDetails(email);
 
   // Generate slug from product name
-  const slug = slugify(productDetails.name) + "-" + nanoid(10);
+  const slug =
+    slugify(productDetails.name, {
+      lower: true,
+      strict: true,
+    }) +
+    "-" +
+    nanoid(10);
 
   productDetails["seller"] = sellerId;
   productDetails["slug"] = slug;
