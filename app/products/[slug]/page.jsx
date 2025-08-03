@@ -105,7 +105,17 @@ export default async function ProductPage({ params }) {
       {/* Full Description */}
       <div id="desc" className="py-12 space-y-4">
         <h4 className="text-xl font-semibold">Product Description</h4>
-        <p>{result.product_desc}</p>
+        <div>
+          {result.product_desc
+            .trim()
+            .split(/\n\s*\n/) // split by empty lines (paragraphs)
+            .map((para, idx, arr) => (
+              // Have margin inbetween the paras expect the last one
+              <p key={idx} className={idx === arr.length - 1 ? "" : "mb-4"}>
+                {para.trim()}
+              </p>
+            ))}
+        </div>
       </div>
 
       {/* Reviews Section */}
