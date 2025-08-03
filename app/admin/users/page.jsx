@@ -10,7 +10,7 @@ export default async function AdminUsersPage() {
       </h1>
       <ul>
         {users.map((user) => (
-          <li>{user.email}</li>
+          <li key={user.id}>{user.email}</li>
         ))}
       </ul>
     </div>
