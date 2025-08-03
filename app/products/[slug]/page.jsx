@@ -13,6 +13,9 @@ import { getCartItems } from "@/lib/db/cart";
 import { auth } from "@/auth";
 import ShortDesc from "./short-desc";
 
+// Force dynamic rendering for this page
+export const dynamic = "force-dynamic";
+
 // Cache the product data to avoid fetching it multiple times for the same slug when not using fetch
 const currentProduct = cache(async (slug) => {
   const product = await getProduct(slug);
