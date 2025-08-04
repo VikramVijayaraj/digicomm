@@ -60,7 +60,13 @@ export async function addProductAction(email, productDetails) {
 
 export async function updateProductAction(productId, productDetails) {
   // Generate slug from product name
-  productDetails["slug"] = slugify(productDetails.name) + "-" + nanoid(10);
+  productDetails["slug"] =
+    slugify(productDetails.name, {
+      lower: true,
+      strict: true,
+    }) +
+    "-" +
+    nanoid(10);
 
   await updateProduct(productId, productDetails);
 

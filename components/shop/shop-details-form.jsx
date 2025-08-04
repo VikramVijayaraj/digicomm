@@ -93,7 +93,10 @@ export default function ShopDetailsForm({ session, data }) {
     const logoUrl = await uploadImage(logoFile, "shop-images/logos");
     const bannerUrl = await uploadImage(bannerFile, "shop-images/banners");
     // const imageUrl = await uploadImage();
-    const slug = slugify(values.name);
+    const slug = slugify(values.name, {
+      lower: true,
+      strict: true,
+    });
 
     const updatedValues = {
       ...values,

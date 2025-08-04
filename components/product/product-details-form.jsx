@@ -151,7 +151,7 @@ export default function ProductDetailsForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="max-w-md w-full flex flex-col gap-4"
+          className="max-w-md w-full flex flex-col gap-8"
         >
           {/* Product Name */}
           <FormField
@@ -317,9 +317,15 @@ export default function ProductDetailsForm({
                     onChange={handleImageChange}
                   />
                 </FormControl>
-                <FormDescription>
-                  Images that are shown to customer
-                </FormDescription>
+                {productData?.images ? (
+                  <FormDescription>
+                    Only upload images if you want to replace the previously uploaded ones
+                  </FormDescription>
+                ) : (
+                  <FormDescription>
+                    Images that are shown to customer
+                  </FormDescription>
+                )}
                 <FormMessage />
               </FormItem>
             )}
@@ -334,11 +340,19 @@ export default function ProductDetailsForm({
             name="files"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Upload Files For Digital Product</FormLabel>
+                <FormLabel>Upload Files</FormLabel>
                 <FormControl>
                   <Input type="file" multiple onChange={handleFileChange} />
                 </FormControl>
-                <FormDescription>Only for digital products</FormDescription>
+                {productData?.files ? (
+                  <FormDescription>
+                    Only upload files if you want to replace the previously uploaded ones
+                  </FormDescription>
+                ) : (
+                  <FormDescription>
+                    Upload the actual product files
+                  </FormDescription>
+                )}
                 <FormMessage />
               </FormItem>
             )}
