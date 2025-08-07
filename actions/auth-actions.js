@@ -12,7 +12,7 @@ import { saltAndHashPassword, verifyPassword } from "@/utils/password";
 const sql = neon(process.env.DATABASE_URL);
 
 export async function handleCredentialsSignIn(
-  { email, password, name, source },
+  { email, password, name },
   callbackUrl,
 ) {
   try {
@@ -20,7 +20,7 @@ export async function handleCredentialsSignIn(
       email,
       password,
       name,
-      source,
+      // source,
       redirectTo: callbackUrl,
     });
   } catch (error) {

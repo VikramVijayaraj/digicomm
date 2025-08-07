@@ -15,7 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         email: {},
         password: {},
         name: {}, // For sign-up
-        source: {}, // For sign-up
+        // source: {}, // For sign-up
       },
       authorize: async (credentials) => {
         try {
@@ -35,8 +35,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (!credentials.name || credentials.name === "undefined") {
             user = await getUserIfExists(email, password);
           } else {
-            const { name, source } = userCredentials;
-            user = await createUserAction({ name, email, password, source });
+            const { name } = userCredentials;
+            user = await createUserAction({ name, email, password });
           }
 
           return user;

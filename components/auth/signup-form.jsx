@@ -32,7 +32,7 @@ export default function SignUpForm() {
       name: "",
       email: "",
       password: "",
-      source: "",
+      // source: "",
     },
   });
 
@@ -95,7 +95,7 @@ export default function SignUpForm() {
           )}
         />
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="source"
           render={({ field }) => (
@@ -120,7 +120,7 @@ export default function SignUpForm() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         <Button
           className="w-full"
