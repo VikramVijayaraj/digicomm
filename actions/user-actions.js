@@ -12,6 +12,7 @@ import {
   updateUserDetails,
 } from "../lib/db/users";
 import { saltAndHashPassword } from "@/utils/password";
+import { sendWelcomeEmail } from "./send-email-action";
 
 const sql = neon(process.env.DATABASE_URL);
 
@@ -90,6 +91,8 @@ export async function UserDetailsAction(data = null, source = null) {
       );
     }
   }
+
+  await sendWelcomeEmail(baseUserDetails.email);
 }
 
 // export async function UserDetailsAction(data) {

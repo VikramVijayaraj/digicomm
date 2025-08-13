@@ -121,17 +121,17 @@ export default function ContactForm() {
         </div>
 
         {/* Contact Info */}
-        <div className="container px-4 py-8 max-w-md mx-auto text-sm w-full lg:w-1/2">
+        <div className="container px-4 py-8 max-w-md mx-auto w-full lg:w-1/2">
           <p className="text-gray-600">Last updated on 28-10-2024 11:28:22</p>
           <br />
           <p>You may contact us using the information below:</p>
           <br />
 
           <ul className="space-y-4">
-            <li>
+            {/* <li>
               <p>Merchant Legal Entity Name:</p>
               <p>MURUGESAN VIKRAM VIJAYARAJ</p>
-            </li>
+            </li> */}
             <li>
               <p>Registered Address:</p>
               <p>

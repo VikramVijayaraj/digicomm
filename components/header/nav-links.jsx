@@ -41,8 +41,9 @@ export default function NavLinks({ session, shopDetails }) {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
+          <DropdownMenuLabel>{session?.user.email}</DropdownMenuLabel>
+          {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
+          {/* <DropdownMenuSeparator /> */}
           <Link href="/your/account/orders">
             <DropdownMenuItem>Orders</DropdownMenuItem>
           </Link>

@@ -12,11 +12,28 @@ import {
   orderTrackingEmailSchema,
   refundEmailSchema,
 } from "@/lib/schema";
+import WelcomeEmail from "@/emails/welcome-email";
 
 const sql = neon(process.env.DATABASE_URL);
 
 // Initialize Resend with your API key
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function sendWelcomeEmail(email) {
+  try {
+    await resend.emails.send({
+      from: "Crelands <welcome@crelands.com>",
+      to: email,
+      subject: "Welcome to Crelands!",
+      react: <WelcomeEmail />,
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending email:", error);
+    return { success: false, error: "Failed to send email" };
+  }
+}
 
 export async function sendContactEmail(formData) {
   const result = contactEmailSchema.safeParse({
@@ -33,8 +50,8 @@ export async function sendContactEmail(formData) {
 
   try {
     await resend.emails.send({
-      from: "Crelands <contact@crelands.com>",
-      to: email, // Replace with your email
+      from: "Crelands <form@crelands.com>",
+      to: "contact@crelands.com", // Replace with your email
       subject: "New Contact Form Submission",
       text: `
         Name: ${name}
