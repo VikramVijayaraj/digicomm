@@ -11,7 +11,7 @@ export default async function AccountPage() {
   }
 
   return (
-    <div className="w-full lg:w-[80%]">
+    <div className="">
       <UserDetailsForm data={result[0]} />
     </div>
   );

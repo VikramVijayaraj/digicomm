@@ -88,10 +88,7 @@ export default function AddToCart({ product, initialCartItems }) {
 
   return (
     <div>
-      <div
-        className="flex flex-col md:flex-row justify-between h-24 md:h-10 md:space-x-2 space-y-4
-          md:space-y-0"
-      >
+      <div className="flex flex-col md:flex-row justify-between md:space-x-2 space-y-4 md:space-y-0">
         {/* Product quantity */}
         <Quantity
           quantity={quantity}
@@ -103,8 +100,7 @@ export default function AddToCart({ product, initialCartItems }) {
         <Button
           onClick={handleAddToCart}
           disabled={isAdding}
-          className="flex items-center text-base grow w-full md:w-28 bg-primary rounded-sm
-            select-none"
+          className="flex items-center text-base grow w-full md:w-28 bg-primary py-6 select-none"
         >
           {isAdding ? "Adding..." : "Add To Cart"}
         </Button>

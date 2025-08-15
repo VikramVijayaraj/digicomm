@@ -11,11 +11,11 @@ export default function Quantity({
   return (
     <div
       className={`flex justify-between m-auto w-full md:w-${width} border border-gray-400
-        rounded-sm h-full`}
+        rounded-full h-full`}
     >
       <p
-        className="cursor-pointer flex items-center justify-center w-8 hover:bg-primary
-          hover:text-white"
+        className="cursor-pointer rounded-full py-3 flex items-center justify-center w-12
+          hover:bg-primary hover:text-white"
         onClick={() => decrementQuantity()}
       >
         <Minus />
@@ -24,8 +24,8 @@ export default function Quantity({
         {quantity}
       </p>
       <p
-        className="cursor-pointer flex items-center justify-center w-8 hover:bg-primary
-          hover:text-white"
+        className="cursor-pointer rounded-full py-3 flex items-center justify-center w-12
+          hover:bg-primary hover:text-white"
         onClick={() => incrementQuantity()}
       >
         <Plus />

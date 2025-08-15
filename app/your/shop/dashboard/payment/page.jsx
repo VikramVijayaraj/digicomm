@@ -23,14 +23,14 @@ export default async function ShopPayment() {
 
   if (!bankDetails) {
     return (
-      <div className="w-full md:w-2/3 space-y-8">
+      <div className="w-full space-y-8">
         <div className="flex flex-col md:flex-row justify-between md:items-center space-y-4 md:space-y-0">
           <h1 className="font-semibold text-xl md:text-2xl lg:text-3xl">
             Bank Details
           </h1>
           <Dialog>
             <DialogTrigger asChild>
-              <Button>Add Bank Details</Button>
+              <Button className="px-8">Add Bank Details</Button>
             </DialogTrigger>
             <DialogContent className="space-y-2">
               <DialogHeader>

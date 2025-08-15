@@ -10,6 +10,8 @@ import FilteredProductsPage from "./products/page";
 import BannerCarousel from "@/components/banner/banner-carousel";
 import EbookModal from "@/components/card/ebook-modal";
 import BannerCTA from "@/components/cta/banner-cta";
+import WhyChooseUs from "@/components/section/why-choose-us";
+import Testimonials from "@/components/section/testimonials";
 
 export default async function Home({ searchParams }) {
   const session = await auth();
@@ -28,13 +30,15 @@ export default async function Home({ searchParams }) {
   }
 
   return (
-    <main className="space-y-8 lg:space-y-16">
-      <EbookModal loggedInUserEmail={session?.user?.email} />
+    <main className="space-y-16 lg:space-y-28">
+      {/* <EbookModal loggedInUserEmail={session?.user?.email} /> */}
       <BannerCTA />
       {/* <Banner /> */}
       {/* <BannerCarousel /> */}
-      <Categories />
+      {/* <Categories /> */}
       <BestSelling />
+      <WhyChooseUs />
+      <Testimonials />
       <Newsletter />
     </main>
   );

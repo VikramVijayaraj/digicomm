@@ -12,6 +12,7 @@ import AvgRatingContainer from "@/components/ui/avg-rating-container";
 import { getCartItems } from "@/lib/db/cart";
 import { auth } from "@/auth";
 import ShortDesc from "./short-desc";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // Force dynamic rendering for this page
 export const dynamic = "force-dynamic";
@@ -80,17 +81,6 @@ export default async function ProductPage({ params }) {
           {/* Short Desciption */}
           <ShortDesc result={result} />
 
-          {/* Shop */}
-          <div className="pt-4">
-            by{" "}
-            <Link
-              href={`/shop/${result.shop_slug}`}
-              className="text-blue-700 hover:underline"
-            >
-              {result.shop_name}
-            </Link>
-          </div>
-
           {/* Actions */}
           <div className="py-4 space-y-8">
             {/* Add to cart */}
@@ -99,12 +89,26 @@ export default async function ProductPage({ params }) {
             {/* Favourites */}
             {/* <AddToFavourites /> */}
           </div>
+
+          {/* Shop Info */}
+          <div className="">
+            <Link href={`/shop/${result.shop_slug}`}>
+              <div className="flex justify-start items-center gap-4 rounded-lg border p-2">
+                <Avatar>
+                  <AvatarImage src={result.shop_logo} />
+                  <AvatarFallback>{result.shop_name.at(0)}</AvatarFallback>
+                </Avatar>
+
+                <p>{result.shop_name}</p>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
 
       {/* Full Description */}
       <div id="desc" className="py-12 space-y-4">
-        <h4 className="text-xl font-semibold">Product Description</h4>
+        <h3 className="text-2xl font-semibold">Product Description</h3>
         <div>
           {result.product_desc
             .trim()

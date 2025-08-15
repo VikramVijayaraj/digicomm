@@ -151,7 +151,7 @@ export default function ProductDetailsForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="max-w-md w-full flex flex-col gap-8"
+          className="w-full flex flex-col gap-8"
         >
           {/* Product Name */}
           <FormField
@@ -319,7 +319,8 @@ export default function ProductDetailsForm({
                 </FormControl>
                 {productData?.images ? (
                   <FormDescription>
-                    Only upload images if you want to replace the previously uploaded ones
+                    Only upload images if you want to replace the previously
+                    uploaded ones
                   </FormDescription>
                 ) : (
                   <FormDescription>
@@ -346,7 +347,8 @@ export default function ProductDetailsForm({
                 </FormControl>
                 {productData?.files ? (
                   <FormDescription>
-                    Only upload files if you want to replace the previously uploaded ones
+                    Only upload files if you want to replace the previously
+                    uploaded ones
                   </FormDescription>
                 ) : (
                   <FormDescription>
@@ -358,19 +360,21 @@ export default function ProductDetailsForm({
             )}
           />
 
-          {/* Submit Button */}
-          <Button disabled={form.formState.isSubmitting} type="submit">
-            {form.formState.isSubmitting ? "Submitting..." : "Submit"}
-          </Button>
+          <div className="flex flex-col gap-4">
+            {/* Submit Button */}
+            <Button disabled={form.formState.isSubmitting} type="submit">
+              {form.formState.isSubmitting ? "Saving..." : "Save"}
+            </Button>
 
-          {/* Cancel Button */}
-          <Button
-            disabled={form.formState.isSubmitting}
-            onClick={() => router.back()}
-            variant="outline"
-          >
-            Cancel
-          </Button>
+            {/* Cancel Button */}
+            <Button
+              disabled={form.formState.isSubmitting}
+              onClick={() => router.back()}
+              variant="outline"
+            >
+              Cancel
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

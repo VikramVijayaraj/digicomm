@@ -8,6 +8,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        poppins: ["var(--font-poppins)"],
+        passion: ["var(--font-passion)"],
+      },
       colors: {
         primary: {
           light: "#E85C0D",
@@ -28,6 +32,7 @@ module.exports = {
           foreground: "hsl(var(--popover-foreground))",
         },
         secondary: {
+          brand: "#FFCB61",
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },

@@ -23,9 +23,9 @@ export default function StarRating({ rating, setRating, disabled = false }) {
             <Star
               className={`${disabled ? "cursor-default" : "cursor-pointer"}`}
               stroke={
-                currentRating <= (hover || rating) ? "#ffc107" : "#e4e5e9"
+                currentRating <= (hover || rating) ? "#FB201A" : "#e4e5e9"
               }
-              fill={currentRating <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+              fill={currentRating <= (hover || rating) ? "#FB201A" : "#e4e5e9"}
               onMouseEnter={() => !disabled && setHover(currentRating)}
               onMouseLeave={() => !disabled && setHover(null)}
             />

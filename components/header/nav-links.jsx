@@ -34,7 +34,7 @@ export default function NavLinks({ session, shopDetails }) {
   } else {
     profileIcon = (
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
           <Avatar>
             <AvatarImage src={session?.user?.image} />
             <AvatarFallback>{session?.user?.email?.at(0)}</AvatarFallback>
@@ -42,8 +42,7 @@ export default function NavLinks({ session, shopDetails }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>{session?.user.email}</DropdownMenuLabel>
-          {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-          {/* <DropdownMenuSeparator /> */}
+          <DropdownMenuSeparator />
           <Link href="/your/account/orders">
             <DropdownMenuItem>Orders</DropdownMenuItem>
           </Link>
@@ -83,8 +82,8 @@ export default function NavLinks({ session, shopDetails }) {
 
   storeIcon = (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className="">
-        <Button variant="ghost" className="rounded-full">
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="rounded-full md:py-6">
           <Store />
         </Button>
       </DropdownMenuTrigger>
@@ -103,7 +102,7 @@ export default function NavLinks({ session, shopDetails }) {
           </>
         ) : (
           <DropdownMenuItem asChild>
-            <Link href={"/your/shop/register"}>Setup Shop</Link>
+            <Link href="/your/shop/register">Setup Shop</Link>
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>
@@ -113,14 +112,30 @@ export default function NavLinks({ session, shopDetails }) {
   return (
     <div className="flex justify-center items-center space-x-4">
       <div>{profileIcon}</div>
-      <div>{storeIcon}</div>
-      <div>
-        <Button asChild variant="ghost" className="rounded-full">
-          <Link href="/your/cart">
-            <ShoppingCart />
-          </Link>
-        </Button>
+
+      <div className="flex justify-center items-center space-x-2">
+        {shopDetails && <div>{storeIcon}</div>}
+        <div>
+          <Button asChild variant="ghost" className="rounded-full md:py-6">
+            <Link href="/your/cart">
+              <ShoppingCart />
+            </Link>
+          </Button>
+        </div>
       </div>
+
+      {!shopDetails && (
+        <div className="hidden md:block">
+          <Button
+            asChild
+            className="h-[48px] text-[16px] p-[20px] rounded-full bg-gradient-to-r from-primary-brand
+              to-red-400 text-white hover:from-primary-light hover:to-primary-brand
+              hover:scale-105 transition-transform"
+          >
+            <Link href="/your/shop/register">Start Selling Now</Link>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

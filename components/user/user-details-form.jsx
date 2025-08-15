@@ -38,7 +38,7 @@ export default function UserDetailsForm({ data, callbackUrl }) {
   async function onSubmit(values) {
     await UserDetailsAction(values);
     toast.success("Data Saved Successfully.");
-    
+
     if (callbackUrl) {
       window.location.href = callbackUrl;
     }
@@ -53,7 +53,7 @@ export default function UserDetailsForm({ data, callbackUrl }) {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full flex flex-col"
+          className="space-y-8 w-full lg:w-[80%] flex flex-col"
         >
           <div className="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-4">
             <div className="w-full">

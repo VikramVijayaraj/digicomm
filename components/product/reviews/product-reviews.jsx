@@ -9,9 +9,11 @@ export default async function ProductReviews({ productId }) {
 
   return (
     <div className="space-y-8">
-      <Button asChild variant="outline" className="text-right w-full">
-        <Link href={`/add-review?p=${productId}`}>Add a review</Link>
-      </Button>
+      <div className="flex items-center justify-center">
+        <Button asChild variant="outline" className="w-full md:w-1/2 lg:w-1/3">
+          <Link href={`/add-review?p=${productId}`}>Add a review</Link>
+        </Button>
+      </div>
 
       {reviews.length === 0 && (
         <p className="text-center py-6">No reviews yet</p>

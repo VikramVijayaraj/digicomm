@@ -2,6 +2,7 @@ import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
+import { poppins } from "@/lib/fonts";
 import { ReduxProvider } from "./redux-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header/header";
@@ -28,7 +29,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${poppins.variable}`}>
       <head>
         {/* Google tag (gtag.js) */}
         <Script
@@ -51,7 +52,7 @@ export default function RootLayout({ children }) {
           content="reqlxzifjs2ql6zst9fod7o2t53mzh"
         />
       </head>
-      <body>
+      <body className="font-poppins">
         <ReduxProvider>
           <ThemeProvider
             attribute="class"
@@ -60,7 +61,7 @@ export default function RootLayout({ children }) {
             disableTransitionOnChange
           >
             <Header />
-            <div className="py-10">{children}</div>
+            <div className="py-8">{children}</div>
             <Toaster richColors />
             <Footer />
           </ThemeProvider>
