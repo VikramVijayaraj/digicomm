@@ -83,8 +83,8 @@ export default function InfoForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="google">Google Search</SelectItem>
-                  <SelectItem value="google">Our Blog</SelectItem>
+                  <SelectItem value="googleSearch">Google Search</SelectItem>
+                  <SelectItem value="blog">Our Blog</SelectItem>
                   <SelectItem value="youtube">YouTube</SelectItem>
                   <SelectItem value="instagram">Instagram</SelectItem>
                   <SelectItem value="email">Email</SelectItem>

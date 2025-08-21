@@ -16,7 +16,7 @@ export default async function InfoPage() {
   if (userSource) {
     redirect("/");
   }
-
+  
   return (
     <div className="global-padding my-20 lg:my-40 flex items-center justify-center">
       <InfoForm />
