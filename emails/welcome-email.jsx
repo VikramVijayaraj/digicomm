@@ -51,7 +51,7 @@ export default function WelcomeEmail() {
         <Preview>Crelands Welcome</Preview>
         <Body className="bg-offwhite font-sans text-base">
           <Img
-            src="https://firebasestorage.googleapis.com/v0/b/digicomm-cbe9b.appspot.com/o/crelands.png?alt=media&token=6ae87e0d-2600-41ee-8d91-e2b2696b44ed"
+            src="https://www.crelands.com/logos/crelands.png"
             width="160"
             height="40"
             alt="Crelands Logo"
