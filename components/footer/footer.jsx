@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { FaFacebookF, FaInstagram, FaPinterestP } from "react-icons/fa6";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedin,
+  FaPinterestP,
+  FaYoutube,
+} from "react-icons/fa6";
 
 import FooterSubHeading from "./footer-sub-heading";
 import FooterLinks from "./footer-links";
@@ -54,19 +60,28 @@ export default function Footer() {
       <div className="pb-10 flex flex-col items-center gap-8">
         <div className="flex items-center gap-4">
           <Link
-            href={"https://www.instagram.com/crelands_official/"}
-            target="_blank"
-          >
-            <FaInstagram size={25} />
-          </Link>
-          <Link
-            href={"https://www.facebook.com/profile.php?id=61572316867099"}
+            href="https://www.facebook.com/profile.php?id=61572316867099"
             target="_blank"
           >
             <FaFacebookF size={25} />
           </Link>
-          <Link href={"https://www.pinterest.com/crelands/"} target="_blank">
+          <Link href="https://www.pinterest.com/crelands/" target="_blank">
             <FaPinterestP size={25} />
+          </Link>
+          <Link
+            href="https://www.instagram.com/crelands_official/"
+            target="_blank"
+          >
+            <FaInstagram size={25} />
+          </Link>
+          <Link href="https://www.youtube.com/@crelands/shorts" target="_blank">
+            <FaYoutube size={25} />
+          </Link>
+          <Link
+            href="https://www.linkedin.com/company/crelands/"
+            target="_blank"
+          >
+            <FaLinkedin size={25} />
           </Link>
         </div>
         <p className="font-light">
