@@ -20,7 +20,7 @@ const ReactQuill = dynamic(() => import("react-quill"), {
 
 const modules = {
   toolbar: [
-    [{ header: [1, 2, false] }],
+    [{ header: [1, 2, 3, false] }],
     ["bold", "italic", "underline", "strike", "blockquote"],
     [
       { list: "ordered" },
@@ -49,11 +49,13 @@ const formats = [
 
 export default function BlogPostForm({
   currentTitle,
+  currentDescription,
   currentCategory,
   currentContent,
   currentImage,
 }) {
   const [title, setTitle] = useState(currentTitle || "");
+  const [description, setDescription] = useState(currentDescription || "");
   const [category, setCategory] = useState(currentCategory || "");
   const [content, setContent] = useState(currentContent || "");
   const [file, setFile] = useState(null);
@@ -86,6 +88,7 @@ export default function BlogPostForm({
 
     const post = {
       title,
+      description,
       category,
       slug,
       content,
@@ -98,6 +101,7 @@ export default function BlogPostForm({
       await updatePostAction({
         ...post,
         currentTitle,
+        currentDescription,
         currentCategory,
         currentContent,
       });
@@ -110,6 +114,7 @@ export default function BlogPostForm({
 
     // Reset the form
     setTitle("");
+    setDescription("");
     setCategory("");
     setFile("");
     setContent("");
@@ -123,9 +128,15 @@ export default function BlogPostForm({
     >
       <Input
         type="text"
-        placeholder="Title"
+        placeholder="SEO Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+      />
+      <Input
+        type="text"
+        placeholder="SEO Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       />
       <Input
         type="text"
@@ -142,9 +153,16 @@ export default function BlogPostForm({
         formats={formats}
         className="h-[500px]"
       />
-      <Button disabled={isSubmitting} type="submit" className="mt-20 md:mt-10">
-        {isSubmitting ? "Publishing..." : "Publish"}
-      </Button>
+
+      <div>
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          className="mt-20 md:mt-10 px-32"
+        >
+          {isSubmitting ? "Publishing..." : "Publish"}
+        </Button>
+      </div>
     </form>
   );
 }

@@ -21,6 +21,7 @@ export default async function EditPostPage({ params }) {
 
       <BlogPostForm
         currentTitle={post.title}
+        currentDescription={post.description}
         currentCategory={post.category}
         currentContent={post.content}
         currentImage={post.cover_image}
