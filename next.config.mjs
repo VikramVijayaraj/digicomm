@@ -26,6 +26,11 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: "5mb", // increase as needed
     },
+    // Remove caching
+    staleTimes: {
+      dynamic: 0,
+      static: 0,
+    },
   },
 };
 
