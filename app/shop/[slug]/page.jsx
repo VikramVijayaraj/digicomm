@@ -18,7 +18,7 @@ export default async function ShopPage({ params }) {
     <div className="space-y-24 lg:space-y-8">
       <div className="relative">
         {/* Shop Banner */}
-        <div className="h-[200px] lg:h-[300px] flex justify-center relative">
+        <div className="h-[170px] md:h-[300px] lg:h-[450px] flex justify-center items-center relative">
           <Image
             src={shop?.shop_banner || "/images/shop-banner-default.jpg"}
             fill

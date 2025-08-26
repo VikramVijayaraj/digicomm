@@ -11,7 +11,7 @@ export default async function RegisterPage({ searchParams }) {
   }
 
   return (
-    <div className="global-padding w-full lg:flex justify-center">
+    <div className="global-padding w-full">
       <UserDetailsForm callbackUrl={searchParams.callback} />
     </div>
   );

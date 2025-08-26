@@ -35,7 +35,7 @@ export default function NavLinks({ session, shopDetails }) {
     profileIcon = (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar>
+          <Avatar className="cursor-pointer">
             <AvatarImage src={session?.user?.image} />
             <AvatarFallback>{session?.user?.email?.at(0)}</AvatarFallback>
           </Avatar>
