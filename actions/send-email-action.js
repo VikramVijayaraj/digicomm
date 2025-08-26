@@ -254,3 +254,22 @@ export async function sendEbookDownloadLink(email) {
     return { success: false, error: "Failed to send email" };
   }
 }
+
+export async function sendReportAnIssueEmail(data) {
+  try {
+    await resend.emails.send({
+      from: "Report from Crelands <report@crelands.com>",
+      to: "contact@crelands.com",
+      subject: "New Issue Reported",
+      text: `
+        Email: ${data.email}
+        Message: ${data.message}
+    `,
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending the report:", error);
+    return { success: false, error: "Failed to send report" };
+  }
+}

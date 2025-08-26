@@ -9,6 +9,7 @@ import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import { Toaster } from "@/components/ui/sonner";
 import FacebookPixel from "@/components/FacebookPixel";
+import ReportAnIssueButton from "@/components/cta/report-an-issue-button";
 
 export const metadata = {
   metadataBase: new URL(
@@ -71,6 +72,9 @@ export default function RootLayout({ children }) {
         <SpeedInsights />
 
         <FacebookPixel />
+
+        {/* Fixed button */}
+        <ReportAnIssueButton />
       </body>
     </html>
   );
