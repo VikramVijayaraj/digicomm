@@ -1,4 +1,4 @@
-import { Edit } from "lucide-react";
+import { Edit, Info } from "lucide-react";
 
 import { auth } from "@/auth";
 import BankDetailsForm from "@/components/shop/bank-details-form";
@@ -15,6 +15,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getSellerBankDetails } from "@/lib/db/sellers";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default async function ShopPayment() {
   const session = await auth();
@@ -62,11 +68,16 @@ export default async function ShopPayment() {
           </h1>
 
           {/* Verification Status */}
-          <div>
+          <div className="flex items-center gap-2">
             {bankDetails.verification_status && (
               <Badge
-                className={`w-fit ${ { SUCCESS: "bg-green-600", PENDING: "bg-blue-600", REJECTED:
-                "bg-red-600", }[bankDetails.verification_status] }`}
+                className={`w-fit ${
+                  {
+                    SUCCESS: "bg-green-600",
+                    PENDING: "bg-blue-600",
+                    REJECTED: "bg-red-600",
+                  }[bankDetails.verification_status]
+                }`}
               >
                 {
                   {
@@ -77,6 +88,17 @@ export default async function ShopPayment() {
                 }
               </Badge>
             )}
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info size={20} />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>It takes 3 to 5 business days to complete the review.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
 
