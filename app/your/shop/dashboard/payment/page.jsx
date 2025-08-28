@@ -89,16 +89,18 @@ export default async function ShopPayment() {
               </Badge>
             )}
 
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info size={20} />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>It takes 3 to 5 business days to complete the review.</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            {bankDetails.verification_status === "PENDING" && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Info size={20} />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>It takes 3 to 5 business days to complete the review.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
           </div>
         </div>
 
