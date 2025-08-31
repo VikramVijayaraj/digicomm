@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { revalidatePath } from "next/cache";
 
 import ProductCard from "../card/product-card";
 import SectionLayout from "./section-layout";
 import { getProducts } from "@/lib/db/products";
 import { Button } from "../ui/button";
+
+export const dynamic = "force-dynamic";
 
 export default async function BestSelling() {
   const allProducts = await getProducts();
@@ -42,8 +43,6 @@ export default async function BestSelling() {
       />
     </Link>
   ));
-
-  revalidatePath("/");
 
   return (
     <section className="global-padding">
