@@ -36,6 +36,7 @@ export default function SignInForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values) {
+    values = { ...values, email: values.email.toLowerCase() };
     const result = await handleCredentialsSignIn(values, callbackUrl);
     setError(result?.message);
   }

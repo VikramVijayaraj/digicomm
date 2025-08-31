@@ -48,6 +48,7 @@ export async function handleSignOut() {
 
 export async function getUserIfExists(email, password) {
   // Logic to check if the user exists in the database and matches the hashed password
+  email = email.toLowerCase();
   const user = await getUserByEmail(email);
   if (user.length === 0) {
     return null;
