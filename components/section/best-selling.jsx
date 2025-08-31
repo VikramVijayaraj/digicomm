@@ -8,11 +8,31 @@ import { Button } from "../ui/button";
 
 export default async function BestSelling() {
   const allProducts = await getProducts();
-  const recentProducts = allProducts
-    .sort((a, b) => b.updated_at - a.updated_at)
-    .slice(0, 8);
 
-  const products = recentProducts.map((product) => (
+  // Show only one product(latest one) per seller.
+  // A Set to keep track of seller IDs we've already included.
+  const uniqueSellerIds = new Set();
+
+  const uniqueRecentProducts = allProducts
+    // 1. Sort all products by date, so the newest ones come first.
+    .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+    // 2. Filter the sorted array.
+    .filter((product) => {
+      // Check if we've already seen this seller.
+      if (!uniqueSellerIds.has(product.seller_id)) {
+        // If not, add the seller's ID to our set...
+        uniqueSellerIds.add(product.seller_id);
+        // ...and keep this product.
+        return true;
+      }
+      // If we have seen this seller, discard this product.
+      return false;
+    });
+
+  // 3. Now, take the first 8 products from the unique list.
+  const productsToShow = uniqueRecentProducts.slice(0, 8);
+
+  const products = productsToShow.map((product) => (
     <Link key={product.id} href={`/products/${product.product_slug}`}>
       <ProductCard
         name={product.product_name}
@@ -27,7 +47,7 @@ export default async function BestSelling() {
 
   return (
     <section className="global-padding">
-      <SectionLayout heading="Featured products">
+      <SectionLayout heading="Latest products">
         <div
           className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 lg:gap-x-8
             gap-y-6"
