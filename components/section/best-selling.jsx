@@ -8,7 +8,34 @@ import { Button } from "../ui/button";
 export const dynamic = "force-dynamic";
 
 export default async function BestSelling() {
-  const allProducts = await getProducts();
+  let allProducts;
+
+  try {
+    allProducts = await getProducts();
+  } catch (error) {
+    console.error("Failed to fetch best-selling products:", error);
+
+    return (
+      <section className="global-padding text-center">
+        <SectionLayout heading="Latest products">
+          <h2 className="text-xl text-red-500 font-bold">
+            Oops! Something went wrong.
+          </h2>
+          <p>We couldn't load the latest products. Please try again later.</p>
+        </SectionLayout>
+      </section>
+    );
+  }
+
+  if (!allProducts || allProducts.length === 0) {
+    return (
+      <section className="global-padding">
+        <SectionLayout heading="Latest products">
+          <p>No products found at the moment.</p>
+        </SectionLayout>
+      </section>
+    );
+  }
 
   // Show only one product(latest one) per seller.
   // A Set to keep track of seller IDs we've already included.
