@@ -36,7 +36,6 @@ export default async function PostPage({ params }) {
     return notFound();
   }
 
-  revalidatePath("/");
 
   return (
     <article className="global-padding space-y-8 w-full md:w-[80%] xl:w-[70%] m-auto">
