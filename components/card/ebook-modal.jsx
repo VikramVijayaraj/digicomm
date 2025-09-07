@@ -9,6 +9,7 @@ import { Input } from "../ui/input";
 import { sendEbookDownloadLink } from "@/actions/send-email-action";
 import { getLeadAction, storeLeadAction } from "@/actions/lead-actions";
 import { isValidEmail } from "@/utils/utils";
+import { notifyOnSlack } from "@/lib/api";
 
 export default function EbookModal({ loggedInUserEmail }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -71,6 +72,9 @@ export default function EbookModal({ loggedInUserEmail }) {
     }
 
     setIsSubmitting(false);
+
+    // Notify on Slack
+    await notifyOnSlack(`${email} has requested the ebook download link.`);
   }
 
   return (

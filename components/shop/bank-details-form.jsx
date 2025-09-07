@@ -22,6 +22,7 @@ import {
   createSellerBankDetailsAction,
   updateSellerBankDetailsAction,
 } from "@/actions/seller-actions";
+import { notifyOnSlack } from "@/lib/api";
 
 export default function BankDetailsForm({ session, existingData }) {
   const form = useForm({
@@ -46,6 +47,11 @@ export default function BankDetailsForm({ session, existingData }) {
       }
       router.refresh();
       toast.success("Bank details saved successfully!");
+
+      // Notify on Slack
+      await notifyOnSlack(
+        `${session?.user?.email} has added/updated their bank details.`,
+      );
     } catch (err) {
       console.error("Error creating bank details:", err);
       toast.error("Failed to save bank details!");

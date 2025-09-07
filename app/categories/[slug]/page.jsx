@@ -14,9 +14,11 @@ export default async function CategoryProductsPage({ params }) {
       <div className="global-padding min-h-screen">
         <SectionLayout heading={categoryName}>
           {products.length === 0 ? (
-            <p className="text-center mt-20">No products found in this category.</p>
+            <p className="text-center mt-20">
+              No products found in this category.
+            </p>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-6">
               {products.map((product) => (
                 <Link href={`/products/${product.slug}`} key={product.id}>
                   <ProductCard

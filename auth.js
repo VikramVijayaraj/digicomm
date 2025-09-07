@@ -20,6 +20,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials) => {
         try {
           let userCredentials;
+          
 
           if (!credentials.name || credentials.name === "undefined") {
             userCredentials = await signInSchema.parseAsync(credentials);

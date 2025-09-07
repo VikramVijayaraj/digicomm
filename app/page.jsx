@@ -31,7 +31,7 @@ export default async function Home({ searchParams }) {
 
   return (
     <main className="space-y-16 lg:space-y-28">
-      {/* <EbookModal loggedInUserEmail={session?.user?.email} /> */}
+      <EbookModal loggedInUserEmail={session?.user?.email} />
       <BannerCTA />
       {/* <Banner /> */}
       {/* <BannerCarousel /> */}

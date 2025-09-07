@@ -90,9 +90,29 @@ export async function UserDetailsAction(data = null, source = null) {
         "Error updating the user source. Please try again later!",
       );
     }
-  }
 
-  await sendWelcomeEmail(baseUserDetails.email);
+    await sendWelcomeEmail(baseUserDetails.email);
+
+    // Notify on Slack
+    try {
+      const slackResponse = await fetch(process.env.SLACK_WEBHOOK_URL, {
+        method: "POST",
+        cache: "no-store",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: `New user signed up: *${username}* (${email}) via *${source}*`,
+        }),
+      });
+
+      if (!slackResponse.ok) {
+        console.error("Failed to send Slack notification");
+      }
+    } catch (error) {
+      console.error("Slack notification error:", error);
+    }
+  }
 }
 
 // export async function UserDetailsAction(data) {

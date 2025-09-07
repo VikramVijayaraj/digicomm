@@ -29,6 +29,7 @@ export default function SignUpForm() {
 
   async function onSubmit(values) {
     try {
+      values = { ...values, email: values.email.toLowerCase() };
       await handleCredentialsSignIn(values);
       toast.success("Account created successfully.");
       form.reset();
