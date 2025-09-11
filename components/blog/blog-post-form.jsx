@@ -53,6 +53,7 @@ export default function BlogPostForm({
   currentCategory,
   currentContent,
   currentImage,
+  currentSlug,
 }) {
   const [title, setTitle] = useState(currentTitle || "");
   const [description, setDescription] = useState(currentDescription || "");
@@ -98,13 +99,16 @@ export default function BlogPostForm({
 
     // Check if currentTitle is provided and if true then update the post
     if (currentTitle) {
-      await updatePostAction({
-        ...post,
-        currentTitle,
-        currentDescription,
-        currentCategory,
-        currentContent,
-      });
+      await updatePostAction(
+        {
+          ...post,
+          currentTitle,
+          currentDescription,
+          currentCategory,
+          currentContent,
+        },
+        currentSlug,
+      );
       toast.success("Post updated successfully!");
       router.replace("/admin/blog");
     } else {
