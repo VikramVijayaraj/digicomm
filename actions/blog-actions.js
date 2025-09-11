@@ -31,56 +31,62 @@ export async function createPostAction(data) {
   }
 }
 
-export async function updatePostAction(data) {
+export async function updatePostAction(data, currentSlug) {
   const {
     title,
     description,
     category,
-    slug,
+    slug, // This is the new slug
     content,
     imageUrl,
     published_status,
   } = data;
 
-  try {
-    // Create base query without cover_image
-    let query = `
-      UPDATE blogposts
-      SET title = $1, 
-          description = $2,
-          category = $3, 
-          slug = $4, 
-          content = $5, 
-          published_status = $6
-    `;
+  // For safety, trim both slugs to avoid whitespace issues
+  const newSlug = slug.trim();
+  const oldSlug = currentSlug.trim();
 
-    // Add cover_image to query only if imageUrl exists
+  try {
+    let result;
+
     if (imageUrl) {
-      query += `, cover_image = $7`;
+      // Query runs if an image is provided
+      result = await sql`
+        UPDATE blogposts
+        SET title = ${title},
+            description = ${description},
+            category = ${category},
+            slug = ${newSlug},
+            content = ${content},
+            published_status = ${published_status},
+            cover_image = ${imageUrl}
+        WHERE slug = ${oldSlug}
+      `;
+    } else {
+      // Query runs if no image is provided
+      result = await sql`
+        UPDATE blogposts
+        SET title = ${title},
+            description = ${description},
+            category = ${category},
+            slug = ${newSlug},
+            content = ${content},
+            published_status = ${published_status}
+        WHERE slug = ${oldSlug}
+      `;
     }
 
-    query += ` WHERE slug = $4`;
-
-    // Create params array based on whether imageUrl exists
-    const params = imageUrl
-      ? [
-          title,
-          description,
-          category,
-          slug,
-          content,
-          published_status,
-          imageUrl,
-        ]
-      : [title, description, category, slug, content, published_status];
-
-    await sql.query(query, params);
+    if (result.rowCount === 0) {
+      console.warn(
+        "Update failed: The original slug was not found in the database.",
+      );
+    }
 
     revalidatePath("/blog");
     revalidatePath("/sitemap");
   } catch (error) {
-    console.error(error);
-    throw new Error("Failed to update post");
+    console.error("Database Error:", error);
+    throw new Error("Failed to update post.");
   }
 }
 

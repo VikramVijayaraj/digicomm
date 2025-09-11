@@ -1,19 +1,20 @@
-import { revalidatePath } from "next/cache";
+import { unstable_noStore } from "next/cache";
 
 import BlogPostForm from "@/components/blog/blog-post-form";
 import { getBlogPostBySlug } from "@/lib/db/blog";
 
-export default async function EditPostPage({ params }) {
-  const { slug } = params;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-  // Fetch the post data using the slug
+export default async function EditPostPage({ params }) {
+  unstable_noStore();
+
+  const { slug } = params;
   const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     return <div className="text-center">Post not found</div>;
   }
-
-  revalidatePath("/");
 
   return (
     <div>
@@ -25,6 +26,7 @@ export default async function EditPostPage({ params }) {
         currentCategory={post.category}
         currentContent={post.content}
         currentImage={post.cover_image}
+        currentSlug={slug}
       />
     </div>
   );
