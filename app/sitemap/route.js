@@ -6,8 +6,6 @@ import { getCategories } from "@/lib/db/categories";
 
 export async function GET() {
   try {
-    revalidatePath("/sitemap");
-
     const products = await getProducts();
     const categories = await getCategories();
 

@@ -24,6 +24,7 @@ export async function createPostAction(data) {
 
     // Revalidate both the blog page and sitemap
     revalidatePath("/blog");
+    revalidatePath(`/blog/${slug}`);
     revalidatePath("/sitemap");
   } catch (error) {
     console.error(error);
@@ -83,6 +84,7 @@ export async function updatePostAction(data, currentSlug) {
     }
 
     revalidatePath("/blog");
+    revalidatePath(`/blog/${newSlug}`);
     revalidatePath("/sitemap");
   } catch (error) {
     console.error("Database Error:", error);
