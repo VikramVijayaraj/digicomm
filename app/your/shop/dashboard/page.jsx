@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
 import { getShopDetails, verifySeller } from "@/lib/db/sellers";
-import ShopDetailsForm from "@/components/shop/shop-details-form";
+import { CardsSection } from "@/components/shop/dashboard/cards-section";
+import { ChartSection } from "@/components/shop/dashboard/chart-section";
 
 export default async function ShopDashboard() {
   const session = await auth();
@@ -15,10 +16,11 @@ export default async function ShopDashboard() {
   }
 
   const details = await getShopDetails(session?.user?.email);
-
+  console.log(details);
   return (
-    <div className="w-full lg:w-[80%]">
-      <ShopDetailsForm session={session} data={details} />
+    <div className="space-y-8">
+      <CardsSection />
+      <ChartSection />
     </div>
   );
 }
