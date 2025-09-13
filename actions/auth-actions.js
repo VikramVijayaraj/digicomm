@@ -13,51 +13,51 @@ import { createClient } from "@/utils/supabase/server";
 
 const sql = neon(process.env.DATABASE_URL);
 
-export async function signin(values) {
+export async function signIn(values) {
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
+  const { data, error } = await supabase.auth.signInWithPassword({
     email: values.email.toLowerCase(),
     password: values.password,
-  };
-
-  const { data: user, error } = await supabase.auth.signInWithPassword(data);
+  });
 
   if (error) {
     console.log(error.message);
+    return {
+      status: error.message,
+      user: null,
+    };
   }
 
-  console.log(user);
   revalidatePath("/", "layout");
-  redirect("/");
+  return { status: "success", user: data.user };
 }
 
-export async function signup(values) {
-  const { email, password, name } = values;
-
+export async function signUp(values) {
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: email.toLowerCase(),
-    password: password,
-  };
-
-  const { data: user, error } = await supabase.auth.signUp(data);
+  const { data, error } = await supabase.auth.signUp({
+    email: values.email.toLowerCase(),
+    password: values.password,
+  });
 
   if (error) {
-    console.log(error);
+    return {
+      status: error.message,
+      user: null,
+    };
+  } else if (data?.user.identities.length === 0) {
+    return {
+      status: "User with this email already exists. Please sign in.",
+      user: null,
+    };
   }
 
-  console.log(user);
   revalidatePath("/", "layout");
-  redirect("/");
+  return { status: "success", user: data.user };
 }
 
-export async function signout() {
+export async function signOut() {
   const supabase = await createClient();
   const { error } = await supabase.auth.signOut();
 

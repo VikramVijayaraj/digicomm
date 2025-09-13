@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { LoaderCircle } from "lucide-react";
@@ -15,9 +18,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signUpSchema } from "@/lib/schema";
-import { signup } from "@/actions/auth-actions";
+import { signUp } from "@/actions/auth-actions";
 
 export default function SignUpForm() {
+  const router = useRouter();
+
   const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -29,14 +34,21 @@ export default function SignUpForm() {
 
   async function onSubmit(values) {
     try {
-      values = { ...values, email: values.email.toLowerCase() };
+      const result = await signUp(values);
 
-      await signup(values);
-      // await handleCredentialsSignIn(values);
-      toast.success("Account created successfully.");
-      form.reset();
+      if (result.status === "success") {
+        toast.success("Account created successfully.");
+        form.reset();
+        router.push("/"); // Redirect to home or another page after successful signup
+      } else {
+        form.setError("root", { message: result.status });
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Signup error:", error);
+      form.setError("root", {
+        message:
+          error.message || "An unexpected error occurred. Please try again.",
+      });
     }
   }
 
@@ -88,6 +100,12 @@ export default function SignUpForm() {
             </FormItem>
           )}
         />
+
+        {form.formState.errors.root && (
+          <p className="text-sm font-medium text-destructive">
+            {form.formState.errors.root.message}
+          </p>
+        )}
 
         <Button
           className="w-full"

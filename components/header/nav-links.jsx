@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 
-import { signout } from "@/actions/auth-actions";
+import { signOut } from "@/actions/auth-actions";
 
 export default function NavLinks({ userData, shopDetails }) {
   const { setTheme } = useTheme();
@@ -24,7 +24,7 @@ export default function NavLinks({ userData, shopDetails }) {
   let storeIcon;
 
   async function handleSignOut() {
-    await signout();
+    await signOut();
   }
 
   if (!userData?.user) {
