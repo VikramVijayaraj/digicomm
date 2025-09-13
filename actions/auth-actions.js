@@ -4,47 +4,105 @@
 import { neon } from "@neondatabase/serverless";
 import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-import { signIn, signOut } from "@/auth";
+// import { signIn, signOut } from "@/auth";
 import { getUserByEmail } from "@/lib/db/users";
 import { saltAndHashPassword, verifyPassword } from "@/utils/password";
+import { createClient } from "@/utils/supabase/server";
 
 const sql = neon(process.env.DATABASE_URL);
 
-export async function handleCredentialsSignIn(
-  { email, password, name },
-  callbackUrl,
-) {
-  try {
-    await signIn("credentials", {
-      email,
-      password,
-      name,
-      // source,
-      redirectTo: callbackUrl,
-    });
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return {
-            message: "Invalid email or password",
-          };
-        default:
-          return {
-            message: "An unexpected error occurred",
-          };
-      }
-    }
-    throw error;
+export async function signin(values) {
+  const supabase = await createClient();
+
+  // type-casting here for convenience
+  // in practice, you should validate your inputs
+  const data = {
+    email: values.email.toLowerCase(),
+    password: values.password,
+  };
+
+  const { data: user, error } = await supabase.auth.signInWithPassword(data);
+
+  if (error) {
+    console.log(error.message);
   }
-  revalidatePath("/");
+
+  console.log(user);
+  revalidatePath("/", "layout");
+  redirect("/");
 }
 
-export async function handleSignOut() {
-  await signOut();
-  revalidatePath("/");
+export async function signup(values) {
+  const { email, password, name } = values;
+
+  const supabase = await createClient();
+
+  // type-casting here for convenience
+  // in practice, you should validate your inputs
+  const data = {
+    email: email.toLowerCase(),
+    password: password,
+  };
+
+  const { data: user, error } = await supabase.auth.signUp(data);
+
+  if (error) {
+    console.log(error);
+  }
+
+  console.log(user);
+  revalidatePath("/", "layout");
+  redirect("/");
 }
+
+export async function signout() {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Error signing out:", error.message);
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/");
+}
+
+// export async function handleCredentialsSignIn(
+//   { email, password, name },
+//   callbackUrl,
+// ) {
+//   try {
+//     await signIn("credentials", {
+//       email,
+//       password,
+//       name,
+//       // source,
+//       redirectTo: callbackUrl,
+//     });
+//   } catch (error) {
+//     if (error instanceof AuthError) {
+//       switch (error.type) {
+//         case "CredentialsSignin":
+//           return {
+//             message: "Invalid email or password",
+//           };
+//         default:
+//           return {
+//             message: "An unexpected error occurred",
+//           };
+//       }
+//     }
+//     throw error;
+//   }
+//   revalidatePath("/");
+// }
+
+// export async function handleSignOut() {
+//   await signOut();
+//   revalidatePath("/");
+// }
 
 export async function getUserIfExists(email, password) {
   // Logic to check if the user exists in the database and matches the hashed password

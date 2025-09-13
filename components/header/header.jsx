@@ -22,15 +22,20 @@ import {
 } from "@/components/ui/sheet";
 import { Label } from "../ui/label";
 import { getShopDetails } from "@/lib/db/sellers";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Header() {
   const session = await auth();
+  const supabase = await createClient();
+  const { data: userData, error } = await supabase.auth.getUser();
 
   const categories = await getCategories();
-  const shopDetails = await getShopDetails(session?.user?.email);
+  const shopDetails = await getShopDetails(userData?.user?.email);
 
+  console.log("\n************************");
   console.log("Printing from {header.js}");
-  console.log(session);
+  console.log("Logged in user:", userData?.user?.email);
+  console.log("************************\n");
 
   return (
     <>
@@ -75,7 +80,7 @@ export default async function Header() {
         </div>
 
         {/* NavLinks */}
-        <NavLinks session={session} shopDetails={shopDetails} />
+        <NavLinks userData={userData} shopDetails={shopDetails} />
       </header>
 
       {/* For md and sm screen sizes */}

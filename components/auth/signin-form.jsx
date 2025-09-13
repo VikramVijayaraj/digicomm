@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/lib/schema";
-import { handleCredentialsSignIn } from "@/actions/auth-actions";
+import { handleCredentialsSignIn, signin } from "@/actions/auth-actions";
 
 export default function SignInForm() {
   const [error, setError] = useState(null);
@@ -36,9 +36,13 @@ export default function SignInForm() {
 
   // 2. Define a submit handler.
   async function onSubmit(values) {
-    values = { ...values, email: values.email.toLowerCase() };
-    const result = await handleCredentialsSignIn(values, callbackUrl);
-    setError(result?.message);
+    try {
+      values = { ...values, email: values.email.toLowerCase() };
+      await signin(values);
+      form.reset();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

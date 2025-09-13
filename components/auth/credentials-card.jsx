@@ -58,7 +58,7 @@ export default function CredentialsCard({ page }) {
           onClick={handleSignIn}
           className="w-full gap-2"
           type="submit"
-          // variant="secondary"
+          // variant="outline"
         >
           <Image src="/logos/google.svg" width={15} height={15} alt="" />
           Continue with Google

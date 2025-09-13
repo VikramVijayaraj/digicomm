@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Moon, ShoppingCart, Store, Sun } from "lucide-react";
-import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,15 +14,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { handleSignOut } from "@/actions/auth-actions";
 
-export default function NavLinks({ session, shopDetails }) {
+import { signout } from "@/actions/auth-actions";
+
+export default function NavLinks({ userData, shopDetails }) {
   const { setTheme } = useTheme();
 
   let profileIcon;
   let storeIcon;
 
-  if (!session?.user) {
+  async function handleSignOut() {
+    await signout();
+  }
+
+  if (!userData?.user) {
     profileIcon = (
       <Link href="/auth/signin">
         <Button variant="ghost" className="rounded-full">
@@ -36,12 +40,12 @@ export default function NavLinks({ session, shopDetails }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="cursor-pointer">
-            <AvatarImage src={session?.user?.image} />
-            <AvatarFallback>{session?.user?.email?.at(0)}</AvatarFallback>
+            <AvatarImage src={userData?.user?.image} />
+            <AvatarFallback>{userData?.user?.email?.at(0)}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuLabel>{session?.user.email}</DropdownMenuLabel>
+          <DropdownMenuLabel>{userData?.user.email}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <Link href="/your/account/orders">
             <DropdownMenuItem>Orders</DropdownMenuItem>
@@ -70,7 +74,7 @@ export default function NavLinks({ session, shopDetails }) {
           <DropdownMenuSeparator />
 
           <Link href="/">
-            <DropdownMenuItem onClick={() => signOut()}>
+            <DropdownMenuItem onClick={handleSignOut}>
               {/* <DropdownMenuItem onClick={() => handleSignOut()}> */}
               Sign out
             </DropdownMenuItem>

@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signUpSchema } from "@/lib/schema";
-import { handleCredentialsSignIn } from "@/actions/auth-actions";
+import { signup } from "@/actions/auth-actions";
 
 export default function SignUpForm() {
   const form = useForm({
@@ -30,7 +30,9 @@ export default function SignUpForm() {
   async function onSubmit(values) {
     try {
       values = { ...values, email: values.email.toLowerCase() };
-      await handleCredentialsSignIn(values);
+
+      await signup(values);
+      // await handleCredentialsSignIn(values);
       toast.success("Account created successfully.");
       form.reset();
     } catch (error) {
