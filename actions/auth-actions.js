@@ -30,23 +30,6 @@ export async function signIn(values) {
     };
   }
 
-  // Insert the user into public.users table if not exists
-  // const { data: existingUser } = await supabase
-  //   .from("users")
-  //   .select("*")
-  //   .eq("email", data.user.email)
-  //   .single();
-
-  // if (!existingUser) {
-  //   const { error: insertError } = await supabase.from("users").insert([
-  //     {
-  //       id: data.user.id,
-  //       email: data.user.email,
-  //       name: data.user.user_metadata.name,
-  //     },
-  //   ]);
-  // }
-
   revalidatePath("/", "layout");
   return { status: "success", user: data.user };
 }
@@ -91,6 +74,28 @@ export async function signOut() {
 
   revalidatePath("/", "layout");
   redirect("/");
+}
+
+export async function signInWithGoogle() {
+  const supabase = await createClient();
+  const origin =
+    (await headers()).get("origin") ?? process.env.NEXT_PUBLIC_APP_BASE_URL;
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${origin}/auth/callback`,
+    },
+  });
+
+  console.log(data);
+
+  if (error) {
+    console.error(error);
+    redirect("/error");
+  } else if (data.url) {
+    redirect(data.url);
+  }
 }
 
 export async function forgotPassword(email) {

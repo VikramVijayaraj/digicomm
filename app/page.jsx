@@ -16,6 +16,7 @@ import Testimonials from "@/components/section/testimonials";
 export default async function Home({ searchParams }) {
   const session = await auth();
 
+
   if (session?.user?.email) {
     const user = await getUserByEmail(session.user.email);
     const userSource = await getUserSourceByEmail(session.user.email);

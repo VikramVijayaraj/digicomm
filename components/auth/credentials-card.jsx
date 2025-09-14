@@ -17,30 +17,32 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import SignInForm from "./signin-form";
 import SignUpForm from "./signup-form";
+import { signInWithGoogle } from "@/actions/auth-actions";
 
 export default function CredentialsCard({ page }) {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
-  const router = useRouter();
+  // const searchParams = useSearchParams();
+  // const callbackUrl = searchParams.get("callbackUrl");
+  // const router = useRouter();
 
-  async function handleSignIn(e) {
-    e.preventDefault();
-    try {
-      const result = await signIn("google", {
-        callbackUrl: callbackUrl || "/",
-        redirect: false,
-      });
+  async function handleSignIn() {
+    await signInWithGoogle();
 
-      if (result?.error) {
-        // Handle errors, e.g., show an error message
-        console.error("Sign in error:", result.error);
-      } else if (result?.url) {
-        // Successful sign-in, redirect using Next.js router
-        router.push(result.url);
-      }
-    } catch (error) {
-      console.error("Unexpected error during sign in:", error);
-    }
+    // try {
+    //   const result = await signIn("google", {
+    //     callbackUrl: callbackUrl || "/",
+    //     redirect: false,
+    //   });
+
+    //   if (result?.error) {
+    //     // Handle errors, e.g., show an error message
+    //     console.error("Sign in error:", result.error);
+    //   } else if (result?.url) {
+    //     // Successful sign-in, redirect using Next.js router
+    //     router.push(result.url);
+    //   }
+    // } catch (error) {
+    //   console.error("Unexpected error during sign in:", error);
+    // }
   }
 
   return (

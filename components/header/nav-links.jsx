@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Moon, ShoppingCart, Store, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -14,17 +15,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
-
 import { signOut } from "@/actions/auth-actions";
 
 export default function NavLinks({ userData, shopDetails }) {
   const { setTheme } = useTheme();
+  const router = useRouter();
 
   let profileIcon;
   let storeIcon;
 
   async function handleSignOut() {
     await signOut();
+    router.refresh();
   }
 
   if (!userData?.user) {
