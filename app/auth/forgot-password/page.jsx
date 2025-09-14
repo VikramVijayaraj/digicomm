@@ -26,7 +26,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { forgotPasswordSchema } from "@/lib/schema";
 import { getUserByEmailAction } from "@/actions/user-actions";
-import { sendResetLink } from "@/actions/send-email-action";
+import { forgotPassword } from "@/actions/auth-actions";
 
 export default function ForgotPasswordPage() {
   const [error, setError] = useState(null);
@@ -47,12 +47,12 @@ export default function ForgotPasswordPage() {
 
     if (user) {
       // Send a reset link to the user's email
-      const result = await sendResetLink(values.email);
+      const result = await forgotPassword(values.email);
 
-      if (result.success) {
+      if (result.status === "success") {
         setIsEmailSent(true);
       } else {
-        setError(result.error);
+        setError(result.status);
       }
     } else {
       // Display an error message if the email is not found

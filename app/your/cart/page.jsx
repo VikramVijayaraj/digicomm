@@ -1,23 +1,27 @@
 import { redirect } from "next/navigation";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
-import { revalidatePath } from "next/cache";
 
-import { auth } from "@/auth";
 import { getCartItems } from "@/lib/db/cart";
 import OptimisticCart from "./optimistic-cart";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function CartPage() {
-  const session = await auth();
-
-  if (!session?.user) {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+  
+  if (error) {
+    console.error("Error fetching user:", error.message);
     redirect("/auth/signin?callbackUrl=/your/cart");
   }
 
-  revalidatePath("/");
+  // If no user is found, redirect to the sign-in page
+  if (!data?.user) {
+    redirect("/auth/signin?callbackUrl=/your/cart");
+  }
 
-  const cartItems = await getCartItems(session?.user?.email);
+  const cartItems = await getCartItems(data?.user.email);
 
   return (
     <div className="global-padding min-h-screen space-y-4">

@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import { getUserByEmail } from "@/lib/db/users";
 import { saltAndHashPassword, verifyPassword } from "@/utils/password";
 import { createClient } from "@/utils/supabase/server";
+import { headers } from "next/headers";
 
 const sql = neon(process.env.DATABASE_URL);
 
@@ -22,12 +23,29 @@ export async function signIn(values) {
   });
 
   if (error) {
-    console.log(error.message);
+    console.log(error);
     return {
       status: error.message,
       user: null,
     };
   }
+
+  // Insert the user into public.users table if not exists
+  // const { data: existingUser } = await supabase
+  //   .from("users")
+  //   .select("*")
+  //   .eq("email", data.user.email)
+  //   .single();
+
+  // if (!existingUser) {
+  //   const { error: insertError } = await supabase.from("users").insert([
+  //     {
+  //       id: data.user.id,
+  //       email: data.user.email,
+  //       name: data.user.user_metadata.name,
+  //     },
+  //   ]);
+  // }
 
   revalidatePath("/", "layout");
   return { status: "success", user: data.user };
@@ -39,9 +57,15 @@ export async function signUp(values) {
   const { data, error } = await supabase.auth.signUp({
     email: values.email.toLowerCase(),
     password: values.password,
+    options: {
+      data: {
+        username: values.name,
+      },
+    },
   });
 
   if (error) {
+    console.error(error);
     return {
       status: error.message,
       user: null,
@@ -67,6 +91,51 @@ export async function signOut() {
 
   revalidatePath("/", "layout");
   redirect("/");
+}
+
+export async function forgotPassword(email) {
+  const supabase = await createClient();
+  const origin =
+    (await headers()).get("origin") ?? process.env.NEXT_PUBLIC_APP_BASE_URL;
+
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${origin}/auth/reset-password`,
+  });
+
+  if (error) {
+    console.error("Error sending password reset email:", error.message);
+    return {
+      status: error.message,
+    };
+  }
+
+  return { status: "success" };
+}
+
+export async function resetPassword(password, code) {
+  const supabase = await createClient();
+  const { error: codeError } = await supabase.auth.exchangeCodeForSession(code);
+
+  if (codeError) {
+    console.error("Error verifying reset code:", codeError.message);
+    return {
+      status: codeError.message,
+    };
+  }
+
+  const { error } = await supabase.auth.updateUser({
+    password,
+  });
+
+  if (error) {
+    console.error("Error resetting password:", error.message);
+    return {
+      status: error.message,
+    };
+  }
+
+  revalidatePath("/", "layout");
+  return { status: "success" };
 }
 
 // export async function handleCredentialsSignIn(
@@ -117,43 +186,4 @@ export async function getUserIfExists(email, password) {
     return user[0];
   }
   return null;
-}
-
-export async function verifyPasswordResetToken(token) {
-  try {
-    const rows = await sql`
-    SELECT * FROM users
-    WHERE reset_password_token = ${token};
-  `;
-    return rows[0];
-  } catch (error) {
-    console.error(error);
-    throw new Error(
-      "Error verifying the password reset token. Please try again later!",
-    );
-  }
-}
-
-export async function updatePassword(email, plainPassword) {
-  try {
-    const hashedPassword = await saltAndHashPassword(plainPassword);
-
-    await sql`
-      UPDATE users
-      SET
-        password = ${hashedPassword},
-        reset_password_token = null,
-        reset_password_token_expiry = null
-      WHERE email = ${email};
-    `;
-
-    revalidatePath("/");
-    return { success: true };
-  } catch (error) {
-    console.error(error);
-    return {
-      success: false,
-      error: "Failed to update the password. Please try again later!",
-    };
-  }
 }

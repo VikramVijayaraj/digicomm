@@ -37,9 +37,9 @@ export default function SignUpForm() {
       const result = await signUp(values);
 
       if (result.status === "success") {
-        toast.success("Account created successfully.");
+        toast.success("An email has been sent to your inbox. Please verify.");
         form.reset();
-        router.push("/"); // Redirect to home or another page after successful signup
+        router.push("/auth/signin"); // Redirect to home or another page after successful signup
       } else {
         form.setError("root", { message: result.status });
       }
