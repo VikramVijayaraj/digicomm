@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ChevronRight, Menu } from "lucide-react";
 
-import { auth } from "@/auth";
 import NavLinks from "./nav-links";
 import { getCategories } from "@/lib/db/categories";
 import SearchBar from "./search-bar";
@@ -25,7 +24,6 @@ import { getShopDetails } from "@/lib/db/sellers";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function Header() {
-  const session = await auth();
   const supabase = await createClient();
   const { data: userData, error } = await supabase.auth.getUser();
 

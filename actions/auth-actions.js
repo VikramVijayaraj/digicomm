@@ -12,7 +12,6 @@ import { saltAndHashPassword, verifyPassword } from "@/utils/password";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 
-const sql = neon(process.env.DATABASE_URL);
 
 export async function signIn(values) {
   const supabase = await createClient();
@@ -23,7 +22,7 @@ export async function signIn(values) {
   });
 
   if (error) {
-    console.log(error);
+    console.error(error);
     return {
       status: error.message,
       user: null,
@@ -87,8 +86,6 @@ export async function signInWithGoogle() {
       redirectTo: `${origin}/auth/callback`,
     },
   });
-
-  console.log(data);
 
   if (error) {
     console.error(error);
