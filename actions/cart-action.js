@@ -5,29 +5,34 @@ import { neon } from "@neondatabase/serverless";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
 import {
   createCartItem,
   createCartUserByEmail,
   removeProductFromCart,
 } from "@/lib/db/cart";
 import { getProduct } from "@/lib/db/products";
+import { createClient } from "@/utils/supabase/server";
 
 const sql = neon(process.env.DATABASE_URL);
 
 export async function addToCartAction(slug, quantity) {
-  const session = await auth();
+  const supabase = await createClient();
 
-  if (!session?.user) {
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Cannot fetch user data. Please try again later!");
+  }
+
+  if (!data?.user) {
     redirect(`/auth/signin?callbackUrl=/products/${slug}`);
-    // throw new Error("User not authenticated");
   }
 
   let cartId;
 
   try {
-    const result = await createCartUserByEmail(session.user.email);
-    const { id } = result[0];
+    const id = await createCartUserByEmail(data?.user.email);
     cartId = id;
   } catch (error) {
     console.log(error);
@@ -68,13 +73,20 @@ export async function updateCartItemQuantityAction(
   productId,
   quantity,
 ) {
+  const supabase = await createClient();
+
   try {
-    // await updateCartItemQuantity(productId, quantity);
-    await sql`
-      UPDATE cart_items
-      SET quantity = ${quantity}
-      WHERE cart_id = ${cartId} and product_id = ${productId};
-    `;
+    const { error } = await supabase
+      .from("cart_items")
+      .update({ quantity: quantity })
+      .eq("cart_id", cartId)
+      .eq("product_id", productId);
+
+    if (error) {
+      console.error(error);
+      throw new Error("Failed to update the product quantity. Try again!");
+    }
+
     revalidatePath("/your/cart");
   } catch (error) {
     console.log(error);

@@ -1,14 +1,10 @@
 "use server";
 
-// import { sql } from "@vercel/postgres";
-import { neon } from "@neondatabase/serverless";
-import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-// import { signIn, signOut } from "@/auth";
 import { getUserByEmail } from "@/lib/db/users";
-import { saltAndHashPassword, verifyPassword } from "@/utils/password";
+import { verifyPassword } from "@/utils/password";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 
