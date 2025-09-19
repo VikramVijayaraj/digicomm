@@ -27,6 +27,10 @@ export default async function Header() {
   const supabase = await createClient();
   const { data: userData, error } = await supabase.auth.getUser();
 
+  if (error) {
+    console.error("Error fetching user:", error.message);
+  }
+
   const categories = await getCategories();
   const shopDetails = await getShopDetails(userData?.user?.email);
 

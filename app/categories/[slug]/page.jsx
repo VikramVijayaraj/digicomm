@@ -36,6 +36,10 @@ export default async function CategoryProductsPage({ params }) {
     );
   } catch (error) {
     console.error("Error fetching category products:", error);
-    return <div>Error loading products. Please try again later.</div>;
+    return (
+      <div className="text-center text-sm mt-20">
+        Error loading products. Please try again later.
+      </div>
+    );
   }
 }
