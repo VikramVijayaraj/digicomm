@@ -12,7 +12,6 @@ import { saltAndHashPassword, verifyPassword } from "@/utils/password";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 
-
 export async function signIn(values) {
   const supabase = await createClient();
 
@@ -35,6 +34,8 @@ export async function signIn(values) {
 
 export async function signUp(values) {
   const supabase = await createClient();
+  const origin =
+    (await headers()).get("origin") ?? process.env.NEXT_PUBLIC_APP_BASE_URL;
 
   const { data, error } = await supabase.auth.signUp({
     email: values.email.toLowerCase(),
@@ -43,6 +44,7 @@ export async function signUp(values) {
       data: {
         username: values.name,
       },
+      emailRedirectTo: `${origin}/auth/signin`,
     },
   });
 

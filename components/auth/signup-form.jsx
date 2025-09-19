@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -22,6 +23,7 @@ import { signUp } from "@/actions/auth-actions";
 
 export default function SignUpForm() {
   const router = useRouter();
+  const [successMessage, setSuccessMessage] = useState("");
 
   const form = useForm({
     resolver: zodResolver(signUpSchema),
@@ -37,9 +39,13 @@ export default function SignUpForm() {
       const result = await signUp(values);
 
       if (result.status === "success") {
-        toast.success("An email has been sent to your inbox. Please verify.");
+        setSuccessMessage(
+          "An email has been sent to your inbox. Please verify and then sign in.",
+        );
         form.reset();
-        router.push("/auth/signin"); // Redirect to home or another page after successful signup
+        setTimeout(() => {
+          router.push("/auth/signin");
+        }, 3000);
       } else {
         form.setError("root", { message: result.status });
       }
@@ -100,6 +106,12 @@ export default function SignUpForm() {
             </FormItem>
           )}
         />
+
+        {successMessage && (
+          <p className="text-sm font-medium text-green-600 bg-green-50 p-3 rounded-md">
+            {successMessage}
+          </p>
+        )}
 
         {form.formState.errors.root && (
           <p className="text-sm font-medium text-destructive">
