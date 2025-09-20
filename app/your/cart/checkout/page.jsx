@@ -5,9 +5,10 @@ import { auth } from "@/auth";
 import CartTotal from "@/components/cart/cart-total";
 import PaymentButton from "@/components/checkout/payment-button";
 import { fetchPaymentDetails } from "@/lib/api";
-import { getCartItems, removeCart } from "@/lib/db/cart";
+import { getCartItems } from "@/lib/db/cart";
 import { createOrder, createPayment } from "@/lib/db/orders";
 import { getUserDetailsByEmail } from "@/lib/db/users";
+import { removeCartAction } from "@/actions/cart-action";
 
 export default async function Checkout() {
   const session = await auth();
@@ -55,7 +56,7 @@ export default async function Checkout() {
     await createPayment(paymentDetails);
 
     // Clean up the cart after the payment
-    await removeCart(cartItems[0].cart_id);
+    await removeCartAction(cartItems[0].cart_id);
   }
 
   return (

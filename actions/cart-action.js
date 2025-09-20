@@ -1,7 +1,5 @@
 "use server";
 
-// import { sql } from "@vercel/postgres";
-import { neon } from "@neondatabase/serverless";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -12,8 +10,7 @@ import {
 } from "@/lib/db/cart";
 import { getProduct } from "@/lib/db/products";
 import { createClient } from "@/utils/supabase/server";
-
-const sql = neon(process.env.DATABASE_URL);
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function addToCartAction(slug, quantity) {
   const supabase = await createClient();
@@ -91,5 +88,14 @@ export async function updateCartItemQuantityAction(
   } catch (error) {
     console.log(error);
     throw new Error("Failed to update the product quantity. Try again!");
+  }
+}
+
+export async function removeCartAction(cartId) {
+  const { error } = await supabaseAdmin.from("carts").delete().eq("id", cartId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Cannot remove cart!");
   }
 }
