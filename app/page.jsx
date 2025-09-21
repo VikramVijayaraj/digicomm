@@ -18,10 +18,10 @@ export default async function Home({ searchParams }) {
   const { data, error } = await supabase.auth.getUser();
 
   if (error) {
-    console.error("Error fetching user:", error);
+    console.error("Error fetching user:", error.message);
   }
 
-  if (data?.user.email) {
+  if (data?.user?.email) {
     const user = await getUserByEmail(data.user.email);
     const userSource = await getUserSourceByEmail(data.user.email);
 

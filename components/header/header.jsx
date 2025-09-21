@@ -32,7 +32,10 @@ export default async function Header() {
   }
 
   const categories = await getCategories();
-  const shopDetails = await getShopDetails(userData?.user?.email);
+  // Get shop details only if user is authenticated
+  const shopDetails = userData?.user?.email
+    ? await getShopDetails(userData.user.email)
+    : null;
 
   console.log("\n************************");
   console.log("Printing from {header.js}");

@@ -10,7 +10,7 @@ import { createClient } from "@/utils/supabase/server";
 export default async function CartPage() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
-  
+
   if (error) {
     console.error("Error fetching user:", error.message);
     redirect("/auth/signin?callbackUrl=/your/cart");
@@ -21,7 +21,7 @@ export default async function CartPage() {
     redirect("/auth/signin?callbackUrl=/your/cart");
   }
 
-  const cartItems = await getCartItems(data?.user.email);
+  const cartItems = await getCartItems(data?.user?.email);
 
   return (
     <div className="global-padding min-h-screen space-y-4">

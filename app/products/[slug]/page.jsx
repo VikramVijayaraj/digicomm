@@ -56,10 +56,10 @@ export default async function ProductPage({ params }) {
   const { data, error } = await supabase.auth.getUser();
 
   if (error) {
-    console.error("Error fetching user:", error);
+    console.error("Error fetching user:", error.message);
   }
 
-  const cartItems = data?.user ? await getCartItems(data.user.email) : [];
+  const cartItems = data?.user ? await getCartItems(data?.user?.email) : [];
 
   return (
     <div className="global-padding scroll-smooth">
