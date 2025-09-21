@@ -61,10 +61,11 @@ export default function RootLayout({ children }) {
             enableSystem
             disableTransitionOnChange
           >
-            <Header />
-            <div className="py-8">{children}</div>
+            {/* <Header /> */}
+            {/* <div className="py-8">{children}</div> */}
+            <div className="py-0">{children}</div>
             <Toaster richColors />
-            <Footer />
+            {/* <Footer /> */}
           </ThemeProvider>
         </ReduxProvider>
 
@@ -74,7 +75,7 @@ export default function RootLayout({ children }) {
         <FacebookPixel />
 
         {/* Fixed button */}
-        <ReportAnIssueButton />
+        {/* <ReportAnIssueButton /> */}
       </body>
     </html>
   );
