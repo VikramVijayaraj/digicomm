@@ -13,7 +13,7 @@ export async function addProductReviewAction(email, reviewData) {
 
   // Insert into reviews table
   await addProductReview(reviewData);
-  revalidatePath("/product/[slug]", "page");
+  revalidatePath("/product");
 }
 
 export async function addShopReviewAction(email, reviewData) {
@@ -24,6 +24,6 @@ export async function addShopReviewAction(email, reviewData) {
 
   // Insert into reviews table
   await addShopReview(reviewData);
-  revalidatePath("/product/[slug]", "page");
-  revalidatePath("/shop/[slug]", "page");
+  revalidatePath("/product");
+  revalidatePath("/shop");
 }

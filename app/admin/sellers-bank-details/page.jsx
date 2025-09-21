@@ -1,4 +1,3 @@
-import { getAllSellersBankDetails } from "@/lib/db/sellers";
 import {
   Table,
   TableBody,
@@ -10,9 +9,10 @@ import {
 } from "@/components/ui/table";
 import { dateConverter } from "@/utils/dateConverter";
 import ChangeVerificationStatus from "./change-verification-status";
+import { getAllSellersBankDetailsAction } from "@/actions/seller-actions";
 
 export default async function AdminSellersBankDetailsPage() {
-  const allBankDetails = await getAllSellersBankDetails();
+  const allBankDetails = await getAllSellersBankDetailsAction();
 
   return (
     <div>

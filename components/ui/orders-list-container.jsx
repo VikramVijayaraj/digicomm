@@ -14,7 +14,6 @@ import { dateConverter } from "@/utils/dateConverter";
 import Link from "next/link";
 
 export default function OrdersListContainer({ orderData }) {
-  console.log(orderData);
   return (
     <>
       {orderData.map((order) => (

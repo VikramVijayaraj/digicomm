@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { getOrders } from "@/lib/db/orders";
 import {
   Table,
@@ -10,10 +9,13 @@ import {
 } from "@/components/ui/table";
 import { dateConverter } from "@/utils/dateConverter";
 import OrderActions from "@/components/user/order-actions";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function OrdersPage() {
-  const session = await auth();
-  const orders = await getOrders(session?.user?.email);
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+
+  const orders = await getOrders(data?.user?.email);
 
   if (orders.length === 0) {
     return <p className="text-center">No orders found.</p>;
@@ -46,7 +48,7 @@ export default async function OrdersPage() {
 
               {/* Actions */}
               <TableCell>
-                <OrderActions order={order} userEmail={session?.user?.email} />
+                <OrderActions order={order} userEmail={data?.user?.email} />
               </TableCell>
             </TableRow>
           ))}

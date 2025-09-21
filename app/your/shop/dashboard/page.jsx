@@ -1,22 +1,25 @@
 import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
 import { getShopDetails, verifySeller } from "@/lib/db/sellers";
 import { CardsSection } from "@/components/shop/dashboard/cards-section";
 import { ChartSection } from "@/components/shop/dashboard/chart-section";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function ShopDashboard() {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
 
-  const result = await verifySeller(session?.user?.email);
+  const result = await verifySeller(data?.user?.email);
   const isSeller = result[0]?.is_seller;
 
   if (!isSeller) {
     redirect("/your/shop/register");
   }
 
-  const details = await getShopDetails(session?.user?.email);
+  const details = await getShopDetails(data?.user?.email);
+  console.log("Logging from /your/shop/dashboard/page.jsx");
   console.log(details);
+
   return (
     <div className="space-y-8">
       <CardsSection />

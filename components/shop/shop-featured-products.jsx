@@ -11,10 +11,7 @@ export default function ShopFeaturedProducts({ products }) {
       <SectionLayout heading="Featured Products">
         {products.length === 0 && (
           <div className="flex justify-center items-center gap-4">
-            <Button
-              asChild
-              className="w-full md:w-fit bg-primary-brand text-white hover:bg-primary hover:text-white"
-            >
+            <Button asChild className="w-full md:w-fit text-white">
               <Link href={`/your/shop/dashboard/products/new-product`}>
                 <Plus className="mr-2 h-4 w-4" />
                 <p className="text-lg">New Product</p>

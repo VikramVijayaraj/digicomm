@@ -42,7 +42,7 @@ export default function NavLinks({ userData, shopDetails }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="cursor-pointer">
-            <AvatarImage src={userData?.user?.image} />
+            <AvatarImage src={userData?.user?.user_metadata.avatar_url} />
             <AvatarFallback>{userData?.user?.email?.at(0)}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>

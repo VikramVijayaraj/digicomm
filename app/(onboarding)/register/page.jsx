@@ -1,12 +1,13 @@
 import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
 import UserDetailsForm from "@/components/user/user-details-form";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function RegisterPage({ searchParams }) {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
 
-  if (!session?.user) {
+  if (error || !data?.user) {
     redirect("/");
   }
 

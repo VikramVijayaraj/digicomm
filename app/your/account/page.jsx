@@ -1,13 +1,15 @@
-import { auth } from "@/auth";
 import { getUserDetailsByEmail } from "@/lib/db/users";
 import UserDetailsForm from "@/components/user/user-details-form";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function AccountPage() {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+
   let result;
 
-  if (session?.user?.email) {
-    result = await getUserDetailsByEmail(session.user.email);
+  if (data?.user?.email) {
+    result = await getUserDetailsByEmail(data.user.email);
   }
 
   return (

@@ -56,7 +56,7 @@ export default async function ShopOrderDetails({ searchParams }) {
         </CardHeader>
         <CardContent>
           <div className="w-fit mb-2 space-y-1">
-            <p className="text-gray-600 text-sm">Shipping Details</p>
+            <p className="text-gray-600 text-sm">Customer Details</p>
             <Separator />
           </div>
           <p>{buyerDetails.full_name}</p>
@@ -70,12 +70,12 @@ export default async function ShopOrderDetails({ searchParams }) {
         </CardContent>
       </Card>
 
-      <Card className="border-none shadow-none">
+      {/* Email form for tracking info */}
+      {/* <Card className="border-none shadow-none">
         <CardContent>
-          {/* Email form for tracking info */}
           <OrderTrackingEmailForm buyerDetails={buyerDetails} />
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 }
