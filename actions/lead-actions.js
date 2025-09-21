@@ -2,7 +2,10 @@
 
 import { neon } from "@neondatabase/serverless";
 
-const sql = neon(process.env.DATABASE_URL);
+const sql =
+  process.env.SKIP_BUILD_DB_CALLS === "true"
+    ? () => Promise.resolve([])
+    : neon(process.env.DATABASE_URL);
 
 export async function storeLeadAction(email) {
   try {

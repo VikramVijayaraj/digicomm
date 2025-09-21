@@ -9,7 +9,10 @@ import { signIn, signOut } from "@/auth";
 import { getUserByEmail } from "@/lib/db/users";
 import { saltAndHashPassword, verifyPassword } from "@/utils/password";
 
-const sql = neon(process.env.DATABASE_URL);
+const sql =
+  process.env.SKIP_BUILD_DB_CALLS === "true"
+    ? () => Promise.resolve([])
+    : neon(process.env.DATABASE_URL);
 
 export async function handleCredentialsSignIn(
   { email, password, name },
