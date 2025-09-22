@@ -21,7 +21,10 @@ export default function OrdersListContainer({ orderData }) {
           key={order.order_id}
         > */}
       {orderData.map((order) => (
-        <Card className="mb-2 text-sm md:text-base hover:drop-shadow-lg">
+        <Card
+          key={order.order_id}
+          className="mb-2 text-sm md:text-base hover:drop-shadow-lg"
+        >
           <CardContent className="p-4 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             <div className="relative w-[50px] h-[50px] md:w-[100px] md:h-[100px]">
               <Image

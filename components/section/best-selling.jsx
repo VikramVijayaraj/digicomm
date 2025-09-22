@@ -21,7 +21,9 @@ export default async function BestSelling() {
           <h2 className="text-xl text-red-500 font-bold">
             Oops! Something went wrong.
           </h2>
-          <p>We couldn't load the latest products. Please try again later.</p>
+          <p>
+            We couldn&apos;t load the latest products. Please try again later.
+          </p>
         </SectionLayout>
       </section>
     );

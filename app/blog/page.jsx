@@ -17,7 +17,7 @@ export default async function BlogPage() {
         <h2 className="text-xl text-red-500 font-bold">
           Oops! Something went wrong.
         </h2>
-        <p>We couldn't load the blog posts. Please try again later.</p>
+        <p>We couldn&apos;t load the blog posts. Please try again later.</p>
       </div>
     );
   }

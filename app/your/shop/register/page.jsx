@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import ShopDetailsForm from "@/components/shop/shop-details-form";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function RegisterShop() {
   const supabase = await createClient();

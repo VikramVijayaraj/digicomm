@@ -1,5 +1,6 @@
 import { getCategories } from "@/lib/db/categories";
 import ProductDetailsForm from "@/components/product/product-details-form";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function NewProductPage() {
   const supabase = await createClient();

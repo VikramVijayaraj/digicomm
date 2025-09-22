@@ -15,7 +15,7 @@ export async function createPostAction(data) {
     published_status,
   } = data;
 
-  const { data, error } = await supabaseAdmin.from("blogposts").insert([
+  const { error } = await supabaseAdmin.from("blogposts").insert([
     {
       title,
       description,
@@ -58,7 +58,7 @@ export async function updatePostAction(data, currentSlug) {
 
     if (imageUrl) {
       // Query runs if an image is provided
-      const { data, error } = await supabaseAdmin
+      const { data: blogData, error } = await supabaseAdmin
         .from("blogposts")
         .update({
           title: title,
@@ -76,10 +76,10 @@ export async function updatePostAction(data, currentSlug) {
         throw new Error("Failed to update post.");
       }
 
-      result = data;
+      result = blogData;
     } else {
       // Query runs if no image is provided
-      const { data, error } = await supabaseAdmin
+      const { data: blogData, error } = await supabaseAdmin
         .from("blogposts")
         .update({
           title: title,
@@ -96,7 +96,7 @@ export async function updatePostAction(data, currentSlug) {
         throw new Error("Failed to update post.");
       }
 
-      result = data;
+      result = blogData;
     }
 
     if (result.rowCount === 0) {
@@ -115,7 +115,7 @@ export async function updatePostAction(data, currentSlug) {
 }
 
 export async function togglePostStatusAction(postId, status) {
-  const { data, error } = await supabaseAdmin
+  const { error } = await supabaseAdmin
     .from("blogposts")
     .update({
       published_status: status,
