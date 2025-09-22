@@ -3,8 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { getUserByEmail } from "@/lib/db/users";
-import { verifyPassword } from "@/utils/password";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 
@@ -136,54 +134,4 @@ export async function resetPassword(password, code) {
 
   revalidatePath("/", "layout");
   return { status: "success" };
-}
-
-// export async function handleCredentialsSignIn(
-//   { email, password, name },
-//   callbackUrl,
-// ) {
-//   try {
-//     await signIn("credentials", {
-//       email,
-//       password,
-//       name,
-//       // source,
-//       redirectTo: callbackUrl,
-//     });
-//   } catch (error) {
-//     if (error instanceof AuthError) {
-//       switch (error.type) {
-//         case "CredentialsSignin":
-//           return {
-//             message: "Invalid email or password",
-//           };
-//         default:
-//           return {
-//             message: "An unexpected error occurred",
-//           };
-//       }
-//     }
-//     throw error;
-//   }
-//   revalidatePath("/");
-// }
-
-// export async function handleSignOut() {
-//   await signOut();
-//   revalidatePath("/");
-// }
-
-export async function getUserIfExists(email, password) {
-  // Logic to check if the user exists in the database and matches the hashed password
-  email = email.toLowerCase();
-  const user = await getUserByEmail(email);
-  if (user.length === 0) {
-    return null;
-  }
-
-  const isPasswordMatch = await verifyPassword(password, user[0]?.password);
-  if (isPasswordMatch) {
-    return user[0];
-  }
-  return null;
 }

@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { LoaderCircle } from "lucide-react";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +19,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { signUpSchema } from "@/lib/schema";
 import { signUp } from "@/actions/auth-actions";
+import { notifyOnSlack } from "@/lib/api";
+import { sendWelcomeEmail } from "@/actions/send-email-action";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -39,13 +40,18 @@ export default function SignUpForm() {
       const result = await signUp(values);
 
       if (result.status === "success") {
-        setSuccessMessage(
-          "An email has been sent to your inbox. Please verify and then sign in.",
-        );
+        setSuccessMessage("Check your email to verify, then sign in.");
         form.reset();
         setTimeout(() => {
           router.push("/auth/signin");
         }, 3000);
+
+        await sendWelcomeEmail(values.email);
+
+        // Notify on Slack
+        await notifyOnSlack(
+          `New user signed up: *${values.name}* (${values.email})`,
+        );
       } else {
         form.setError("root", { message: result.status });
       }

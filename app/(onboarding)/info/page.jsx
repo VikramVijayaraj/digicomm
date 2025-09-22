@@ -13,7 +13,7 @@ export default async function InfoPage() {
   }
 
   // Redirect if the user has already provided their source information
-  const userSource = await getUserSourceByEmail(data.user.email);
+  const userSource = await getUserSourceByEmail(data?.user?.email);
   if (userSource) {
     redirect("/");
   }

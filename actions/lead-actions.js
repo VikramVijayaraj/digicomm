@@ -1,29 +1,27 @@
 "use server";
 
-import { neon } from "@neondatabase/serverless";
-
-const sql = neon(process.env.DATABASE_URL);
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function storeLeadAction(email) {
-  try {
-    await sql`
-      INSERT INTO leads (email)
-      VALUES (${email})
-    `;
-  } catch (error) {
-    console.error("Error storing lead:", error);
+  const { error } = await supabaseAdmin.from("leads").insert({ email });
+
+  if (error) {
+    console.error("Error storing lead in Supabase:", error);
     throw new Error("Failed to store lead");
   }
 }
 
 export async function getLeadAction(email) {
-  try {
-    const rows = await sql`
-      SELECT * FROM leads WHERE email = ${email}
-    `;
-    return rows[0];
-  } catch (error) {
-    console.error("Error fetching lead:", error);
+  const { data, error } = await supabaseAdmin
+    .from("leads")
+    .select("*")
+    .eq("email", email)
+    .single();
+
+  if (error) {
+    console.error("Error fetching lead from Supabase:", error);
     throw new Error("Failed to fetch lead");
   }
+
+  return data;
 }

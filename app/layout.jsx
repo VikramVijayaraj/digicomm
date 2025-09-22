@@ -64,7 +64,7 @@ export default function RootLayout({ children }) {
             <Header />
             <div className="py-8">{children}</div>
             <Toaster richColors />
-            {/* <Footer /> */}
+            <Footer />
           </ThemeProvider>
         </ReduxProvider>
 

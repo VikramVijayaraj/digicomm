@@ -22,10 +22,10 @@ export default async function Home({ searchParams }) {
   }
 
   if (data?.user?.email) {
-    const user = await getUserByEmail(data.user.email);
+    // const user = await getUserByEmail(data.user.email);
     const userSource = await getUserSourceByEmail(data.user.email);
 
-    if (user.length === 0 || !userSource) {
+    if (!userSource) {
       redirect("/info");
     }
   }

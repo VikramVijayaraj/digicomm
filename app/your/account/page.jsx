@@ -4,13 +4,13 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function AccountPage() {
   const supabase = await createClient();
-  const { data } = await supabase.auth.getUser();
+  const { data, error } = await supabase.auth.getUser();
 
-  let result;
-
-  if (data?.user?.email) {
-    result = await getUserDetailsByEmail(data.user.email);
+  if (error || !data?.user) {
+    redirect("/auth/signin");
   }
+
+  const result = await getUserDetailsByEmail(data.user.email);
 
   return (
     <div className="">
