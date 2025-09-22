@@ -1,9 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { neon } from "@neondatabase/serverless";
 
-const sql = neon(process.env.DATABASE_URL);
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function createPostAction(data) {
   const {
@@ -16,20 +15,27 @@ export async function createPostAction(data) {
     published_status,
   } = data;
 
-  try {
-    await sql`
-      INSERT INTO blogposts (title, description, category, slug, content, cover_image, published_status)
-      VALUES (${title}, ${description}, ${category}, ${slug}, ${content}, ${imageUrl}, ${published_status})
-    `;
+  const { data, error } = await supabaseAdmin.from("blogposts").insert([
+    {
+      title,
+      description,
+      category,
+      slug,
+      content,
+      cover_image: imageUrl,
+      published_status,
+    },
+  ]);
 
-    // Revalidate both the blog page and sitemap
-    revalidatePath("/blog");
-    revalidatePath(`/blog/${slug}`);
-    revalidatePath("/sitemap");
-  } catch (error) {
+  if (error) {
     console.error(error);
     throw new Error("Failed to create post");
   }
+
+  // Revalidate both the blog page and sitemap
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${slug}`);
+  revalidatePath("/sitemap");
 }
 
 export async function updatePostAction(data, currentSlug) {
@@ -52,29 +58,45 @@ export async function updatePostAction(data, currentSlug) {
 
     if (imageUrl) {
       // Query runs if an image is provided
-      result = await sql`
-        UPDATE blogposts
-        SET title = ${title},
-            description = ${description},
-            category = ${category},
-            slug = ${newSlug},
-            content = ${content},
-            published_status = ${published_status},
-            cover_image = ${imageUrl}
-        WHERE slug = ${oldSlug}
-      `;
+      const { data, error } = await supabaseAdmin
+        .from("blogposts")
+        .update({
+          title: title,
+          description: description,
+          category: category,
+          slug: newSlug,
+          content: content,
+          published_status: published_status,
+          cover_image: imageUrl,
+        })
+        .eq("slug", oldSlug);
+
+      if (error) {
+        console.error("Supabase Error:", error);
+        throw new Error("Failed to update post.");
+      }
+
+      result = data;
     } else {
       // Query runs if no image is provided
-      result = await sql`
-        UPDATE blogposts
-        SET title = ${title},
-            description = ${description},
-            category = ${category},
-            slug = ${newSlug},
-            content = ${content},
-            published_status = ${published_status}
-        WHERE slug = ${oldSlug}
-      `;
+      const { data, error } = await supabaseAdmin
+        .from("blogposts")
+        .update({
+          title: title,
+          description: description,
+          category: category,
+          slug: newSlug,
+          content: content,
+          published_status: published_status,
+        })
+        .eq("slug", oldSlug);
+
+      if (error) {
+        console.error("Supabase Error:", error);
+        throw new Error("Failed to update post.");
+      }
+
+      result = data;
     }
 
     if (result.rowCount === 0) {
@@ -93,17 +115,18 @@ export async function updatePostAction(data, currentSlug) {
 }
 
 export async function togglePostStatusAction(postId, status) {
-  try {
-    await sql`
-      UPDATE blogposts
-      SET published_status = ${status}
-      WHERE id = ${postId}
-    `;
+  const { data, error } = await supabaseAdmin
+    .from("blogposts")
+    .update({
+      published_status: status,
+    })
+    .eq("id", postId);
 
-    revalidatePath("/blog");
-    revalidatePath("/sitemap");
-  } catch (error) {
+  if (error) {
     console.error(error);
     throw new Error("Failed to toggle post status");
   }
+
+  revalidatePath("/blog");
+  revalidatePath("/sitemap");
 }
