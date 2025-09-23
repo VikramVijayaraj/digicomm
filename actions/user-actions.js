@@ -14,10 +14,7 @@ import {
 import { saltAndHashPassword } from "@/utils/password";
 import { sendWelcomeEmail } from "./send-email-action";
 
-const sql =
-  process.env.SKIP_BUILD_DB_CALLS === "true"
-    ? () => Promise.resolve([])
-    : neon(process.env.DATABASE_URL);
+const sql = neon(process.env.DATABASE_URL);
 
 export async function createUserAction(userData) {
   const { name, email, password } = userData;

@@ -14,10 +14,7 @@ import {
 } from "@/lib/schema";
 import WelcomeEmail from "@/emails/welcome-email";
 
-const sql =
-  process.env.SKIP_BUILD_DB_CALLS === "true"
-    ? () => Promise.resolve([])
-    : neon(process.env.DATABASE_URL);
+const sql = neon(process.env.DATABASE_URL);
 
 // Initialize Resend with your API key
 const resend = new Resend(process.env.RESEND_API_KEY);

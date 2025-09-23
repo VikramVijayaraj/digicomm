@@ -13,10 +13,7 @@ import {
 } from "@/lib/db/cart";
 import { getProduct } from "@/lib/db/products";
 
-const sql =
-  process.env.SKIP_BUILD_DB_CALLS === "true"
-    ? () => Promise.resolve([])
-    : neon(process.env.DATABASE_URL);
+const sql = neon(process.env.DATABASE_URL);
 
 export async function addToCartAction(slug, quantity) {
   const session = await auth();
