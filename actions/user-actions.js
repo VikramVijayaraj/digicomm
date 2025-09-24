@@ -8,15 +8,11 @@ import {
   updateUserDetails,
 } from "../lib/db/users";
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export async function UserDetailsAction(data) {
   const supabase = await createClient();
-  const { data: loggedInUser, error } = await supabase.auth.getUser();
-
-  if (error || !loggedInUser?.user) {
-    console.error(error);
-    throw new Error("Cannot fetch user data. Please try again later!");
-  }
+  const { data: loggedInUser } = await supabase.auth.getUser();
 
   const fullName = data.name.trim();
   const firstName = fullName.split(" ")[0];
@@ -46,11 +42,10 @@ export async function getUserByEmailAction(email) {
 
 export async function createUserSourceAction(source) {
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
 
-  if (error || !data?.user) {
-    console.error(error);
-    throw new Error("Cannot fetch user data. Please try again later!");
+  if (!data?.user) {
+    redirect("/auth/signin");
   }
 
   await createUserSource(data.user.email, source);

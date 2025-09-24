@@ -25,11 +25,7 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function Header() {
   const supabase = await createClient();
-  const { data: userData, error } = await supabase.auth.getUser();
-
-  if (error) {
-    console.error("Error fetching user:", error.message);
-  }
+  const { data: userData } = await supabase.auth.getUser();
 
   const categories = await getCategories();
   // Get shop details only if user is authenticated

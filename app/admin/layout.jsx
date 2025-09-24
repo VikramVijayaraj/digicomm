@@ -5,11 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function AdminLayout({ children }) {
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error) {
-    console.error(error);
-  }
+  const { data } = await supabase.auth.getUser();
 
   if (!data?.user) {
     redirect("/auth/signin");

@@ -53,11 +53,7 @@ export default async function ProductPage({ params }) {
   const rating = await getAvgProductRating(slug);
 
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error) {
-    console.error("Error fetching user:", error.message);
-  }
+  const { data } = await supabase.auth.getUser();
 
   const cartItems = data?.user ? await getCartItems(data?.user?.email) : [];
 

@@ -15,12 +15,7 @@ import { supabaseAdmin } from "@/utils/supabase/admin";
 export async function addToCartAction(slug, quantity) {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Cannot fetch user data. Please try again later!");
-  }
+  const { data } = await supabase.auth.getUser();
 
   if (!data?.user) {
     redirect(`/auth/signin?callbackUrl=/products/${slug}`);

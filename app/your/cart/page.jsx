@@ -9,12 +9,7 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function CartPage() {
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error) {
-    console.error("Error fetching user:", error.message);
-    redirect("/auth/signin?callbackUrl=/your/cart");
-  }
+  const { data } = await supabase.auth.getUser();
 
   // If no user is found, redirect to the sign-in page
   if (!data?.user) {

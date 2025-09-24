@@ -12,9 +12,9 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function Checkout() {
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
 
-  if (error || !data?.user) {
+  if (!data?.user) {
     redirect("/auth/signin");
   }
 

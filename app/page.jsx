@@ -15,11 +15,7 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function Home({ searchParams }) {
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error) {
-    console.error("Error fetching user:", error.message);
-  }
+  const { data } = await supabase.auth.getUser();
 
   if (data?.user?.email) {
     // const user = await getUserByEmail(data.user.email);

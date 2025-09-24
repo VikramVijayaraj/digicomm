@@ -5,9 +5,9 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function AddReviewPage({ searchParams }) {
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
 
-  if (error || !data?.user) {
+  if (!data?.user) {
     // Construct the current URL with search params
     const currentPath = `/add-review?${new URLSearchParams(searchParams).toString()}`;
     // Encode the current path to use as the callback URL

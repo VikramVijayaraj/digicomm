@@ -9,11 +9,7 @@ export const metadata = {
 
 export default async function AuthLayout({ children }) {
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error) {
-    console.error(error);
-  }
+  const { data } = await supabase.auth.getUser();
 
   if (data?.user) {
     redirect("/");
