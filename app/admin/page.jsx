@@ -39,7 +39,7 @@ export default async function AdminPage() {
           </Card>
         </Link>
 
-        {/* <Link href="/admin/sellers-bank-details">
+        <Link href="/admin/sellers-bank-details">
           <Card>
             <CardHeader>
               <CardTitle>Sellers Bank Details</CardTitle>
@@ -48,7 +48,7 @@ export default async function AdminPage() {
               <p>Manage sellers bank details</p>
             </CardContent>
           </Card>
-        </Link> */}
+        </Link>
       </div>
     </div>
   );

@@ -5,11 +5,23 @@ import PostCard from "@/components/card/post-card";
 import { getBlogPosts } from "@/lib/db/blog";
 
 export default async function BlogPage() {
-  const posts = await getBlogPosts();
-  const activePosts = posts.filter((post) => post.published_status);
+  let posts;
 
-  // Revalidate the path to ensure the latest data is fetched
-  revalidatePath("/blog");
+  try {
+    posts = await getBlogPosts();
+  } catch (error) {
+    console.error("Failed to fetch blog posts:", error);
+
+    return (
+      <div className="global-padding text-center h-screen">
+        <h2 className="text-xl text-red-500 font-bold">
+          Oops! Something went wrong.
+        </h2>
+        <p>We couldn&apos;t load the blog posts. Please try again later.</p>
+      </div>
+    );
+  }
+  const activePosts = posts.filter((post) => post.published_status);
 
   return (
     <div className="global-padding">

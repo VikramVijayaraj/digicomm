@@ -1,9 +1,6 @@
 "use server";
 
-// import { sql } from "@vercel/postgres";
-import { neon } from "@neondatabase/serverless";
 import { Resend } from "resend";
-import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
 
@@ -13,8 +10,6 @@ import {
   refundEmailSchema,
 } from "@/lib/schema";
 import WelcomeEmail from "@/emails/welcome-email";
-
-const sql = neon(process.env.DATABASE_URL);
 
 // Initialize Resend with your API key
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -122,47 +117,6 @@ export async function sendRefundEmail(formData) {
   } catch (error) {
     console.error("Error sending email:", error);
     return { success: false, error: "Failed to send email" };
-  }
-}
-
-export async function sendResetLink(email) {
-  const resetPasswordToken = crypto.randomBytes(32).toString("base64url");
-  const today = new Date();
-  const expiryDate = new Date(today.setDate(today.getDate() + 1)); // 24 hours
-
-  const baseUrl =
-    process.env.NODE_ENV === "production"
-      ? "https://www.crelands.com/"
-      : "http://localhost:3000";
-
-  // Update the users table
-  try {
-    await sql`
-      UPDATE users
-      SET
-        reset_password_token = ${resetPasswordToken},
-        reset_password_token_expiry = ${expiryDate}
-      WHERE email = ${email}
-    `;
-
-    // Send the reset link email
-    await resend.emails.send({
-      from: "Crelands <passwordreset@crelands.com>",
-      to: email,
-      subject: "Reset Password Request",
-      text: `
-        To reset your password, please visit:
-        ${baseUrl}/auth/reset-password?token=${resetPasswordToken}
-      `,
-    });
-
-    return { success: true };
-  } catch (error) {
-    console.error("Error sending reset link email:", error);
-    return {
-      success: false,
-      error: "Failed to send reset link email. Try again!",
-    };
   }
 }
 

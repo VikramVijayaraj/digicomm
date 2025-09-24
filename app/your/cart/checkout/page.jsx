@@ -1,25 +1,25 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
-import { auth } from "@/auth";
 import CartTotal from "@/components/cart/cart-total";
 import PaymentButton from "@/components/checkout/payment-button";
 import { fetchPaymentDetails } from "@/lib/api";
-import { getCartItems, removeCart } from "@/lib/db/cart";
+import { getCartItems } from "@/lib/db/cart";
 import { createOrder, createPayment } from "@/lib/db/orders";
 import { getUserDetailsByEmail } from "@/lib/db/users";
+import { removeCartAction } from "@/actions/cart-action";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Checkout() {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
 
-  if (!session?.user) {
+  if (error || !data?.user) {
     redirect("/auth/signin");
   }
 
-  revalidatePath("/");
-
-  const user = await getUserDetailsByEmail(session?.user?.email);
-  const cartItems = await getCartItems(session?.user?.email);
+  const user = await getUserDetailsByEmail(data?.user?.email);
+  const cartItems = await getCartItems(data?.user?.email);
 
   if (user.length === 0) {
     redirect("/register?callback=/your/cart/checkout");
@@ -55,7 +55,10 @@ export default async function Checkout() {
     await createPayment(paymentDetails);
 
     // Clean up the cart after the payment
-    await removeCart(cartItems[0].cart_id);
+    await removeCartAction(cartItems[0].cart_id);
+
+    revalidatePath("/your/cart");
+    revalidatePath("/your/account/orders");
   }
 
   return (

@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
 import { shopTabs } from "@/lib/data";
 import Sidebar from "@/components/ui/sidebar";
+import { createClient } from "@/utils/supabase/server";
 
 export const metadata = {
   title: "My Shop Page",
@@ -10,9 +10,10 @@ export const metadata = {
 };
 
 export default async function ShopLayout({ children }) {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
 
-  if (!session?.user) {
+  if (error || !data?.user) {
     redirect("/auth/signin");
   }
 

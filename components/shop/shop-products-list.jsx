@@ -1,6 +1,5 @@
 import { IndianRupee } from "lucide-react";
 
-import { auth } from "@/auth";
 import { getShopProducts } from "@/lib/db/sellers";
 import { dateConverter } from "@/utils/dateConverter";
 import {
@@ -12,11 +11,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import ShopProductActions from "./shop-product-actions";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function ShopProductsList() {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
 
-  const products = await getShopProducts(session?.user?.email);
+  const products = await getShopProducts(data?.user?.email);
 
   if (products.length === 0) {
     return <p className="text-center">No products are added.</p>;

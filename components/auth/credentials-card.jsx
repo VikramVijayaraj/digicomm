@@ -1,9 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { signIn } from "next-auth/react";
 
 import {
   Card,
@@ -17,30 +15,11 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import SignInForm from "./signin-form";
 import SignUpForm from "./signup-form";
+import { signInWithGoogle } from "@/actions/auth-actions";
 
 export default function CredentialsCard({ page }) {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
-  const router = useRouter();
-
-  async function handleSignIn(e) {
-    e.preventDefault();
-    try {
-      const result = await signIn("google", {
-        callbackUrl: callbackUrl || "/",
-        redirect: false,
-      });
-
-      if (result?.error) {
-        // Handle errors, e.g., show an error message
-        console.error("Sign in error:", result.error);
-      } else if (result?.url) {
-        // Successful sign-in, redirect using Next.js router
-        router.push(result.url);
-      }
-    } catch (error) {
-      console.error("Unexpected error during sign in:", error);
-    }
+  async function handleSignIn() {
+    await signInWithGoogle();
   }
 
   return (
@@ -58,21 +37,11 @@ export default function CredentialsCard({ page }) {
           onClick={handleSignIn}
           className="w-full gap-2"
           type="submit"
-          // variant="secondary"
+          // variant="outline"
         >
           <Image src="/logos/google.svg" width={15} height={15} alt="" />
           Continue with Google
         </Button>
-        {/* <form
-            action={async () => {
-              "use server";
-              await signIn("google", { redirectTo: "/" });
-            }}
-          >
-            <Button className="w-full" type="submit" variant="outline">
-              Continue with Google
-            </Button>
-          </form> */}
 
         {/* Separator */}
         <div className="flex justify-between items-center">

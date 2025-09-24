@@ -22,14 +22,16 @@ export default function UserDetailsForm({ data, callbackUrl }) {
   const form = useForm({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      name: data ? data.first_name + " " + data.last_name : "",
-      phone: data ? data.phone : undefined,
-      address1: data ? data.address_line1 : "",
-      address2: data ? data.address_line2 : "",
-      city: data ? data.city : "",
-      state: data ? data.state : "",
-      country: data ? data.country : "",
-      zipCode: data ? data.zip_code : undefined,
+      name: data
+        ? [data.first_name, data.last_name].filter(Boolean).join(" ")
+        : "",
+      phone: data?.phone || "",
+      address1: data?.address_line1 || "",
+      address2: data?.address_line2 || "",
+      city: data?.city || "",
+      state: data?.state || "",
+      country: data?.country || "",
+      zipCode: data?.zip_code || "",
     },
   });
 

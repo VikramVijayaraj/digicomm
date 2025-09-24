@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { LoaderCircle } from "lucide-react";
@@ -18,14 +17,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/lib/schema";
-import { handleCredentialsSignIn } from "@/actions/auth-actions";
+import { signIn } from "@/actions/auth-actions";
 
 export default function SignInForm() {
-  const [error, setError] = useState(null);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
+  const router = useRouter();
 
-  // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -34,11 +32,23 @@ export default function SignInForm() {
     },
   });
 
-  // 2. Define a submit handler.
   async function onSubmit(values) {
-    values = { ...values, email: values.email.toLowerCase() };
-    const result = await handleCredentialsSignIn(values, callbackUrl);
-    setError(result?.message);
+    try {
+      const result = await signIn(values);
+
+      if (result.status === "success") {
+        form.reset();
+        router.push(callbackUrl || "/"); // Redirect to home or another page after successful signin
+      } else {
+        form.setError("root", { message: result.status });
+      }
+    } catch (error) {
+      console.error("Signin error", error);
+      form.setError("root", {
+        message:
+          error.message || "An unexpected error occurred. Please try again.",
+      });
+    }
   }
 
   return (
@@ -75,7 +85,11 @@ export default function SignInForm() {
           )}
         />
 
-        {error && <FormMessage>{error}</FormMessage>}
+        {form.formState.errors.root && (
+          <p className="text-sm font-medium text-destructive">
+            {form.formState.errors.root.message}
+          </p>
+        )}
 
         <Button
           className="w-full"

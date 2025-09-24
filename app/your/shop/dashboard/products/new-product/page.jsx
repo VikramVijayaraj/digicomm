@@ -1,15 +1,16 @@
-import { auth } from "@/auth";
 import { getCategories } from "@/lib/db/categories";
 import ProductDetailsForm from "@/components/product/product-details-form";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function NewProductPage() {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
 
   const categories = await getCategories();
 
   return (
     <div>
-      <ProductDetailsForm session={session} categories={categories} />
+      <ProductDetailsForm session={data} categories={categories} />
     </div>
   );
 }

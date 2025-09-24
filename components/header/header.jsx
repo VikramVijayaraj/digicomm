@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ChevronRight, Menu } from "lucide-react";
 
-import { auth } from "@/auth";
 import NavLinks from "./nav-links";
 import { getCategories } from "@/lib/db/categories";
 import SearchBar from "./search-bar";
@@ -22,15 +21,26 @@ import {
 } from "@/components/ui/sheet";
 import { Label } from "../ui/label";
 import { getShopDetails } from "@/lib/db/sellers";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Header() {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data: userData, error } = await supabase.auth.getUser();
+
+  if (error) {
+    console.error("Error fetching user:", error.message);
+  }
 
   const categories = await getCategories();
-  const shopDetails = await getShopDetails(session?.user?.email);
+  // Get shop details only if user is authenticated
+  const shopDetails = userData?.user?.email
+    ? await getShopDetails(userData.user.email)
+    : null;
 
+  console.log("\n************************");
   console.log("Printing from {header.js}");
-  console.log(session);
+  console.log("Logged in user:", userData?.user?.email);
+  console.log("************************\n");
 
   return (
     <>
@@ -75,7 +85,7 @@ export default async function Header() {
         </div>
 
         {/* NavLinks */}
-        <NavLinks session={session} shopDetails={shopDetails} />
+        <NavLinks userData={userData} shopDetails={shopDetails} />
       </header>
 
       {/* For md and sm screen sizes */}

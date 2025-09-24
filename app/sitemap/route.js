@@ -1,6 +1,6 @@
 import { revalidatePath } from "next/cache";
 
-import { getActiveBlogPosts } from "@/lib/db/blog";
+import { getBlogPosts } from "@/lib/db/blog";
 import { getProducts } from "@/lib/db/products";
 import { getCategories } from "@/lib/db/categories";
 
@@ -8,7 +8,9 @@ export async function GET() {
   try {
     const products = await getProducts();
     const categories = await getCategories();
-    const blogPosts = await getActiveBlogPosts();
+
+    const allBlogPosts = await getBlogPosts();
+    const blogPosts = allBlogPosts.filter((post) => post.published_status); // Only include published posts
 
     const productPaths = products.map((product) => ({
       url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}/products/${product.product_slug}`,

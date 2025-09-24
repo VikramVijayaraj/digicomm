@@ -10,9 +10,9 @@ import Reviews from "@/components/product/reviews/reviews";
 import { getAvgProductRating } from "@/lib/db/reviews";
 import AvgRatingContainer from "@/components/ui/avg-rating-container";
 import { getCartItems } from "@/lib/db/cart";
-import { auth } from "@/auth";
 import ShortDesc from "./short-desc";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { createClient } from "@/utils/supabase/server";
 
 // Force dynamic rendering for this page
 export const dynamic = "force-dynamic";
@@ -52,8 +52,14 @@ export default async function ProductPage({ params }) {
   const result = await currentProduct(slug);
   const rating = await getAvgProductRating(slug);
 
-  const session = await auth();
-  const cartItems = session?.user ? await getCartItems(session.user.email) : [];
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) {
+    console.error("Error fetching user:", error.message);
+  }
+
+  const cartItems = data?.user ? await getCartItems(data?.user?.email) : [];
 
   return (
     <div className="global-padding scroll-smooth">

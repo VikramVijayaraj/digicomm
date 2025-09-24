@@ -10,6 +10,7 @@ import {
   updateSellerBankDetails,
   updateShopDetails,
 } from "@/lib/db/sellers";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function createSellerAction(email, shopDetails) {
   await createSeller(email, shopDetails);
@@ -42,4 +43,19 @@ export async function updateSellerBankDetailsAction(email, bankDetails) {
 export async function getSellerDetailsAction(orderItemId) {
   const sellerDetails = await getSellerDetails(orderItemId);
   return sellerDetails;
+}
+
+export async function getAllSellersBankDetailsAction() {
+  const { data, error } = await supabaseAdmin
+    .from("seller_bank_details")
+    .select("*");
+
+  if (error) {
+    console.error(error);
+    throw new Error(
+      "Error retrieving the sellers bank details. Try again later!",
+    );
+  }
+
+  return data;
 }

@@ -1,17 +1,22 @@
 import { notFound, redirect } from "next/navigation";
 
-import { auth } from "@/auth";
 import { getUserByEmail } from "@/lib/db/users";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function AdminLayout({ children }) {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
 
-  if (!session?.user) {
+  if (error) {
+    console.error(error);
+  }
+
+  if (!data?.user) {
     redirect("/auth/signin");
   }
 
   // Check if the user is an admin
-  const response = await getUserByEmail(session.user.email);
+  const response = await getUserByEmail(data?.user.email);
   const user = response[0];
 
   if (!user || user.role !== "admin") {

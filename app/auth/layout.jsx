@@ -1,16 +1,21 @@
 import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
+import { createClient } from "@/utils/supabase/server";
 
 export const metadata = {
   title: "Sign In",
-  description: "Authentication page.",
+  description: "Sign in to your account",
 };
 
 export default async function AuthLayout({ children }) {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
 
-  if (session?.user) {
+  if (error) {
+    console.error(error);
+  }
+
+  if (data?.user) {
     redirect("/");
   }
 

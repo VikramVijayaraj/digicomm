@@ -1,6 +1,5 @@
 import { Edit, Info } from "lucide-react";
 
-import { auth } from "@/auth";
 import BankDetailsForm from "@/components/shop/bank-details-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,8 +10,15 @@ import {
   DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { getSellerBankDetails } from "@/lib/db/sellers";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -21,11 +27,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function ShopPayment() {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
 
-  const bankDetails = await getSellerBankDetails(session?.user?.email);
+  const bankDetails = await getSellerBankDetails(data?.user?.email);
 
   if (!bankDetails) {
     return (
@@ -47,7 +55,7 @@ export default async function ShopPayment() {
               </DialogHeader>
 
               {/* Form */}
-              <BankDetailsForm session={session} />
+              <BankDetailsForm session={data} />
             </DialogContent>
           </Dialog>
         </div>
@@ -120,30 +128,32 @@ export default async function ShopPayment() {
             </DialogHeader>
 
             {/* Form */}
-            <BankDetailsForm session={session} existingData={bankDetails} />
+            <BankDetailsForm session={data} existingData={bankDetails} />
           </DialogContent>
         </Dialog>
       </div>
 
       {/* Bank Details */}
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <Label>Account Holder Name</Label>
-          <Input value={bankDetails.account_holder_name} readOnly />
-        </div>
-        <div className="space-y-2">
-          <Label>Account Number</Label>
-          <Input value={bankDetails.account_number} readOnly />
-        </div>
-        <div className="space-y-2">
-          <Label>IFSC Code</Label>
-          <Input value={bankDetails.ifsc_code} readOnly />
-        </div>
-        <div className="space-y-2">
-          <Label>Phone Number</Label>
-          <Input value={bankDetails.phone} readOnly />
-        </div>
-      </div>
+      <Table>
+        <TableBody>
+          <TableRow>
+            <TableCell className="font-medium">Account Holder Name</TableCell>
+            <TableCell>{bankDetails.account_holder_name}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">Account Number</TableCell>
+            <TableCell>{bankDetails.account_number}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">IFSC Code</TableCell>
+            <TableCell>{bankDetails.ifsc_code}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">Phone Number</TableCell>
+            <TableCell>{bankDetails.phone}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
     </div>
   );
 }

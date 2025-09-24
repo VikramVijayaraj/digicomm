@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { getSellerOrders } from "@/lib/db/sellers";
 import {
   Table,
@@ -10,11 +9,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import OrdersListContainer from "@/components/ui/orders-list-container";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function ShopOrdersPage() {
-  const session = await auth();
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
 
-  const shopOrders = await getSellerOrders(session?.user?.email);
+  const shopOrders = await getSellerOrders(data?.user?.email);
 
   if (shopOrders.length === 0) {
     return <p className="text-center mt-10">No orders found.</p>;

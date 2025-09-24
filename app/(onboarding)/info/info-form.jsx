@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { infoSchema } from "@/lib/schema";
-import { UserDetailsAction } from "@/actions/user-actions";
+import { createUserSourceAction } from "@/actions/user-actions";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -39,9 +39,9 @@ export default function InfoForm() {
   async function onSubmit(data) {
     try {
       if (data.source === "other" && otherSourceInput) {
-        await UserDetailsAction(null, `Other: ${otherSourceInput}`);
+        await createUserSourceAction(`Other: ${otherSourceInput}`);
       } else {
-        await UserDetailsAction(null, data.source);
+        await createUserSourceAction(data.source);
       }
       router.replace("/");
     } catch (error) {

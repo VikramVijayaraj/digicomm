@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { LoaderCircle } from "lucide-react";
@@ -28,10 +29,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { resetPasswordSchema } from "@/lib/schema";
-import { useRouter } from "next/navigation";
-import { updatePassword } from "@/actions/auth-actions";
+import { resetPassword } from "@/actions/auth-actions";
 
-export default function ResetPasswordForm({ user }) {
+export default function ResetPasswordForm() {
+  const searchParams = useSearchParams();
   const router = useRouter();
   const [error, setError] = useState(null);
   const [resetSuccess, setResetSuccess] = useState(false);
@@ -52,28 +53,16 @@ export default function ResetPasswordForm({ user }) {
       return;
     }
 
-    // Check token expiration
-    const today = new Date();
-    if (today > user.reset_password_token_expiry) {
-      setError("Password reset token has expired. Redirecting...");
-      setTimeout(() => {
-        router.replace("/auth/signin");
-      }, 3000);
-      return;
-    }
+    const result = await resetPassword(password, searchParams.get("code"));
 
-    // Update new password
-    const isUpdated = await updatePassword(user.email, password);
-
-    if (isUpdated.success) {
+    if (result.status === "success") {
       setError(null);
       setResetSuccess(true);
       setTimeout(() => {
-        router.replace("/auth/signin");
+        router.replace("/");
       }, 3000);
     } else {
-      setError(isUpdated.error);
-      return;
+      setError(result.status);
     }
   }
 
@@ -90,9 +79,7 @@ export default function ResetPasswordForm({ user }) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <p className="mt-6 w-full text-center">
-              Redirecting to Sign In page...
-            </p>
+            <p className="mt-6 w-full text-center">Redirecting...</p>
             {/* <AlertDialogAction asChild>
               <Link href="/auth/signin" className="w-full">
                 Sign In
