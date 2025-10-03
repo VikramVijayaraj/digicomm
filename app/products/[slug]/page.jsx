@@ -93,7 +93,7 @@ export default async function ProductPage({ params }) {
           </div>
 
           {/* Shop Info */}
-          <div className="">
+          <div className="select-none">
             <Link href={`/shop/${result.shop_slug}`}>
               <div className="flex justify-start items-center gap-4 rounded-lg border p-2">
                 <Avatar>
@@ -110,7 +110,9 @@ export default async function ProductPage({ params }) {
 
       {/* Full Description */}
       <div id="desc" className="py-12 space-y-4">
-        <h3 className="text-2xl font-semibold">Product Description</h3>
+        <h3 className="text-2xl font-semibold select-none">
+          Product Description
+        </h3>
         <div>
           {result.product_desc
             .trim()

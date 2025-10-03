@@ -16,6 +16,8 @@ import {
   updateProduct,
 } from "@/lib/db/products";
 import { getShopDetails } from "@/lib/db/sellers";
+import { createClient } from "@/utils/supabase/server";
+import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function SearchSuggestionsAction(searchTerm) {
   try {
@@ -56,6 +58,7 @@ export async function addProductAction(email, productDetails) {
   }
 
   revalidatePath("/", "layout");
+  return productId;
 }
 
 export async function updateProductAction(productId, productDetails) {

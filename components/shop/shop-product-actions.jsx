@@ -60,8 +60,8 @@ export const DeleteDialog = React.forwardRef(({ product }, ref) => {
     setIsDeleting(true);
     await deleteProductAction(product);
     toast.info("Product Deleted Successfully!");
-    router.refresh();
     setIsDeleting(false);
+    router.refresh();
   }
 
   return (
