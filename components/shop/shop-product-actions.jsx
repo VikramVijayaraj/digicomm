@@ -55,17 +55,26 @@ export default function ShopProductActions({ product }) {
 export const DeleteDialog = React.forwardRef(({ product }, ref) => {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   async function handleDelete() {
     setIsDeleting(true);
-    await deleteProductAction(product);
-    toast.info("Product Deleted Successfully!");
-    setIsDeleting(false);
-    router.refresh();
+
+    try {
+      await deleteProductAction(product);
+      toast.success("Product Deleted Successfully!");
+      router.refresh();
+      setIsOpen(false);
+    } catch (error) {
+      toast.error("Failed to delete product.");
+      console.error(error);
+    } finally {
+      setIsDeleting(false);
+    }
   }
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <p ref={ref} className="text-red-700 px-2 cursor-pointer">
           Delete
@@ -75,24 +84,24 @@ export const DeleteDialog = React.forwardRef(({ product }, ref) => {
         <DialogHeader>
           <DialogTitle>Delete product?</DialogTitle>
           <DialogDescription>
-            This will delete{" "}
-            <span className="font-semibold">{product.product_name}</span>
+            This will permanently delete{" "}
+            <span className="font-semibold">{product.product_name}</span>.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          {!isDeleting && (
-            <DialogClose asChild>
-              <Button>No</Button>
-            </DialogClose>
-          )}
-
-          {!isDeleting && (
-            <Button onClick={handleDelete} variant="secondary">
-              Yes
+          <DialogClose asChild>
+            <Button variant="outline" disabled={isDeleting}>
+              Cancel
             </Button>
-          )}
+          </DialogClose>
 
-          {isDeleting && <p className="text-center">Deleting...</p>}
+          <Button
+            onClick={handleDelete}
+            variant="destructive"
+            disabled={isDeleting}
+          >
+            {isDeleting ? "Deleting..." : "Delete"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
