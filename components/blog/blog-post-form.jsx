@@ -131,8 +131,6 @@ export default function BlogPostForm({
       published_status: true,
     };
 
-    console.log(post);
-
     // Only send new data, not old "current" values
     if (currentTitle) {
       await updatePostAction(post, currentSlug);
