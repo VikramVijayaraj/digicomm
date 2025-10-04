@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import slugify from "slugify";
 import { nanoid } from "nanoid";
 
-import deleteFromFirebase from "@/utils/firebase";
 import {
   addProduct,
   addProductFile,

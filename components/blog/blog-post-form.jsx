@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import "react-quill/dist/quill.snow.css";
 import slugify from "slugify";
 import { toast } from "sonner";
 
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import deleteFromFirebase, { uploadToFirebase } from "@/utils/firebase";
 import { createPostAction, updatePostAction } from "@/actions/blog-actions";
+import { formatFileName } from "@/utils/utils";
+import { createClient } from "@/utils/supabase/client";
 
 // Dynamically import ReactQuill with no SSR
 const ReactQuill = dynamic(() => import("react-quill"), {
@@ -63,6 +64,7 @@ export default function BlogPostForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
+  const supabase = createClient();
 
   // Handle file upload
   function handleFile(e) {
@@ -77,11 +79,43 @@ export default function BlogPostForm({
     setIsSubmitting(true);
     e.preventDefault();
 
-    const imageUrl = await uploadToFirebase(file, "blog-images");
+    let imageUrl;
+    if (file) {
+      const fileName = formatFileName(file?.name);
+      const { error: uploadError } = await supabase.storage
+        .from("public-assets")
+        .upload(`blog-images/${fileName}`, file);
 
-    // If new image is uploaded, delete the old one from Firebase
-    if (imageUrl && currentImage !== imageUrl) {
-      await deleteFromFirebase(currentImage);
+      if (uploadError) {
+        console.error("Error uploading file:", uploadError);
+        toast.error("Failed to upload image.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage
+        .from("public-assets")
+        .getPublicUrl(`blog-images/${fileName}`);
+      imageUrl = publicUrl;
+    }
+
+    // If new image is uploaded, delete the old one from storage
+    if (imageUrl && currentImage && currentImage !== imageUrl) {
+      const imagePath = decodeURIComponent(
+        currentImage.split("/public-assets/")[1],
+      );
+
+      const { error } = await supabase.storage
+        .from("public-assets")
+        .remove([imagePath]);
+
+      if (error) {
+        console.error("Error deleting image from storage: ", error);
+      } else {
+        console.log("Deleted successfully from Supabase:", imagePath);
+      }
     }
 
     // Create slug from title
@@ -97,23 +131,17 @@ export default function BlogPostForm({
       published_status: true,
     };
 
-    // Check if currentTitle is provided and if true then update the post
+    console.log(post);
+
+    // Only send new data, not old "current" values
     if (currentTitle) {
-      await updatePostAction(
-        {
-          ...post,
-          currentTitle,
-          currentDescription,
-          currentCategory,
-          currentContent,
-        },
-        currentSlug,
-      );
+      await updatePostAction(post, currentSlug);
       toast.success("Post updated successfully!");
-      router.replace("/admin/blog");
+      router.push("/admin/blog");
     } else {
       await createPostAction(post);
       toast.success("Post created successfully!");
+      router.push("/admin/blog");
     }
 
     // Reset the form
