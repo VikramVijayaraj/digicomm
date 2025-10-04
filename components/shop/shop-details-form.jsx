@@ -25,7 +25,6 @@ import {
   updateSellerAction,
 } from "@/actions/seller-actions";
 import { shopSchema } from "@/lib/schema";
-import deleteFromFirebase from "@/utils/firebase";
 import { formatFileName } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/client";
 
@@ -67,7 +66,7 @@ export default function ShopDetailsForm({ session, data }) {
     }
   }
 
-  // Upload Logo To Firebase
+  // Upload Logo To Storage
   async function uploadImage(file, path) {
     if (!file) return; // Return if no file is selected
 
@@ -132,7 +131,7 @@ export default function ShopDetailsForm({ session, data }) {
 
     await updateSellerAction(session?.user?.email, updatedData);
 
-    // Delete old files from firebase if new ones were uploaded
+    // Delete old files from storage if new ones were uploaded
     if (logoUrl && data?.shop_logo) {
       const currentImage = data?.shop_logo;
       const imagePath = decodeURIComponent(

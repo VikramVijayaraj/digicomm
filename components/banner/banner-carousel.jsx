@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -19,12 +20,12 @@ const bannerItems = [
     imageUrl: "/images/shop-banner-default.jpg",
     alt: "Banner 2",
   },
-  {
-    id: 2,
-    imageUrl:
-      "https://firebasestorage.googleapis.com/v0/b/digicomm-cbe9b.appspot.com/o/hero-section%2Fe-books-banner-comp.png?alt=media&token=cea337f0-2de1-48ab-8813-e122b7a235eb",
-    alt: "Banner 1",
-  },
+  // {
+  //   id: 2,
+  //   imageUrl:
+  //     "https://firebasestorage.googleapis.com/v0/b/digicomm-cbe9b.appspot.com/o/hero-section%2Fe-books-banner-comp.png?alt=media&token=cea337f0-2de1-48ab-8813-e122b7a235eb",
+  //   alt: "Banner 1",
+  // },
 
   // {
   //   id: 2,
