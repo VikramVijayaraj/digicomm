@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { createPostAction, updatePostAction } from "@/actions/blog-actions";
-import { formatFileName } from "@/utils/utils";
+import { formatFileName, optimizeImage } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/client";
 
 // Dynamically import ReactQuill with no SSR
@@ -81,10 +81,11 @@ export default function BlogPostForm({
 
     let imageUrl;
     if (file) {
-      const fileName = formatFileName(file?.name);
+      const optimizedFile = await optimizeImage(file, "blogImage");
+      const fileName = formatFileName(optimizedFile?.name);
       const { error: uploadError } = await supabase.storage
         .from("public-assets")
-        .upload(`blog-images/${fileName}`, file);
+        .upload(`blog-images/${fileName}`, optimizedFile);
 
       if (uploadError) {
         console.error("Error uploading file:", uploadError);

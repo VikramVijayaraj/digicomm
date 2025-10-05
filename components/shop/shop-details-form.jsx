@@ -25,7 +25,7 @@ import {
   updateSellerAction,
 } from "@/actions/seller-actions";
 import { shopSchema } from "@/lib/schema";
-import { formatFileName } from "@/utils/utils";
+import { formatFileName, optimizeImage } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/client";
 
 export default function ShopDetailsForm({ session, data }) {
@@ -66,15 +66,16 @@ export default function ShopDetailsForm({ session, data }) {
     }
   }
 
-  // Upload Logo To Storage
-  async function uploadImage(file, path) {
+  // Upload Images To Storage
+  async function uploadImage(file, path, fileType) {
     if (!file) return; // Return if no file is selected
 
-    const fileName = formatFileName(file.name);
+    const optimizedFile = await optimizeImage(file, fileType);
+    const fileName = formatFileName(optimizedFile.name);
     try {
       const { error: uploadError } = await supabase.storage
         .from("public-assets")
-        .upload(`${path}/${fileName}`, file);
+        .upload(`${path}/${fileName}`, optimizedFile);
 
       if (uploadError) {
         console.error("Error uploading file:", uploadError);
@@ -120,8 +121,16 @@ export default function ShopDetailsForm({ session, data }) {
       toast.success("Shop created successfully!");
     }
 
-    const logoUrl = await uploadImage(logoFile, `shop-images/${sellerId}`);
-    const bannerUrl = await uploadImage(bannerFile, `shop-images/${sellerId}`);
+    const logoUrl = await uploadImage(
+      logoFile,
+      `shop-images/${sellerId}`,
+      "shopLogo",
+    );
+    const bannerUrl = await uploadImage(
+      bannerFile,
+      `shop-images/${sellerId}`,
+      "shopBanner",
+    );
 
     const updatedData = {
       ...shopData,

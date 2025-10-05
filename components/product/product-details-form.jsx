@@ -34,7 +34,7 @@ import {
   updateProductAction,
 } from "@/actions/product-actions";
 import { createClient } from "@/utils/supabase/client";
-import { formatFileName } from "@/utils/utils";
+import { formatFileName, optimizeImage } from "@/utils/utils";
 
 export default function ProductDetailsForm({
   session,
@@ -88,19 +88,23 @@ export default function ProductDetailsForm({
   }
 
   // Upload Images To Supabase
-  async function handleUpload(files, folder, bucket) {
+  async function handleUpload(files, folder, bucket, optimize = true) {
     if (!files || files.length === 0) return []; // Return empty array if no files are selected
     const uploadedUrls = [];
 
     for (const file of files) {
-      const fileName = formatFileName(file.name);
-      const storagePath = `${folder}/${fileName}`;
-
       try {
+        // Optimize the product images not the product files
+        const fileToUpload = optimize
+          ? await optimizeImage(file, "productImage")
+          : file;
+        const fileName = formatFileName(fileToUpload.name);
+        const storagePath = `${folder}/${fileName}`;
+
         // Upload the file to Supabase Storage
         const { error: uploadError } = await supabase.storage
           .from(bucket)
-          .upload(storagePath, file);
+          .upload(storagePath, fileToUpload);
 
         if (uploadError) {
           console.error("Error uploading the file", uploadError);
@@ -112,10 +116,13 @@ export default function ProductDetailsForm({
           data: { publicUrl },
         } = supabase.storage.from(bucket).getPublicUrl(storagePath);
 
-        console.log(`${file.name} uploaded successfully`);
+        console.log(`${fileToUpload.name} uploaded successfully`);
         uploadedUrls.push(publicUrl);
       } catch (error) {
-        console.error(`Error uploading the ${file.name}: `, error);
+        console.error(
+          `Error processing or uploading the ${file.name}: `,
+          error,
+        );
         throw new Error(error.message);
       }
     }
@@ -148,6 +155,7 @@ export default function ProductDetailsForm({
       productFiles,
       productId,
       "product-files",
+      false,
     );
 
     // 3. Update the product with file URLs

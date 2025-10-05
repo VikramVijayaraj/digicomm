@@ -37,6 +37,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "@vercel/speed-insights": "^1.1.0",
     "axios": "^1.7.7",
+    "browser-image-compression": "^2.0.2",
     "cashfree-pg": "^4.2.3",
     "cashfree-verification": "^1.0.1",
     "class-variance-authority": "^0.7.0",
