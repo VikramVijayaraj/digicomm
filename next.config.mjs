@@ -19,6 +19,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "nzsdnmgddzliomknciuq.supabase.co",
+      },
+      {
+        protocol: "https",
+        hostname: "api.crelands.com",
+      },
     ],
   },
 
