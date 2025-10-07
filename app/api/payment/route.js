@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
-import { Cashfree } from "cashfree-pg";
 import { v4 as uuid } from "uuid";
+import { Cashfree, CFEnvironment } from "cashfree-pg";
 
-Cashfree.XClientId = process.env.CASHFREE_CLIENT_ID;
-Cashfree.XClientSecret = process.env.CASHFREE_CLIENT_SECRET;
-Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
+// Cashfree.XClientId = process.env.CASHFREE_CLIENT_ID;
+// Cashfree.XClientSecret = process.env.CASHFREE_CLIENT_SECRET;
+// Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
+
+const cashfree = new Cashfree(
+  CFEnvironment.PRODUCTION,
+  process.env.CASHFREE_CLIENT_ID,
+  process.env.CASHFREE_CLIENT_SECRET,
+);
 
 export async function POST(request) {
   try {
@@ -18,7 +24,7 @@ export async function POST(request) {
       customer_details: customerDetails,
     };
 
-    const response = await Cashfree.PGCreateOrder(
+    const response = await cashfree.PGCreateOrder(
       "2023-08-01",
       cashfreeRequest,
     );

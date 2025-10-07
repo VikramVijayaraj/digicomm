@@ -1,17 +1,23 @@
 import axios from "axios";
 import { NextResponse } from "next/server";
-import { Cashfree } from "cashfree-pg";
+import { Cashfree, CFEnvironment } from "cashfree-pg";
 
-Cashfree.XClientId = process.env.CASHFREE_CLIENT_ID;
-Cashfree.XClientSecret = process.env.CASHFREE_CLIENT_SECRET;
-Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
+// Cashfree.XClientId = process.env.CASHFREE_CLIENT_ID;
+// Cashfree.XClientSecret = process.env.CASHFREE_CLIENT_SECRET;
+// Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
+
+const cashfree = new Cashfree(
+  CFEnvironment.PRODUCTION,
+  process.env.CASHFREE_CLIENT_ID,
+  process.env.CASHFREE_CLIENT_SECRET,
+);
 
 export async function POST(request) {
   try {
     const { orderId } = await request.json();
 
     // Call Cashfree API
-    const response = await Cashfree.PGOrderFetchPayments("2023-08-01", orderId);
+    const response = await cashfree.PGOrderFetchPayments("2023-08-01", orderId);
 
     // Log and return success response
     console.log("Order fetched successfully:", response.data);
