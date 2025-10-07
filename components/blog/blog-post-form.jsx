@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import "react-quill/dist/quill.snow.css";
 import slugify from "slugify";
 import { toast } from "sonner";
 
@@ -13,11 +11,6 @@ import { createPostAction, updatePostAction } from "@/actions/blog-actions";
 import { formatFileName, optimizeImage } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/client";
 
-// Dynamically import ReactQuill with no SSR
-const ReactQuill = dynamic(() => import("react-quill"), {
-  ssr: false,
-  loading: () => <p>Loading editor...</p>,
-});
 
 const modules = {
   toolbar: [
@@ -176,14 +169,6 @@ export default function BlogPostForm({
         onChange={(e) => setCategory(e.target.value)}
       />
       <Input type="file" accept="image/*" onChange={handleFile} />
-      <ReactQuill
-        theme="snow"
-        value={content}
-        onChange={(newValue) => setContent(newValue)}
-        modules={modules}
-        formats={formats}
-        className="h-[500px]"
-      />
 
       <div>
         <Button
