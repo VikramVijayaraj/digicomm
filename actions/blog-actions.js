@@ -43,73 +43,58 @@ export async function updatePostAction(data, currentSlug) {
     title,
     description,
     category,
-    slug, // This is the new slug
+    slug,
     content,
     imageUrl,
     published_status,
   } = data;
 
-  // For safety, trim both slugs to avoid whitespace issues
   const newSlug = slug.trim();
   const oldSlug = currentSlug.trim();
 
+  const updateData = {
+    title: title,
+    description: description,
+    category: category,
+    slug: newSlug,
+    content: content,
+    published_status: published_status,
+  };
+
+  if (imageUrl) {
+    updateData.cover_image = imageUrl;
+  }
+
   try {
-    let result;
+    // Add .select() to get the updated data
+    const { data: updatedData, error } = await supabaseAdmin
+      .from("blogposts")
+      .update(updateData)
+      .eq("slug", oldSlug)
+      .select(); // This returns the updated rows
 
-    if (imageUrl) {
-      // Query runs if an image is provided
-      const { data: blogData, error } = await supabaseAdmin
-        .from("blogposts")
-        .update({
-          title: title,
-          description: description,
-          category: category,
-          slug: newSlug,
-          content: content,
-          published_status: published_status,
-          cover_image: imageUrl,
-        })
-        .eq("slug", oldSlug);
-
-      if (error) {
-        console.error("Supabase Error:", error);
-        throw new Error("Failed to update post.");
-      }
-
-      result = blogData;
-    } else {
-      // Query runs if no image is provided
-      const { data: blogData, error } = await supabaseAdmin
-        .from("blogposts")
-        .update({
-          title: title,
-          description: description,
-          category: category,
-          slug: newSlug,
-          content: content,
-          published_status: published_status,
-        })
-        .eq("slug", oldSlug);
-
-      if (error) {
-        console.error("Supabase Error:", error);
-        throw new Error("Failed to update post.");
-      }
-
-      result = blogData;
+    if (error) {
+      console.error("Supabase Update Error:", error);
+      throw new Error("Failed to update post due to a database error.");
     }
 
-    if (result.rowCount === 0) {
-      console.warn(
-        "Update failed: The original slug was not found in the database.",
-      );
+    // Check if any rows were updated
+    if (!updatedData || updatedData.length === 0) {
+      console.warn(`No post found with slug: "${oldSlug}"`);
+      throw new Error("No post found with the provided slug.");
     }
 
+    console.log("Post updated successfully:", updatedData[0]);
+
+    // Revalidate paths
     revalidatePath("/blog");
     revalidatePath(`/blog/${newSlug}`);
+    if (oldSlug !== newSlug) {
+      revalidatePath(`/blog/${oldSlug}`);
+    }
     revalidatePath("/sitemap");
   } catch (error) {
-    console.error("Database Error:", error);
+    console.error("Database Action Error:", error);
     throw new Error("Failed to update post.");
   }
 }

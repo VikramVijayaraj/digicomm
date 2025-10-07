@@ -3,10 +3,11 @@ import { redirect } from "next/navigation";
 import { shopTabs } from "@/lib/data";
 import Sidebar from "@/components/ui/sidebar";
 import { createClient } from "@/utils/supabase/server";
+import { verifySeller } from "@/lib/db/sellers";
 
 export const metadata = {
-  title: "My Shop Page",
-  description: "My Shop Settings.",
+  title: "Your Shop Dashboard",
+  description: "Manage your shop and products",
 };
 
 export default async function ShopLayout({ children }) {
@@ -15,6 +16,13 @@ export default async function ShopLayout({ children }) {
 
   if (!data?.user) {
     redirect("/auth/signin");
+  }
+
+  const result = await verifySeller(data?.user?.email);
+  const isSeller = result[0]?.is_seller;
+
+  if (!isSeller) {
+    redirect("/your/shop/register");
   }
 
   return (

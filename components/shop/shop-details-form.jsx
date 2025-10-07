@@ -4,9 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { v4 as uuid } from "uuid";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "@/app/firebaseConfig";
 import { usePathname, useRouter } from "next/navigation";
 import slugify from "slugify";
 
@@ -28,7 +25,8 @@ import {
   updateSellerAction,
 } from "@/actions/seller-actions";
 import { shopSchema } from "@/lib/schema";
-import deleteFromFirebase from "@/utils/firebase";
+import { formatFileName, optimizeImage } from "@/utils/utils";
+import { createClient } from "@/utils/supabase/client";
 
 export default function ShopDetailsForm({ session, data }) {
   // React Hook Form
@@ -42,6 +40,7 @@ export default function ShopDetailsForm({ session, data }) {
     },
   });
 
+  const supabase = createClient();
   const router = useRouter();
   const pathname = usePathname();
   const [banner, setBanner] = useState(data?.shop_banner);
@@ -67,69 +66,112 @@ export default function ShopDetailsForm({ session, data }) {
     }
   }
 
-  // Upload Logo To Firebase
-  async function uploadImage(file, path) {
+  // Upload Images To Storage
+  async function uploadImage(file, path, fileType) {
     if (!file) return; // Return if no file is selected
 
-    const splittedFileName = file.name.toString().split(".");
-    const storageRef = ref(
-      storage,
-      `${path}/${splittedFileName[0] + "_" + uuid() + "." + splittedFileName[1]}`,
-    ); // Create a reference to the file in Firebase Storage
-    // const storageRef = ref(storage, `shop-images/logos/${file.name + uuid()}`); // Create a reference to the file in Firebase Storage
-
+    const optimizedFile = await optimizeImage(file, fileType);
+    const fileName = formatFileName(optimizedFile.name);
     try {
-      await uploadBytes(storageRef, file); // Upload the file to Firebase Storage
-      const url = await getDownloadURL(storageRef); // Get the download URL of the uploaded file
-      console.log("File Uploaded Successfully");
-      return url;
+      const { error: uploadError } = await supabase.storage
+        .from("public-assets")
+        .upload(`${path}/${fileName}`, optimizedFile);
+
+      if (uploadError) {
+        console.error("Error uploading file:", uploadError);
+        throw new Error("Failed to upload image");
+      } else {
+        console.log("File uploaded successfully:", file.name);
+      }
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage
+        .from("public-assets")
+        .getPublicUrl(`${path}/${fileName}`);
+
+      return publicUrl;
     } catch (error) {
-      console.error("Error uploading the file", error);
-      throw new Error("Failed to upload image");
+      console.error("Unexpected error uploading file:", error);
+      throw error;
     }
   }
 
   async function onSubmit(values) {
-    const logoUrl = await uploadImage(logoFile, "shop-images/logos");
-    const bannerUrl = await uploadImage(bannerFile, "shop-images/banners");
-    // const imageUrl = await uploadImage();
     const slug = slugify(values.name, {
       lower: true,
       strict: true,
     });
 
-    const updatedValues = {
+    const shopData = {
       ...values,
-      logo: logoUrl || data?.shop_logo,
-      banner: bannerUrl || data?.shop_banner,
+      logo: data?.shop_logo || null,
+      banner: data?.shop_banner || null,
       slug,
     };
-    // values["logo"] = logoUrl;
-    // values["banner"] = bannerUrl;
-    // values["slug"] = slug;
-
-    // Delete old files from firebase if new ones were uploaded
-    if (logoUrl && data?.shop_logo) {
-      await deleteFromFirebase(`shop-images/logos/${data?.shop_logo}`);
-    }
-    if (bannerUrl && data?.shop_banner) {
-      await deleteFromFirebase(`shop-images/banners/${data?.shop_banner}`);
-    }
-    // // Delete old file from firebase
-    // if (imageUrl) {
-    //   await deleteFromFirebase(`shop-images/logos/${data?.shop_logo}`);
-    // }
+    let sellerId;
 
     // Update shop details if data is available, otherwise create new.
     if (data) {
-      // const updatedData = { ...values };
-      // updatedData["logo"] = imageUrl || data?.shop_logo;
-
-      await updateSellerAction(session?.user?.email, updatedValues);
+      sellerId = await updateSellerAction(session?.user?.email, shopData);
       toast.success("Shop details updated!");
+      router.refresh();
     } else {
-      await createSellerAction(session?.user?.email, updatedValues);
+      sellerId = await createSellerAction(session?.user?.email, shopData);
       toast.success("Shop created successfully!");
+    }
+
+    const logoUrl = await uploadImage(
+      logoFile,
+      `shop-images/${sellerId}`,
+      "shopLogo",
+    );
+    const bannerUrl = await uploadImage(
+      bannerFile,
+      `shop-images/${sellerId}`,
+      "shopBanner",
+    );
+
+    const updatedData = {
+      ...shopData,
+      logo: logoUrl || data?.shop_logo,
+      banner: bannerUrl || data?.shop_banner,
+    };
+
+    await updateSellerAction(session?.user?.email, updatedData);
+
+    // Delete old files from storage if new ones were uploaded
+    if (logoUrl && data?.shop_logo) {
+      const currentImage = data?.shop_logo;
+      const imagePath = decodeURIComponent(
+        currentImage.split("/public-assets/")[1],
+      );
+
+      const { error } = await supabase.storage
+        .from("public-assets")
+        .remove([imagePath]);
+
+      if (error) {
+        console.error("Error deleting image from storage: ", error);
+      } else {
+        console.log("Deleted successfully from Supabase:", imagePath);
+      }
+    }
+    if (bannerUrl && data?.shop_banner) {
+      const currentImage = data?.shop_banner;
+      const imagePath = decodeURIComponent(
+        currentImage.split("/public-assets/")[1],
+      );
+
+      const { error } = await supabase.storage
+        .from("public-assets")
+        .remove([imagePath]);
+
+      if (error) {
+        console.error("Error deleting image from storage: ", error);
+      } else {
+        console.log("Deleted successfully from Supabase:", imagePath);
+      }
     }
 
     // After registering the shop, user is redirected to dashboard.

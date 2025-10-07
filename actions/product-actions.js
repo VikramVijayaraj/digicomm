@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import slugify from "slugify";
 import { nanoid } from "nanoid";
 
-import deleteFromFirebase from "@/utils/firebase";
 import {
   addProduct,
   addProductFile,
@@ -16,6 +15,7 @@ import {
   updateProduct,
 } from "@/lib/db/products";
 import { getShopDetails } from "@/lib/db/sellers";
+import { createClient } from "@/utils/supabase/server";
 
 export async function SearchSuggestionsAction(searchTerm) {
   try {
@@ -56,6 +56,7 @@ export async function addProductAction(email, productDetails) {
   }
 
   revalidatePath("/", "layout");
+  return productId;
 }
 
 export async function updateProductAction(productId, productDetails) {
@@ -88,15 +89,43 @@ export async function updateProductAction(productId, productDetails) {
 }
 
 export async function deleteProductAction(productDetails) {
-  // Delete from firebase
+  const supabase = await createClient();
+  console.log(productDetails.product_id);
+
+  // Delete product images from storage
   for (let image of productDetails.images) {
-    await deleteFromFirebase(`product-images/${image}`);
+    const imagePath = decodeURIComponent(image.split("/public-assets/")[1]); // Extract image path
+
+    const { error: imageError } = await supabase.storage
+      .from("public-assets")
+      .remove([imagePath]);
+
+    if (imageError) {
+      console.error("Error deleting image from storage: ", imageError);
+      throw new Error("Failed to delete the product. Try again!");
+    } else {
+      console.log("Deleted successfully from Supabase:", imagePath);
+    }
   }
+
+  // Delete product files from storage
   for (let file of productDetails.files) {
-    await deleteFromFirebase(`product-files/${file}`);
+    const filePath = decodeURIComponent(file.split("/product-files/")[1]);
+
+    const { error: fileError } = await supabase.storage
+      .from("product-files")
+      .remove([filePath]);
+
+    if (fileError) {
+      console.error("Error deleting image from storage: ", fileError);
+      throw new Error("Failed to delete the product. Try again!");
+    } else {
+      console.log("Deleted successfully from Supabase:", filePath);
+    }
   }
 
   await deleteProduct(productDetails.product_id);
+  revalidatePath("/", "layout");
 }
 
 export async function deleteProductImageAction(imageUrl) {

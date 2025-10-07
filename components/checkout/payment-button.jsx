@@ -20,7 +20,7 @@ export default function PaymentButton({
 
   var initializeSDK = async function () {
     cashfree = await load({
-      mode: "production",
+      mode: "production",  // or "sandbox"
     });
   };
   initializeSDK();

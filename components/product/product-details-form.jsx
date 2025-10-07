@@ -3,9 +3,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { v4 as uuid } from "uuid";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "@/app/firebaseConfig";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -36,7 +33,8 @@ import {
   deleteProductImageAction,
   updateProductAction,
 } from "@/actions/product-actions";
-import deleteFromFirebase from "@/utils/firebase";
+import { createClient } from "@/utils/supabase/client";
+import { formatFileName, optimizeImage } from "@/utils/utils";
 
 export default function ProductDetailsForm({
   session,
@@ -61,6 +59,7 @@ export default function ProductDetailsForm({
   const [imagePreviews, setImagePreviews] = useState(productData?.images);
   const [files, setFiles] = useState([]);
   const [productFiles, setProductFiles] = useState([]);
+  const supabase = createClient();
 
   // Function to handle image previews
   function handleImageChange(e) {
@@ -88,59 +87,132 @@ export default function ProductDetailsForm({
     form.setValue("files", files); // Update the form value for files
   }
 
-  // Upload Images To Firebase
-  async function handleUpload(files, folder) {
-    if (!files) return []; // Return empty array if no files are selected
+  // Upload Images To Supabase
+  async function handleUpload(files, folder, bucket, optimize = true) {
+    if (!files || files.length === 0) return []; // Return empty array if no files are selected
     const uploadedUrls = [];
 
     for (const file of files) {
-      const splittedFileName = file.name.toString().split(".");
-      const storageRef = ref(
-        storage,
-        `${folder}/${splittedFileName[0] + "_" + uuid() + "." + splittedFileName[1]}`,
-      ); // Create a reference to the file in Firebase Storage
-
       try {
-        await uploadBytes(storageRef, file); // Upload the file to Firebase Storage
-        const url = await getDownloadURL(storageRef); // Get the download URL of the uploaded file
-        console.log(`${file.name} Uploaded Successfully`);
-        uploadedUrls.push(url);
+        // Optimize the product images not the product files
+        const fileToUpload = optimize
+          ? await optimizeImage(file, "productImage")
+          : file;
+        const fileName = formatFileName(fileToUpload.name);
+        const storagePath = `${folder}/${fileName}`;
+
+        // Upload the file to Supabase Storage
+        const { error: uploadError } = await supabase.storage
+          .from(bucket)
+          .upload(storagePath, fileToUpload);
+
+        if (uploadError) {
+          console.error("Error uploading the file", uploadError);
+          throw uploadError;
+        }
+
+        // Get the public URL of the uploaded file
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from(bucket).getPublicUrl(storagePath);
+
+        console.log(`${fileToUpload.name} uploaded successfully`);
+        uploadedUrls.push(publicUrl);
       } catch (error) {
-        console.error(`Error uploading the ${file.name}: `, error);
-        throw new Error();
+        console.error(
+          `Error processing or uploading the ${file.name}: `,
+          error,
+        );
+        throw new Error(error.message);
       }
     }
     return uploadedUrls;
   }
 
   async function onSubmit(data) {
-    const uploadedImages = await handleUpload(files, "product-images");
-    const uploadedFiles = await handleUpload(productFiles, "product-files");
-
-    data["images"] = [...uploadedImages];
-    data["files"] = [...uploadedFiles];
+    let productId;
 
     if (productData) {
-      // Delete old images and files from firebase only if new ones are uploaded
+      // We already have product ID for edit mode
+      productId = productData.product_id;
+    } else {
+      // 1. Create the product first (without images/files)
+      const id = await addProductAction(session?.user?.email, {
+        ...data,
+        images: [],
+        files: [],
+      });
+      productId = id;
+    }
+
+    // 2. Upload Images and Files using productId as folder
+    const uploadedImages = await handleUpload(
+      files,
+      `product-images/${productId}`,
+      "public-assets",
+    );
+    const uploadedFiles = await handleUpload(
+      productFiles,
+      productId,
+      "product-files",
+      false,
+    );
+
+    // 3. Update the product with file URLs
+    const updatePayload = {
+      ...data,
+      images: uploadedImages,
+      files: uploadedFiles,
+    };
+
+    if (productData) {
+      // Delete old images and files if new ones are uploaded
       if (uploadedImages.length > 0) {
         for (let image of productData.images) {
-          await deleteFromFirebase(`product-images/${image}`);
+          // Remove from Supabase storage
+          const imagePath = decodeURIComponent(
+            image.split("/public-assets/")[1],
+          ); // Extract image path
+
+          const { error } = await supabase.storage
+            .from("public-assets")
+            .remove([imagePath]);
+
+          if (error) {
+            console.error("Error deleting image from storage: ", error);
+          } else {
+            console.log("Deleted successfully from Supabase:", imagePath);
+          }
+
           await deleteProductImageAction(image);
         }
       }
       if (uploadedFiles.length > 0) {
         for (let file of productData.files) {
-          await deleteFromFirebase(`product-files/${file}`);
+          const filePath = decodeURIComponent(file.split("/product-files/")[1]);
+
+          const { error } = await supabase.storage
+            .from("product-files")
+            .remove([filePath]);
+
+          if (error) {
+            console.error("Error deleting image from storage: ", error);
+          } else {
+            console.log("Deleted successfully from Supabase:", filePath);
+          }
+
           await deleteProductFilesAction(file);
         }
       }
 
-      await updateProductAction(productData.product_id, data);
+      // On Edit mode
+      await updateProductAction(productId, updatePayload);
     } else {
-      await addProductAction(session?.user?.email, data);
+      // Update newly created product
+      await updateProductAction(productId, updatePayload);
     }
 
-    router.back();
+    router.push("/your/shop/dashboard/products");
     productData
       ? toast.success("Product Updated Successfully.")
       : toast.success("Product Added Successfully.");
@@ -292,7 +364,7 @@ export default function ProductDetailsForm({
                 <FormItem>
                   <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="Enter price" {...field} />
+                    <Input placeholder="Enter price" {...field} />
                   </FormControl>
                   <FormDescription>Enter price in INR</FormDescription>
                   <FormMessage />

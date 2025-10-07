@@ -13,13 +13,15 @@ import {
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
 export async function createSellerAction(email, shopDetails) {
-  await createSeller(email, shopDetails);
+  const sellerId = await createSeller(email, shopDetails);
   revalidatePath("/");
+  return sellerId;
 }
 
 export async function updateSellerAction(email, shopDetails) {
-  await updateShopDetails(email, shopDetails);
+  const sellerId = await updateShopDetails(email, shopDetails);
   revalidatePath("/");
+  return sellerId;
 }
 
 export async function createSellerBankDetailsAction(email, bankDetails) {
