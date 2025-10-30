@@ -17,9 +17,9 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function sendWelcomeEmail(email) {
   try {
     await resend.emails.send({
-      from: "Crelands <welcome@crelands.com>",
+      from: "Crelands <contact@crelands.com>",
       to: email,
-      subject: "Welcome to Crelands!",
+      subject: "Welcome to Crelands 🎉",
       react: <WelcomeEmail />,
     });
 

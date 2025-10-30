@@ -27,7 +27,7 @@ import { createUserSourceAction } from "@/actions/user-actions";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default function InfoForm() {
+export default function InfoForm({ action }) {
   const router = useRouter();
   const [otherSource, setOtherSource] = useState("");
   const [otherSourceInput, setOtherSourceInput] = useState("");
@@ -43,6 +43,7 @@ export default function InfoForm() {
       } else {
         await createUserSourceAction(data.source);
       }
+      await action();
       router.replace("/");
     } catch (error) {
       throw new Error(

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import InfoForm from "./info-form";
 import { getUserSourceByEmail } from "@/lib/db/users";
 import { createClient } from "@/utils/supabase/server";
+import { sendWelcomeEmail } from "@/actions/send-email-action";
 
 export default async function InfoPage() {
   const supabase = await createClient();
@@ -18,9 +19,34 @@ export default async function InfoPage() {
     redirect("/");
   }
 
+  async function handleNotification() {
+    "use server";
+
+    // Send welcome email
+    const result = await sendWelcomeEmail(data.user.email);
+    if (result.success) {
+      console.log("Welcome email sent successfully");
+    }
+
+    // Notify on Slack
+    const response = await fetch(process.env.SLACK_WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text: `New user signed up: *${data.user.email}*`,
+      }),
+    });
+
+    if (!response.ok) {
+      console.error("Cannot notify on Slack");
+    }
+  }
+
   return (
     <div className="global-padding my-20 lg:my-40 flex items-center justify-center">
-      <InfoForm />
+      <InfoForm action={handleNotification} />
     </div>
   );
 }

@@ -19,8 +19,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { signUpSchema } from "@/lib/schema";
 import { signUp } from "@/actions/auth-actions";
-import { notifyOnSlack } from "@/lib/api";
-import { sendWelcomeEmail } from "@/actions/send-email-action";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -45,13 +43,6 @@ export default function SignUpForm() {
         setTimeout(() => {
           router.push("/auth/signin");
         }, 3000);
-
-        await sendWelcomeEmail(values.email);
-
-        // Notify on Slack
-        await notifyOnSlack(
-          `New user signed up: *${values.name}* (${values.email})`,
-        );
       } else {
         form.setError("root", { message: result.status });
       }
