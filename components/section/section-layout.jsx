@@ -1,10 +1,10 @@
 export default function SectionLayout({ children, heading }) {
   return (
-    <div>
-      <h2 className="text-2xl md:text-3xl lg:text-4xl text-center pb-5 md:pb-10 font-semibold">
+    <section>
+      <h2 className="text-2xl lg:text-3xl text-center pb-5 md:pb-10">
         {heading}
       </h2>
       {children}
-    </div>
+    </section>
   );
 }

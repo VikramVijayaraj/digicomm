@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 
 import Categories from "@/components/section/categories";
-import BestSelling from "@/components/section/best-selling";
 import Banner from "@/components/banner/banner";
 import Newsletter from "@/components/cta/newsletter";
 import { getUserByEmail, getUserSourceByEmail } from "@/lib/db/users";
@@ -12,6 +11,7 @@ import BannerCTA from "@/components/cta/banner-cta";
 import WhyChooseUs from "@/components/section/why-choose-us";
 import Testimonials from "@/components/section/testimonials";
 import { createClient } from "@/utils/supabase/server";
+import AllSections from "@/components/section/all-sections";
 
 export default async function Home({ searchParams }) {
   const supabase = await createClient();
@@ -37,7 +37,8 @@ export default async function Home({ searchParams }) {
       {/* <Banner /> */}
       {/* <BannerCarousel /> */}
       {/* <Categories /> */}
-      <BestSelling />
+      <AllSections />
+      {/* <BestSelling /> */}
       <WhyChooseUs />
       <Testimonials />
       <Newsletter />
