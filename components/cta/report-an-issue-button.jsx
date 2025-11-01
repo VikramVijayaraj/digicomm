@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { TriangleAlert } from "lucide-react";
+import { toast } from "sonner";
+import { MessageCircle } from "lucide-react";
 
 import { Button } from "../ui/button";
 import {
@@ -13,7 +14,6 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { sendReportAnIssueEmail } from "@/actions/send-email-action";
-import { toast } from "sonner";
 
 export default function ReportAnIssueButton() {
   const [email, setEmail] = useState("");
@@ -47,18 +47,15 @@ export default function ReportAnIssueButton() {
     <div className="fixed bottom-0 right-0 m-4">
       <Popover>
         <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className="border-black flex justify-between items-center gap-1"
-          >
-            <TriangleAlert stroke="orange" />
-            <p className="hidden md:block">Report an issue</p>
+          <Button size="icon" className="bg-green-600 h-14 w-14">
+            <MessageCircle size="25" />
+            {/* <p className="hidden md:block">Message</p> */}
           </Button>
         </PopoverTrigger>
 
         <PopoverContent className="mr-4">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <p className="font-semibold text-center">Report an issue</p>
+            <p className="font-semibold text-center">How can we help?</p>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -73,7 +70,7 @@ export default function ReportAnIssueButton() {
               <Label htmlFor="message">Message</Label>
               <Textarea
                 name="message"
-                placeholder="Describe the issue..."
+                placeholder="Describe..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />
