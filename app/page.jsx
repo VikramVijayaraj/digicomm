@@ -12,7 +12,6 @@ import WhyChooseUs from "@/components/section/why-choose-us";
 import Testimonials from "@/components/section/testimonials";
 import { createClient } from "@/utils/supabase/server";
 import AllSections from "@/components/section/all-sections";
-import DiscordInviteBanner from "@/components/cta/discord-invite-banner";
 
 export default async function Home({ searchParams }) {
   const supabase = await createClient();
@@ -39,10 +38,11 @@ export default async function Home({ searchParams }) {
       {/* <BannerCarousel /> */}
       {/* <Categories /> */}
       <AllSections />
-      <DiscordInviteBanner />
       <WhyChooseUs />
       <Testimonials />
-      <Newsletter />
+      <div className="global-padding">
+        <Newsletter />
+      </div>
     </main>
   );
 }

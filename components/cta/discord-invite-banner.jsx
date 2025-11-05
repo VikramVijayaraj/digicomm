@@ -16,7 +16,7 @@ const userAvatars = [
 
 export default function DiscordInviteBanner() {
   return (
-    <section className="relative w-full bg-gradient-to-br from-[#5865F2] to-[#7289DA] py-8 md:py-12 lg:py-16 text-white overflow-hidden">
+    <section className="relative rounded-xl mb-12 w-full bg-gradient-to-br from-[#5865F2] to-[#7289DA] px-0 md:px-4 py-8 md:py-12 lg:py-16 text-white overflow-hidden shadow-xl">
       {/* Background decoration elements (toned down for a banner) */}
       <div className="absolute top-1/4 left-0 w-32 h-32 bg-white/10 rounded-full blur-xl animate-pulse opacity-70"></div>
       <div className="absolute bottom-1/4 right-0 w-40 h-40 bg-white/10 rounded-full blur-xl animate-pulse delay-200 opacity-70"></div>
@@ -51,8 +51,8 @@ export default function DiscordInviteBanner() {
               />
             ))}
             {/* Small decorative elements like the "rockets" and "chat bubbles" */}
-            <div className="absolute top-0 -left-4 w-3 h-3 bg-[#fff] rounded-full opacity-70 animate-ping" />
-            <div className="absolute bottom-0 -right-4 w-2 h-2 bg-[#57F287] rounded-full opacity-70 animate-ping delay-150" />
+            <div className="absolute top-0 -left-1 w-3 h-3 bg-[#fff] rounded-full opacity-70 animate-ping" />
+            <div className="absolute bottom-0 -right-1 w-2 h-2 bg-[#57F287] rounded-full opacity-70 animate-ping delay-150" />
           </div>
 
           {/* <p className="text-white text-opacity-80 text-sm md:text-base">

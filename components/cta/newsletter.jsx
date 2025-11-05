@@ -42,7 +42,7 @@ export default function Newsletter() {
   }
 
   return (
-    <div className="global-padding bg-sky-200 py-10 flex flex-col items-center space-y-6">
+    <div className="global-padding rounded-xl bg-sky-200 py-10 flex flex-col items-center space-y-6">
       <p className="text-center text-lg">
         Subscibe to get exclusive offers, and personalised tips for selling on{" "}
         {process.env.NEXT_PUBLIC_APP_NAME}.

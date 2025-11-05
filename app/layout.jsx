@@ -10,6 +10,7 @@ import Footer from "@/components/footer/footer";
 import { Toaster } from "@/components/ui/sonner";
 import FacebookPixel from "@/components/FacebookPixel";
 import ReportAnIssueButton from "@/components/cta/report-an-issue-button";
+import DiscordInviteBanner from "@/components/cta/discord-invite-banner";
 
 export const metadata = {
   metadataBase: new URL(
@@ -64,6 +65,10 @@ export default function RootLayout({ children }) {
             <Header />
             <div className="py-8">{children}</div>
             <Toaster richColors />
+
+            <div className="global-padding">
+              <DiscordInviteBanner />
+            </div>
             <Footer />
           </ThemeProvider>
         </ReduxProvider>
