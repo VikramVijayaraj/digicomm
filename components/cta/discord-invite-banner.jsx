@@ -65,7 +65,7 @@ export default function DiscordInviteBanner() {
             size="lg"
           >
             <Link
-              href="https://discord.gg/vQEX864W"
+              href="https://discord.gg/nJE8Kf9GWJ"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2"
