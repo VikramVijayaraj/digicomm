@@ -1,5 +1,6 @@
 import { cache } from "react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { IndianRupee } from "lucide-react";
 
 import AddToCart from "@/components/product/add-to-cart";
@@ -27,6 +28,13 @@ export async function generateMetadata({ params }) {
   const { slug } = params;
   const result = await currentProduct(slug);
 
+  if (!result) {
+    return {
+      title: "Product Not Found",
+      description: "The product you are looking for does not exist.",
+    };
+  }
+
   const maxLength = 160;
   // Truncate description to fit within maxLength, accounting for ellipsis
   const description =
@@ -50,6 +58,11 @@ export async function generateMetadata({ params }) {
 export default async function ProductPage({ params }) {
   const { slug } = params;
   const result = await currentProduct(slug);
+
+  if (!result) {
+    notFound();
+  }
+
   const rating = await getAvgProductRating(slug);
 
   const supabase = await createClient();
