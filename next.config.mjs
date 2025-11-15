@@ -28,6 +28,7 @@ const nextConfig = {
         hostname: "api.crelands.com",
       },
     ],
+    unoptimized: true,
   },
 
   experimental: {
