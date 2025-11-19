@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import { supabaseAdmin } from "@/utils/supabase/admin";
+import { formatFileName } from "@/utils/utils";
 
 export async function createPostAction(data) {
   const {
@@ -114,4 +115,35 @@ export async function togglePostStatusAction(postId, status) {
 
   revalidatePath("/blog");
   revalidatePath("/sitemap");
+}
+
+export async function uploadBlogImageAction(formData) {
+  const file = formData.get("file");
+
+  if (!file) {
+    throw new Error("No file provided");
+  }
+
+  // 1. Create unique name
+  const formatedFileName = formatFileName(file.name);
+  const fileName = `blog-images/${formatedFileName}`;
+
+  // 2. Upload using Admin client (Securely on server)
+  const { error } = await supabaseAdmin.storage
+    .from("public-assets")
+    .upload(fileName, file, {
+      upsert: false,
+    });
+
+  if (error) {
+    console.error("Server upload error:", error);
+    throw new Error("Upload failed");
+  }
+
+  // 3. Get Public URL
+  const {
+    data: { publicUrl },
+  } = supabaseAdmin.storage.from("public-assets").getPublicUrl(fileName);
+
+  return publicUrl;
 }

@@ -5,14 +5,14 @@ import { Button } from "@/components/ui/button";
 
 export default function NewPostPage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 lg:px-20">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl text-center font-semibold">New Post</h1>
         <Button asChild variant="secondary">
           <Link href="/blog">View all posts</Link>
         </Button>
       </div>
-    
+
       <BlogPostForm />
     </div>
   );

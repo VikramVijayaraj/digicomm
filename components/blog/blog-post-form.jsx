@@ -10,7 +10,7 @@ import { Button } from "../ui/button";
 import { createPostAction, updatePostAction } from "@/actions/blog-actions";
 import { formatFileName, optimizeImage } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/client";
-
+import { SimpleEditor } from "../tiptap-templates/simple/simple-editor";
 
 const modules = {
   toolbar: [
@@ -120,7 +120,7 @@ export default function BlogPostForm({
       description,
       category,
       slug,
-      content,
+      content: content.getHTML(),
       imageUrl,
       published_status: true,
     };
@@ -170,6 +170,10 @@ export default function BlogPostForm({
       />
       <Input type="file" accept="image/*" onChange={handleFile} />
 
+      {/* Text Editor */}
+      <SimpleEditor action={setContent} dbContent={content} />
+
+      {/* Publish button */}
       <div>
         <Button
           disabled={isSubmitting}

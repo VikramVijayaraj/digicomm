@@ -2,6 +2,8 @@ import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
+import "@/styles/_variables.scss";
+import "@/styles/_keyframe-animations.scss";
 import { poppins } from "@/lib/fonts";
 import { ReduxProvider } from "./redux-provider";
 import { ThemeProvider } from "@/components/theme-provider";
