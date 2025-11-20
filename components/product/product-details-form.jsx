@@ -87,31 +87,42 @@ export default function ProductDetailsForm({
     form.setValue("files", files); // Update the form value for files
   }
 
-  // Upload Images To Supabase
+  // Upload To Supabase Storage
   async function handleUpload(files, folder, bucket, optimize = true) {
-    if (!files || files.length === 0) return []; // Return empty array if no files are selected
+    if (!files || files.length === 0) return [];
     const uploadedUrls = [];
 
     for (const file of files) {
       try {
-        // Optimize the product images not the product files
+        // 1. Determine file and extension logic
         const fileToUpload = optimize
           ? await optimizeImage(file, "productImage")
           : file;
-        const fileName = formatFileName(fileToUpload.name);
+
+        // FIX: Only force "webp" if we actually optimized the image.
+        // Otherwise, pass undefined/null to keep the original extension (jpg, pdf, etc.)
+        const extensionOverride = optimize ? "webp" : undefined;
+
+        const fileName = formatFileName(file.name, extensionOverride);
         const storagePath = `${folder}/${fileName}`;
 
-        // Upload the file to Supabase Storage
+        // 2. Determine correct Content-Type
+        // If optimized, it's definitely webp. If not, use original file type.
+        const contentType = optimize ? "image/webp" : file.type;
+
+        // 3. Upload to Supabase
         const { error: uploadError } = await supabase.storage
           .from(bucket)
-          .upload(storagePath, fileToUpload);
+          .upload(storagePath, fileToUpload, {
+            contentType: contentType, // Helps browser display/download correctly
+            upsert: false,
+          });
 
         if (uploadError) {
           console.error("Error uploading the file", uploadError);
           throw uploadError;
         }
 
-        // Get the public URL of the uploaded file
         const {
           data: { publicUrl },
         } = supabase.storage.from(bucket).getPublicUrl(storagePath);
@@ -119,10 +130,7 @@ export default function ProductDetailsForm({
         console.log(`${fileToUpload.name} uploaded successfully`);
         uploadedUrls.push(publicUrl);
       } catch (error) {
-        console.error(
-          `Error processing or uploading the ${file.name}: `,
-          error,
-        );
+        console.error(`Error processing or uploading ${file.name}: `, error);
         throw new Error(error.message);
       }
     }

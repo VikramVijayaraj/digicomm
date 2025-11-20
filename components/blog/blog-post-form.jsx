@@ -75,10 +75,14 @@ export default function BlogPostForm({
     let imageUrl;
     if (file) {
       const optimizedFile = await optimizeImage(file, "blogImage");
-      const fileName = formatFileName(optimizedFile?.name);
+      const fileName = formatFileName(file.name, "webp");
+
       const { error: uploadError } = await supabase.storage
         .from("public-assets")
-        .upload(`blog-images/${fileName}`, optimizedFile);
+        .upload(`blog-images/${fileName}`, optimizedFile, {
+          contentType: "image/webp", // Explicitly set content type for Supabase
+          upsert: false,
+        });
 
       if (uploadError) {
         console.error("Error uploading file:", uploadError);

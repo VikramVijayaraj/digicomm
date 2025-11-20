@@ -125,13 +125,14 @@ export async function uploadBlogImageAction(formData) {
   }
 
   // 1. Create unique name
-  const formatedFileName = formatFileName(file.name);
+  const formatedFileName = formatFileName(file.name, "webp");
   const fileName = `blog-images/${formatedFileName}`;
 
   // 2. Upload using Admin client (Securely on server)
   const { error } = await supabaseAdmin.storage
     .from("public-assets")
     .upload(fileName, file, {
+      contentType: "image/webp",
       upsert: false,
     });
 

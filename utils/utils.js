@@ -7,15 +7,22 @@ export function isValidEmail(email) {
   return regex.test(email); // Returns true if the email matches the regex pattern
 }
 
-export function formatFileName(name) {
-  const splittedFileName = name.toString().split(".");
-  const sanitizedFileName = slugify(splittedFileName[0], {
+export function formatFileName(name, forcedExtension = null) {
+  // Handle filenames with multiple dots
+  const lastDotIndex = name.lastIndexOf(".");
+  const nameWithoutExtension = name.substring(0, lastDotIndex);
+  const originalExtension = name.substring(lastDotIndex + 1);
+
+  // Sanitize the name
+  const sanitizedFileName = slugify(nameWithoutExtension, {
     lower: true,
     strict: true,
   });
-  const fileName =
-    sanitizedFileName + "_" + nanoid(10) + "." + splittedFileName[1];
-  return fileName;
+
+  // Use forced extension (webp) if provided, otherwise use original
+  const finalExtension = forcedExtension || originalExtension;
+
+  return `${sanitizedFileName}_${nanoid(10)}.${finalExtension}`;
 }
 
 export async function optimizeImage(file, type = "default") {

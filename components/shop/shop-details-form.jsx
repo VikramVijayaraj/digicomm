@@ -71,11 +71,13 @@ export default function ShopDetailsForm({ session, data }) {
     if (!file) return; // Return if no file is selected
 
     const optimizedFile = await optimizeImage(file, fileType);
-    const fileName = formatFileName(optimizedFile.name);
+    const fileName = formatFileName(file.name, "webp");
     try {
       const { error: uploadError } = await supabase.storage
         .from("public-assets")
-        .upload(`${path}/${fileName}`, optimizedFile);
+        .upload(`${path}/${fileName}`, optimizedFile, {
+          contentType: "image/webp",
+        });
 
       if (uploadError) {
         console.error("Error uploading file:", uploadError);
