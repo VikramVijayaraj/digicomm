@@ -20,7 +20,7 @@ export default function PaymentButton({
 
   var initializeSDK = async function () {
     cashfree = await load({
-      mode: "production",  // or "sandbox"
+      mode: "production", // "production" or "sandbox"
     });
   };
   initializeSDK();
@@ -105,7 +105,7 @@ export default function PaymentButton({
             "User has closed the popup or there is some payment error, Check for Payment Status",
           );
           console.log(result.error);
-          toast.error("Some payment error occurred. Retry the payment!")
+          toast.error("Some payment error occurred. Retry the payment!");
         }
         if (result.redirect) {
           // This will be true when the payment redirection page couldnt be opened in the same window

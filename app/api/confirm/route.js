@@ -17,7 +17,7 @@ export async function POST(request) {
     const { orderId } = await request.json();
 
     // Call Cashfree API
-    const response = await cashfree.PGOrderFetchPayments("2023-08-01", orderId);
+    const response = await cashfree.PGOrderFetchPayments(orderId);
 
     // Log and return success response
     console.log("Order fetched successfully:", response.data);

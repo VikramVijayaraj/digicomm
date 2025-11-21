@@ -17,17 +17,25 @@ export async function POST(request) {
     const { orderAmount, customerDetails } = await request.json();
     const orderId = uuid();
 
+    // Strictly required by Cashfree API
+    // If phone is missing, use a dummy 10-digit number.
+    // If email is missing, use a dummy email (optional, but good for safety).
+    const phone = customerDetails.customer_phone || "9999999999";
+    const email = customerDetails.customer_email || "guest@example.com";
+
     const cashfreeRequest = {
       order_amount: orderAmount,
       order_currency: "INR",
       order_id: orderId,
-      customer_details: customerDetails,
+      customer_details: {
+        customer_id: customerDetails.customer_id,
+        customer_phone: phone,
+        customer_email: email,
+      },
     };
 
-    const response = await cashfree.PGCreateOrder(
-      "2023-08-01",
-      cashfreeRequest,
-    );
+    const response = await cashfree.PGCreateOrder(cashfreeRequest);
+
     return NextResponse.json(response.data);
   } catch (error) {
     console.error(error);
