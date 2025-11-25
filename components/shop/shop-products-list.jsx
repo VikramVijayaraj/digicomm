@@ -22,6 +22,7 @@ import ShopProductActions from "./shop-product-actions";
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import Link from "next/link";
+import { getStoragePath } from "@/utils/utils";
 
 export default async function ShopProductsList() {
   const supabase = await createClient();
@@ -35,45 +36,52 @@ export default async function ShopProductsList() {
 
   return (
     <div className="space-y-4">
-      {products.map((product) => (
-        <Card key={product.product_id}>
-          <CardHeader>
-            <div className="flex justify-between items-start gap-4">
-              <div className="flex items-start gap-4">
-                <Image
-                  src={product.images.length > 0 && product.images[0]}
-                  width="100"
-                  height="100"
-                  className="rounded-lg object-cover"
-                  alt="Product Image"
-                />
+      {products.map((product) => {
+        const imagePath = getStoragePath(
+          product.images.length > 0 && product.images[0],
+        );
+        return (
+          <Card key={product.product_id}>
+            <CardHeader>
+              <div className="flex justify-between items-start gap-4">
+                <div className="flex items-start gap-4">
+                  <Image
+                    src={imagePath}
+                    width="100"
+                    height="100"
+                    className="rounded-lg object-cover"
+                    alt={product.product_name}
+                  />
+                  <div>
+                    <CardTitle className="text-lg">
+                      <Link
+                        href={`/products/${product.product_slug}`}
+                        className="hover:underline"
+                      >
+                        {product.product_name}
+                      </Link>
+                    </CardTitle>
+                    <CardDescription>{product.category_name}</CardDescription>
+                  </div>
+                </div>
                 <div>
-                  <CardTitle className="text-lg">
-                    <Link
-                      href={`/products/${product.product_slug}`}
-                      className="hover:underline"
-                    >
-                      {product.product_name}
-                    </Link>
-                  </CardTitle>
-                  <CardDescription>{product.category_name}</CardDescription>
+                  <ShopProductActions product={product} />
                 </div>
               </div>
-              <div>
-                <ShopProductActions product={product} />
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="flex justify-between items-center">
-            <p className="text-gray-500">{dateConverter(product.updated_at)}</p>
-            <p className="flex items-center text-green-600 font-semibold">
-              <IndianRupee size={15} />
-              {product.price}
-            </p>
-          </CardContent>
-          {/* <CardFooter></CardFooter> */}
-        </Card>
-      ))}
+            </CardHeader>
+            <CardContent className="flex justify-between items-center">
+              <p className="text-gray-500">
+                {dateConverter(product.updated_at)}
+              </p>
+              <p className="flex items-center text-green-600 font-semibold">
+                <IndianRupee size={15} />
+                {product.price}
+              </p>
+            </CardContent>
+            {/* <CardFooter></CardFooter> */}
+          </Card>
+        );
+      })}
     </div>
   );
 }

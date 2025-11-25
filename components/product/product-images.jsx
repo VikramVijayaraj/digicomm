@@ -1,30 +1,43 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { getStoragePath } from "@/utils/utils";
 
 export default function ProductImages({ images, alt_texts }) {
-  const [displayImage, setDisplayImage] = useState(images[0]);
+  const [displayImage, setDisplayImage] = useState(getStoragePath(images?.[0]));
   const [isOpen, setIsOpen] = useState(false);
 
-  const product_images = images.map((image, index) => (
-    <div
-      onClick={() => setDisplayImage(image)}
-      key={image}
-      className="relative w-24 h-24 mr-5 rounded-sm cursor-pointer"
-    >
-      <Image
-        src={image}
-        fill
-        style={{ objectFit: "cover" }}
-        alt={alt_texts[index] || "Product Image"}
-        onContextMenu={(e) => e.preventDefault()}
-      />
-    </div>
-  ));
+  // If the 'images' prop changes (e.g. user navigates to new product), update the display image.
+  useEffect(() => {
+    if (images && images.length > 0) {
+      setDisplayImage(getStoragePath(images[0]));
+    }
+  }, [images]);
+
+  if (!images || images.length === 0) return null;
+
+  const product_images = images.map((image, index) => {
+    const imagePath = getStoragePath(image);
+    return (
+      <div
+        onClick={() => setDisplayImage(imagePath)}
+        key={image}
+        className="relative w-24 h-24 mr-5 rounded-sm cursor-pointer"
+      >
+        <Image
+          src={imagePath}
+          fill
+          style={{ objectFit: "cover" }}
+          alt={alt_texts[index] || "Product Image"}
+          onContextMenu={(e) => e.preventDefault()}
+        />
+      </div>
+    );
+  });
 
   return (
     <div className="relative w-full lg:w-2/3 h-[20rem] md:h-[30rem] flex justify-start space-x-2">

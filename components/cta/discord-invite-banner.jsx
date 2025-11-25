@@ -48,6 +48,7 @@ export default function DiscordInviteBanner() {
                 className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-white object-cover shadow-md"
                 style={{ zIndex: userAvatars.length - index }} // Ensures correct overlap
                 priority={index < 3} // Optional: Prioritize loading the first few images
+                unoptimized={true}
               />
             ))}
             {/* Small decorative elements like the "rockets" and "chat bubbles" */}

@@ -192,6 +192,7 @@ export default function ShopDetailsForm({ session, data }) {
               alt="Shop Banner Preview"
               className="object-cover"
               fill
+              unoptimized={true}
             />
           </div>
         )}
@@ -203,6 +204,7 @@ export default function ShopDetailsForm({ session, data }) {
                 alt="Shop Logo Preview"
                 className="object-cover"
                 fill
+                unoptimized={true}
               />
             ) : (
               <Image
@@ -210,6 +212,7 @@ export default function ShopDetailsForm({ session, data }) {
                 src="/images/shop-avatar.png"
                 alt="Shop Avatar"
                 fill
+                unoptimized={true}
               />
             )}
           </div>

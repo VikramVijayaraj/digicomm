@@ -6,6 +6,7 @@ import ShopFeaturedProducts from "@/components/shop/shop-featured-products";
 import ShopReviews from "@/components/product/reviews/shop-reviews";
 import { getAvgShopRating } from "@/lib/db/reviews";
 import AvgRatingContainer from "@/components/ui/avg-rating-container";
+import { getStoragePath } from "@/utils/utils";
 
 export default async function ShopPage({ params }) {
   const { slug } = params;
@@ -13,6 +14,8 @@ export default async function ShopPage({ params }) {
   const shop = await getShopBySlug(slug);
   const products = await getShopProductsBySlug(slug);
   const rating = await getAvgShopRating(slug);
+  const bannerImagePath = getStoragePath(shop?.shop_banner);
+  const logoImagePath = getStoragePath(shop?.shop_logo);
 
   return (
     <div className="space-y-24 lg:space-y-8">
@@ -20,10 +23,11 @@ export default async function ShopPage({ params }) {
         {/* Shop Banner */}
         <div className="h-[170px] md:h-[300px] lg:h-[450px] flex justify-center items-center relative">
           <Image
-            src={shop?.shop_banner || "/images/shop-banner-default.jpg"}
+            src={bannerImagePath || "/images/shop-banner-default.jpg"}
             fill
-            alt="Shop Banner"
+            alt={`${shop.shop_name} Banner`}
             className="object-cover opacity-85"
+            unoptimized={!bannerImagePath}
           />
         </div>
         {/* Shop Logo only for md and below */}
@@ -34,9 +38,10 @@ export default async function ShopPage({ params }) {
           <div className="relative w-32 h-32 md:w-40 md:h-40">
             <Image
               className="object-cover"
-              src={shop?.shop_logo || "/images/shop-avatar.png"}
-              alt="Shop Logo"
+              src={logoImagePath || "/images/shop-avatar.png"}
+              alt={`${shop.shop_name} Logo`}
               fill
+              unoptimized={!logoImagePath}
             />
           </div>
         </div>
@@ -50,9 +55,10 @@ export default async function ShopPage({ params }) {
             <div className="relative w-32 h-32 md:w-40 md:h-40">
               <Image
                 className="object-cover"
-                src={shop?.shop_logo || "/images/shop-avatar.png"}
-                alt="Shop Logo"
+                src={logoImagePath || "/images/shop-avatar.png"}
+                alt={`${shop.shop_name} Logo`}
                 fill
+                unoptimized={!logoImagePath}
               />
             </div>
           </div>

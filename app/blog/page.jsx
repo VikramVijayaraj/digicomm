@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { revalidatePath } from "next/cache";
 
 import PostCard from "@/components/card/post-card";
 import { getBlogPosts } from "@/lib/db/blog";

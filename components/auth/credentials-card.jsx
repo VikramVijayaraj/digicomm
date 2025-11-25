@@ -39,7 +39,13 @@ export default function CredentialsCard({ page }) {
           type="submit"
           // variant="outline"
         >
-          <Image src="/logos/google.svg" width={15} height={15} alt="" />
+          <Image
+            src="/logos/google.svg"
+            width={15}
+            height={15}
+            alt=""
+            unoptimized={true}
+          />
           Continue with Google
         </Button>
 

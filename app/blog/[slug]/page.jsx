@@ -1,12 +1,12 @@
 import { cache } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import parse from "html-react-parser";
 
 import { getBlogPostBySlug } from "@/lib/db/blog";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { getStoragePath } from "@/utils/utils";
 
 // Cache the product data to avoid fetching it multiple times for the same slug when not using fetch
 const getCurrentPost = cache(async (slug) => {
@@ -30,12 +30,12 @@ export async function generateMetadata({ params }) {
 
 export default async function PostPage({ params }) {
   const post = await getCurrentPost(params.slug);
+  const coverImagePath = getStoragePath(post?.cover_image);
 
   // If the post is not found or not published, return a 404 page
   if (!post || !post.published_status) {
     return notFound();
   }
-
 
   return (
     <article className="global-padding space-y-8 w-full md:w-[80%] xl:w-[70%] m-auto">
@@ -45,7 +45,7 @@ export default async function PostPage({ params }) {
 
       <div className="relative w-full h-[300px] md:h-[350px] lg:h-[400px]">
         <Image
-          src={post.cover_image}
+          src={coverImagePath}
           alt={post.title}
           className="object-cover"
           fill

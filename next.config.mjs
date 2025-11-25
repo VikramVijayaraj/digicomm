@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    loader: "custom",
+    loaderFile: "lib/supabase-image-loader.js",
     // domains: ["plus.unsplash.com", "images.unsplash.com"],
     remotePatterns: [
       {
@@ -28,7 +30,7 @@ const nextConfig = {
         hostname: "api.crelands.com",
       },
     ],
-    unoptimized: true,
+    // unoptimized: true,
   },
 
   experimental: {

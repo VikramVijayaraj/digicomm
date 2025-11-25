@@ -79,3 +79,17 @@ export async function optimizeImage(file, type = "default") {
     return file; // Return original if compression fails
   }
 }
+
+// Helper function to clean the URL
+// Input: "https://api.crelands.com/.../object/public/public-assets/folder/img.png"
+// Output: "public-assets/folder/img.png"
+export function getStoragePath(url) {
+  if (!url) return null;
+
+  // If it's already a full URL, strip the domain and the 'object' API path
+  if (url.includes("/object/public/")) {
+    return url.split("/object/public/")[1];
+  }
+
+  return url;
+}

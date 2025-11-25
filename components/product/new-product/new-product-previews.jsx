@@ -6,7 +6,7 @@ export function NewProductPreviews({ images }) {
       {images?.length > 0 &&
         images.map((image, index) => (
           <div key={index} className="relative h-52 w-44 flex-shrink-0">
-            <Image src={image} alt="" fill />
+            <Image src={image} alt="" fill unoptimized={true} />
           </div>
         ))}
     </div>
