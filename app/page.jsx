@@ -37,8 +37,8 @@ export default async function Home({ searchParams }) {
       {/* <Banner /> */}
       {/* <BannerCarousel /> */}
       {/* <Categories /> */}
-      <AllSections />
       <WhyChooseUs />
+      <AllSections />
       <Testimonials />
       <div className="global-padding">
         <Newsletter />
