@@ -10,7 +10,12 @@ export default function PostCard({ title, category, image }) {
         ease-in-out"
     >
       <div className="relative w-full h-[200px]">
-        <Image src={imagePath} alt={title} className="rounded-t-lg" fill />
+        <Image
+          src={imagePath}
+          alt={title}
+          className="rounded-lg object-cover"
+          fill
+        />
       </div>
 
       <div className="space-y-2 text-center mt-2">

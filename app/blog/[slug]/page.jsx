@@ -4,9 +4,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import parse from "html-react-parser";
 
-import { getBlogPostBySlug } from "@/lib/db/blog";
+import { getBlogPostBySlug, getBlogPosts } from "@/lib/db/blog";
 import { Button } from "@/components/ui/button";
 import { getStoragePath } from "@/utils/utils";
+import PostCard from "@/components/card/post-card";
+import { Separator } from "@/components/ui/separator";
 
 // Cache the product data to avoid fetching it multiple times for the same slug when not using fetch
 const getCurrentPost = cache(async (slug) => {
@@ -31,6 +33,7 @@ export async function generateMetadata({ params }) {
 export default async function PostPage({ params }) {
   const post = await getCurrentPost(params.slug);
   const coverImagePath = getStoragePath(post?.cover_image);
+  const otherBlogPosts = await getBlogPosts(6, params.slug);
 
   // If the post is not found or not published, return a 404 page
   if (!post || !post.published_status) {
@@ -64,15 +67,34 @@ export default async function PostPage({ params }) {
           prose-code:text-gray-800 prose-code:bg-gray-100 prose-pre:bg-gray-100
           prose-pre:text-gray-800 prose-img:rounded-lg prose-h1:mb-0 prose-img:my-0"
       > */}
-      <div className="prose prose-neutral max-w-none mx-auto prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-img:">
+      <div className="prose prose-neutral max-w-none mx-auto prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline">
         {parse(post.content)}
       </div>
 
       {/* CTA button */}
-      <div className="flex justify-center">
+      <div className="flex justify-center pb-12">
         <Button className="bg-primary-brand text-lg font-semibold md:p-6">
           <Link href={"/your/shop/dashboard"}>Sign Up Now</Link>
         </Button>
+      </div>
+
+      {/* Other blog posts */}
+      <Separator />
+      <div className="py-12">
+        <h2 className="text-xl text-center md:text-left font-semibold pb-5 md:pb-10">
+          Recommended blogs
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-x-8 lg:gap-y-10">
+          {otherBlogPosts.map((post) => (
+            <Link href={"/blog/" + post.slug} key={post.id}>
+              <PostCard
+                title={post.title}
+                category={post.category}
+                image={post.cover_image}
+              />
+            </Link>
+          ))}
+        </div>
       </div>
     </article>
   );
