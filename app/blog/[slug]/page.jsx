@@ -43,17 +43,17 @@ export default async function PostPage({ params }) {
         {post.title}
       </h1>
 
-      <div className="relative w-full h-[300px] md:h-[350px] lg:h-[400px]">
+      <div className="relative w-full h-[300px] md:h-[350px] lg:h-[400px] rounded-lg">
         <Image
           src={coverImagePath}
           alt={post.title}
-          className="object-cover"
+          className="object-cover rounded-lg"
           fill
           priority
         />
       </div>
 
-      <div
+      {/* <div
         className="mx-auto prose prose-neutral prose-p:text-gray-700 prose-p:my-0
           prose-p:lg:text-xl prose-p:lg:leading-[32px] prose-h1:text-gray-900
           prose-h1:font-bold prose-h2:text-gray-800 prose-h2:mt-0 prose-h2:mb-2
@@ -63,7 +63,8 @@ export default async function PostPage({ params }) {
           prose-blockquote:text-gray-600 prose-blockquote:border-gray-300
           prose-code:text-gray-800 prose-code:bg-gray-100 prose-pre:bg-gray-100
           prose-pre:text-gray-800 prose-img:rounded-lg prose-h1:mb-0 prose-img:my-0"
-      >
+      > */}
+      <div className="prose prose-neutral max-w-none mx-auto prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-img:">
         {parse(post.content)}
       </div>
 
