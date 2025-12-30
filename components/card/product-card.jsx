@@ -12,7 +12,7 @@ export default function ProductCard({ imgUrl, name, price, category }) {
     <>
       <Card className="border-none shadow-none hover:scale-105 transition delay-50 ease-in-out">
         <CardHeader className="p-0 m-0">
-          <CardTitle className="relative w-full h-[200px] lg:h-[350px]">
+          <CardTitle className="relative w-full h-[200px] lg:h-[300px]">
             <Image
               src={imagePath || fallbackImage}
               fill
