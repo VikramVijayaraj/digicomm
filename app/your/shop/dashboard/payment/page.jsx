@@ -42,6 +42,7 @@ export default async function ShopPayment() {
           <h1 className="font-semibold text-xl md:text-2xl lg:text-3xl">
             Bank Details
           </h1>
+
           <Dialog>
             <DialogTrigger asChild>
               <Button className="px-8">Add Bank Details</Button>
@@ -58,6 +59,11 @@ export default async function ShopPayment() {
               <BankDetailsForm session={data} />
             </DialogContent>
           </Dialog>
+        </div>
+
+        <div className="flex items-center gap-2 p-2 rounded-md bg-yellow-100/70 text-yellow-800 text-sm">
+          <Info />
+          <p>Payments are processed every weekend to your bank account.</p>
         </div>
 
         <p className="text-center">
