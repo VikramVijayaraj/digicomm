@@ -7,7 +7,9 @@ import { toast } from "sonner";
 import Quantity from "../product/quantity";
 import {
   removeFromCartAction,
+  removeFromGuestCartAction,
   updateCartItemQuantityAction,
+  updateGuestCartItemAction,
 } from "@/actions/cart-action";
 import { TableCell } from "../ui/table";
 
@@ -35,11 +37,15 @@ export default function CartItem({ data, updateCartItems }) {
     });
 
     try {
-      await updateCartItemQuantityAction(
-        data.cart_id,
-        data.product_id,
-        newQuantity,
-      );
+      if (data.cart_id) {
+        await updateCartItemQuantityAction(
+          data.cart_id,
+          data.product_id,
+          newQuantity,
+        );
+      } else {
+        await updateGuestCartItemAction(data.product_id, newQuantity);
+      }
     } catch (error) {
       toast.error("Failed to update quantity. Please try again.");
       startTransition(() => {
@@ -80,7 +86,12 @@ export default function CartItem({ data, updateCartItems }) {
     });
 
     try {
-      await removeFromCartAction(data.cart_id, data.product_id);
+      if (data.cart_id) {
+        await removeFromCartAction(data.cart_id, data.product_id);
+      } else {
+        await removeFromGuestCartAction(data.product_id);
+      }
+
       toast.success("Item removed from cart");
     } catch (error) {
       startTransition(() => {

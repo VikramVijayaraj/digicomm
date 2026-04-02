@@ -3,6 +3,7 @@ import { MoveRight } from "lucide-react";
 
 import { getLatestProductsPerSeller } from "@/lib/db/products";
 import ProductCard from "../card/product-card";
+import { memo } from "react";
 
 // {
 //   id: 'de015cc7-3ff3-4f5d-858c-749c7e2850ce',
@@ -25,7 +26,7 @@ import ProductCard from "../card/product-card";
 //   name: 'Art & Collectibles',
 // }
 
-export default async function AllSections() {
+async function AllSections() {
   const latestEbooks = await getLatestProductsPerSeller(
     "de015cc7-3ff3-4f5d-858c-749c7e2850ce",
     8,
@@ -82,3 +83,5 @@ export default async function AllSections() {
     </div>
   );
 }
+
+export default memo(AllSections);

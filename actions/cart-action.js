@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 import {
   createCartItem,
@@ -12,13 +12,23 @@ import { getProduct } from "@/lib/db/products";
 import { createClient } from "@/utils/supabase/server";
 import { supabaseAdmin } from "@/utils/supabase/admin";
 
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: true,
+  maxAge: 60 * 60 * 24 * 7,
+  path: "/",
+};
+
 export async function addToCartAction(slug, quantity) {
   const supabase = await createClient();
 
   const { data } = await supabase.auth.getUser();
 
   if (!data?.user) {
-    redirect(`/auth/signin?callbackUrl=/products/${slug}`);
+    // Guest cart
+    await setGuestCartAction(slug, quantity);
+    revalidatePath("/your/cart");
+    return;
   }
 
   let cartId;
@@ -93,4 +103,74 @@ export async function removeCartAction(cartId) {
     console.error(error);
     throw new Error("Cannot remove cart!");
   }
+}
+
+// Guest Cart Actions
+
+export async function setGuestCartAction(slug, quantity) {
+  const { product_id, product_name: name, price } = await getProduct(slug);
+
+  const cookieStore = await cookies();
+
+  if (cookieStore.has("guest_cart")) {
+    const existingCart = JSON.parse(cookieStore.get("guest_cart").value);
+
+    // Check if the product is already in the cart
+    const existingItemIndex = existingCart.findIndex(
+      (item) => item.product_id === product_id,
+    );
+
+    if (existingItemIndex > -1) {
+      // If the item already exists, update its quantity
+      existingCart[existingItemIndex].quantity += quantity;
+    } else {
+      // If it's a new item, add it to the cart
+      existingCart.push({ product_id, name, price, quantity });
+    }
+
+    cookieStore.set("guest_cart", JSON.stringify(existingCart), COOKIE_OPTIONS);
+  } else {
+    cookieStore.set(
+      "guest_cart",
+      JSON.stringify([{ product_id, name, price, quantity }]),
+      COOKIE_OPTIONS,
+    );
+  }
+}
+
+export async function updateGuestCartItemAction(productId, quantity) {
+  const cookieStore = await cookies();
+  const guestCart = cookieStore.get("guest_cart");
+
+  if (!guestCart) {
+    throw new Error("No guest cart found!");
+  }
+
+  const cartData = JSON.parse(guestCart.value);
+
+  const updatedCart = cartData.map((item) =>
+    item.product_id === productId ? { ...item, quantity } : item,
+  );
+
+  cookieStore.set("guest_cart", JSON.stringify(updatedCart), COOKIE_OPTIONS);
+}
+
+export async function removeFromGuestCartAction(productId) {
+  const cookieStore = await cookies();
+  const guestCart = cookieStore.get("guest_cart");
+
+  if (!guestCart) {
+    throw new Error("No guest cart found!");
+  }
+
+  const cartData = JSON.parse(guestCart.value);
+  const updatedCart = cartData.filter((item) => item.product_id !== productId);
+
+  if (updatedCart.length === 0) {
+    cookieStore.delete("guest_cart");
+  } else {
+    cookieStore.set("guest_cart", JSON.stringify(updatedCart), COOKIE_OPTIONS);
+  }
+
+  revalidatePath("/your/cart");
 }
