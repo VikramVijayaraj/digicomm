@@ -10,6 +10,30 @@ import {
   refundEmailSchema,
 } from "@/lib/schema";
 import WelcomeEmail from "@/emails/welcome-email";
+import ProductDownloadEmail from "@/emails/product-download-email";
+import { getOrders } from "@/lib/db/orders";
+
+// Send product download link to guest user
+export async function sendProductDownloadEmail({ email }) {
+  const orders = await getOrders(email);
+
+  if (!orders || orders.length === 0) {
+    return { success: false, error: "No orders found for this email" };
+  }
+
+  try {
+    await resend.emails.send({
+      from: "Crelands <orders@crelands.com>",
+      to: email,
+      subject: `Your order is here - Crelands`,
+      react: <ProductDownloadEmail orders={orders} email={email} />,
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending product download email:", error);
+    return { success: false, error: "Failed to send product download email" };
+  }
+}
 
 // Initialize Resend with your API key
 const resend = new Resend(process.env.RESEND_API_KEY);

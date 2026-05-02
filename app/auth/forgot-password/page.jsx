@@ -106,7 +106,20 @@ export default function ForgotPasswordPage() {
                 )}
               />
 
-              {error && <FormMessage>{error}</FormMessage>}
+              {error && (
+                <FormMessage>
+                  <p>{error}</p>
+                  <p className="mt-2 text-sm text-black/50">
+                    New here?{" "}
+                    <Link
+                      href="/auth/signup"
+                      className="underline text-blue-500"
+                    >
+                      Create an account
+                    </Link>
+                  </p>
+                </FormMessage>
+              )}
 
               <Button
                 disabled={form.formState.isSubmitting}

@@ -1,21 +1,34 @@
 "use client";
 
-export default function CartTotal({ subTotal }) {
+import { Separator } from "@/components/ui/separator";
+
+export default function CartTotal({
+  subTotal,
+  showTitle = true,
+  currency = "₹",
+}) {
+  const formatAmount = (amount) =>
+    `${currency}${Number(amount || 0).toFixed(2)}`;
+
   return (
     <div className="w-full">
-      <h4 className="font-semibold text-2xl text-center mb-5">Cart Total</h4>
+      {showTitle && <h4 className="font-semibold text-xl mb-4">Cart total</h4>}
 
-      <div className="flex justify-between items-center py-2">
-        <p>Subtotal:</p>
-        <p>₹{subTotal?.toFixed(2)}</p>
-      </div>
-      <div className="flex justify-between items-center py-2">
-        <p>Tax:</p>
-        <p>₹0</p>
-      </div>
-      <div className="flex justify-between items-center py-2">
-        <p className="font-bold">Total:</p>
-        <p className="font-bold">₹{subTotal?.toFixed(2)}</p>
+      <div className="space-y-3 text-sm">
+        <div className="flex items-center justify-between">
+          <span className="text-muted-foreground">Subtotal</span>
+          <span className="font-medium">{formatAmount(subTotal)}</span>
+        </div>
+        <Separator />
+        <div className="flex items-center justify-between">
+          <span className="text-muted-foreground">Tax</span>
+          <span className="font-medium">{formatAmount(0)}</span>
+        </div>
+        <Separator />
+        <div className="flex items-center justify-between">
+          <span className="font-semibold">Total</span>
+          <span className="font-semibold">{formatAmount(subTotal)}</span>
+        </div>
       </div>
     </div>
   );

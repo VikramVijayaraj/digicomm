@@ -174,3 +174,11 @@ export async function removeFromGuestCartAction(productId) {
 
   revalidatePath("/your/cart");
 }
+
+export async function deleteGuestCartAction() {
+  const cookieStore = await cookies();
+  if (cookieStore.has("guest_cart")) {
+    cookieStore.delete("guest_cart");
+  }
+  revalidatePath("/your/cart");
+}
