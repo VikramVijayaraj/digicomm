@@ -1,12 +1,8 @@
 import { redirect } from "next/navigation";
 
-import Categories from "@/components/section/categories";
-import Banner from "@/components/banner/banner";
 import Newsletter from "@/components/cta/newsletter";
-import { getUserByEmail, getUserSourceByEmail } from "@/lib/db/users";
+import { getUserSourceByEmail } from "@/lib/db/users";
 import FilteredProductsPage from "./products/page";
-import BannerCarousel from "@/components/banner/banner-carousel";
-import EbookModal from "@/components/card/ebook-modal";
 import BannerCTA from "@/components/cta/banner-cta";
 import Testimonials from "@/components/section/testimonials";
 import { createClient } from "@/utils/supabase/server";

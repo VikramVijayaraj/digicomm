@@ -56,7 +56,7 @@ export default function ProductImages({ images, alt_texts }) {
             <Image
               src={displayImage}
               fill
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: "contain" }}
               alt="Display Image"
               onContextMenu={(e) => e.preventDefault()}
             />
