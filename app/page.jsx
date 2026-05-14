@@ -8,7 +8,6 @@ import FilteredProductsPage from "./products/page";
 import BannerCarousel from "@/components/banner/banner-carousel";
 import EbookModal from "@/components/card/ebook-modal";
 import BannerCTA from "@/components/cta/banner-cta";
-import WhyChooseUs from "@/components/section/why-choose-us";
 import Testimonials from "@/components/section/testimonials";
 import { createClient } from "@/utils/supabase/server";
 import AllSections from "@/components/section/all-sections";
@@ -37,7 +36,6 @@ export default async function Home({ searchParams }) {
       {/* <Banner /> */}
       {/* <BannerCarousel /> */}
       {/* <Categories /> */}
-      <WhyChooseUs />
       <AllSections />
       <Testimonials />
       <div className="global-padding">
