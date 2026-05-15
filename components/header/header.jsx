@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { ChevronRight, Menu } from "lucide-react";
+import Image from "next/image";
 
 import NavLinks from "./nav-links";
 import { getCategories } from "@/lib/db/categories";
-import SearchBar from "./search-bar";
+import HeaderSearch from "./header-search";
+import MobileSearchRow from "./mobile-search-row";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -33,87 +35,90 @@ export default async function Header() {
     ? await getShopDetails(userData.user.email)
     : null;
 
-  console.log("\n************************");
-  console.log("Printing from {header.js}");
-  console.log("Logged in user:", userData?.user?.email);
-  console.log("************************\n");
-
   return (
     <>
-      <header className="flex justify-between global-padding py-8 items-center gap-x-12">
-        {/* Logo */}
-        <Link href="/">
-          <img
-            src="/logos/crelands.png"
-            alt="Crelands Logo"
-            className="object-contain w-24 h-10 lg:w-40"
-          />
-        </Link>
-
-        {/* For lg and above screen sizes */}
-        <div className="hidden lg:flex w-full gap-4">
-          {/* Categories */}
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="rounded-full text-base font-normal">
-                  Categories
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+      <header className="global-padding relative z-50 pt-6">
+        <div className="relative z-50 flex items-center justify-between gap-4 rounded-[1.75rem] border border-slate-200 bg-white/90 px-4 py-4 shadow-[0_16px_40px_rgba(15,23,42,0.05)] backdrop-blur md:px-5 lg:px-6">
+          <div className="flex items-center gap-3 lg:gap-4">
+            <div className="lg:hidden">
+              <Sheet>
+                <SheetTrigger className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm transition-colors hover:bg-slate-50">
+                  <Menu className="h-5 w-5 text-slate-700" />
+                </SheetTrigger>
+                <SheetContent side="left" className="border-slate-200 bg-white">
+                  <SheetHeader className="mb-4">
+                    <SheetTitle className="text-left text-slate-950">
+                      Browse Categories
+                    </SheetTitle>
+                  </SheetHeader>
+                  <Label className="space-y-2">
                     {categories.map((category) => (
-                      <Link
-                        href={"/categories/" + category.slug}
-                        className="p-2 rounded-md hover:bg-secondary"
-                        key={category.slug}
-                      >
-                        <li className="">{category.name}</li>
-                      </Link>
+                      <SheetClose asChild key={category.slug}>
+                        <Link
+                          href={"/categories/" + category.slug}
+                          className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
+                          key={category.slug}
+                        >
+                          {category.name} <ChevronRight className="h-4 w-4" />
+                        </Link>
+                      </SheetClose>
                     ))}
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+                  </Label>
+                </SheetContent>
+              </Sheet>
+            </div>
 
-          {/* Search Icon */}
-          <SearchBar placeholder="Search for anything" />
+            <Link
+              href="/"
+              className="flex shrink-0 items-center rounded-full transition-opacity hover:opacity-90"
+            >
+              <Image
+                src="/logos/crelands.png"
+                alt="Crelands Logo"
+                width={120}
+                height={20}
+                className="h-5 sm:h-6 w-auto object-contain lg:h-8"
+                priority
+                unoptimized
+              />
+            </Link>
+
+            <div className="hidden lg:flex items-center gap-3">
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="rounded-full border border-slate-200 bg-slate-50 px-5 text-sm font-medium text-slate-700 hover:bg-slate-100 data-[state=open]:bg-slate-100">
+                      Categories
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[420px] gap-2 p-4 md:w-[520px] md:grid-cols-2 lg:w-[620px]">
+                        {categories.map((category) => (
+                          <Link
+                            href={"/categories/" + category.slug}
+                            className="rounded-xl border border-transparent p-3 text-sm font-medium text-slate-700 transition-colors hover:border-slate-200 hover:bg-slate-50"
+                            key={category.slug}
+                          >
+                            <li>{category.name}</li>
+                          </Link>
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+
+              <HeaderSearch
+                placeholder="Search for anything"
+                className="w-[360px] xl:w-[430px]"
+              />
+            </div>
+          </div>
+
+          <NavLinks userData={userData} shopDetails={shopDetails} />
         </div>
-
-        {/* NavLinks */}
-        <NavLinks userData={userData} shopDetails={shopDetails} />
       </header>
 
-      {/* For md and sm screen sizes */}
-      <div className="global-padding flex gap-4 lg:hidden">
-        {/* Categories */}
-        <Sheet>
-          <SheetTrigger className="hover:bg-secondary rounded-full px-3">
-            <Menu />
-          </SheetTrigger>
-          <SheetContent side="left">
-            <SheetHeader className="mb-4">
-              <SheetTitle className="text-left">Browse Categories</SheetTitle>
-            </SheetHeader>
-            <Label className="hover:bg-secondary">
-              {categories.map((category) => (
-                <SheetClose asChild key={category.slug}>
-                  <Link
-                    href={"/categories/" + category.slug}
-                    className="py-2 flex justify-between items-center hover:underline"
-                    key={category.slug}
-                  >
-                    {category.name} <ChevronRight />
-                  </Link>
-                </SheetClose>
-              ))}
-            </Label>
-          </SheetContent>
-        </Sheet>
-
-        {/* Search Icon */}
-        <SearchBar placeholder="Search for anything" />
-      </div>
+      <MobileSearchRow placeholder="Search for anything" />
     </>
   );
 }

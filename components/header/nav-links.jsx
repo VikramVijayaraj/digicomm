@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Moon, ShoppingCart, Store, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
+import { ShoppingCart, Store } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -18,7 +17,6 @@ import { Button } from "../ui/button";
 import { signOut } from "@/actions/auth-actions";
 
 export default function NavLinks({ userData, shopDetails }) {
-  const { setTheme } = useTheme();
   const router = useRouter();
 
   let profileIcon;
@@ -32,7 +30,10 @@ export default function NavLinks({ userData, shopDetails }) {
   if (!userData?.user) {
     profileIcon = (
       <Link href="/auth/signin">
-        <Button variant="ghost" className="rounded-full">
+        <Button
+          variant="outline"
+          className="h-11 rounded-full border-slate-200 bg-white px-5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+        >
           Sign in
         </Button>
       </Link>
@@ -41,13 +42,20 @@ export default function NavLinks({ userData, shopDetails }) {
     profileIcon = (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="cursor-pointer">
+          <Avatar className="h-11 w-11 cursor-pointer border border-slate-200">
             <AvatarImage src={userData?.user?.user_metadata.avatar_url} />
-            <AvatarFallback>{userData?.user?.email?.at(0)}</AvatarFallback>
+            <AvatarFallback className="bg-slate-100 text-slate-700">
+              {userData?.user?.email?.at(0)}
+            </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>{userData?.user.email}</DropdownMenuLabel>
+        <DropdownMenuContent
+          align="end"
+          className="w-56 rounded-2xl border-slate-200 p-2"
+        >
+          <DropdownMenuLabel className="text-slate-600">
+            {userData?.user.email}
+          </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <Link href="/your/account/orders">
             <DropdownMenuItem>Orders</DropdownMenuItem>
@@ -55,23 +63,6 @@ export default function NavLinks({ userData, shopDetails }) {
           <Link href="/your/account">
             <DropdownMenuItem>Settings</DropdownMenuItem>
           </Link>
-
-          {/* Theme */}
-          {/* <DropdownMenuSeparator />
-          <div className="flex justify-evenly items-center">
-            <DropdownMenuItem
-              className="w-full flex justify-center"
-              onClick={() => setTheme("light")}
-            >
-              <Sun size={20} />
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="w-full flex justify-center"
-              onClick={() => setTheme("dark")}
-            >
-              <Moon size={20} />
-            </DropdownMenuItem>
-          </div> */}
 
           <DropdownMenuSeparator />
 
@@ -89,11 +80,18 @@ export default function NavLinks({ userData, shopDetails }) {
   storeIcon = (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="rounded-full md:py-6">
-          <Store />
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-11 w-11 rounded-full border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+        >
+          <Store className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent
+        align="end"
+        className="w-48 rounded-2xl border-slate-200 p-2"
+      >
         <DropdownMenuLabel>Shop</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
@@ -116,15 +114,20 @@ export default function NavLinks({ userData, shopDetails }) {
   );
 
   return (
-    <div className="flex justify-center items-center space-x-4">
+    <div className="flex items-center gap-3">
       <div>{profileIcon}</div>
 
-      <div className="flex justify-center items-center space-x-2">
+      <div className="flex items-center gap-2">
         {shopDetails && <div>{storeIcon}</div>}
         <div>
-          <Button asChild variant="ghost" className="rounded-full md:py-6">
+          <Button
+            asChild
+            variant="outline"
+            size="icon"
+            className="h-11 w-11 rounded-full border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+          >
             <Link href="/your/cart">
-              <ShoppingCart />
+              <ShoppingCart className="h-4 w-4" />
             </Link>
           </Button>
         </div>
@@ -134,11 +137,9 @@ export default function NavLinks({ userData, shopDetails }) {
         <div className="hidden md:block">
           <Button
             asChild
-            className="h-[48px] text-[16px] p-[20px] rounded-full bg-gradient-to-r from-primary-brand
-              to-red-400 text-white hover:from-primary-light hover:to-primary-brand
-              hover:scale-105 transition-transform"
+            className="h-11 rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-5 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
           >
-            <Link href="/your/shop/register">Start Selling Now</Link>
+            <Link href="/your/shop/register">Start Selling</Link>
           </Button>
         </div>
       )}

@@ -77,11 +77,12 @@ export default function SearchBar({ placeholder }) {
   return (
     <div className="grow relative w-full">
       <div
-        className={`flex justify-between px-8 py-4 items-center bg-gray-100 grow ${
-          isSearching ? "rounded-t-3xl" : "rounded-full" }`}
+        className={`flex items-center justify-between gap-3 border border-slate-200 bg-white px-5 py-3 shadow-sm ${
+          isSearching ? "rounded-t-[1.5rem]" : "rounded-full"
+        }`}
       >
         <input
-          className="bg-gray-100 w-full outline-none"
+          className="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
           placeholder={placeholder}
           onChange={handleSuggestions}
           ref={searchRef}
@@ -95,13 +96,13 @@ export default function SearchBar({ placeholder }) {
         <Search
           id="search-icon"
           onClick={handleSearch}
-          className="text-gray-500 cursor-pointer"
+          className="h-4 w-4 cursor-pointer text-slate-500"
         />
       </div>
 
       {isSearching && (
         <div
-          className="absolute py-2 bg-gray-100 z-10 rounded-b-3xl w-full"
+          className="absolute z-10 w-full rounded-b-[1.5rem] border border-t-0 border-slate-200 bg-white py-2 shadow-[0_18px_40px_rgba(15,23,42,0.08)]"
           ref={suggestionsRef}
         >
           {searchSuggestions.map((suggestion) => (
@@ -110,9 +111,11 @@ export default function SearchBar({ placeholder }) {
               className="cursor-pointer"
               key={suggestion.id}
             >
-              <div className="px-4 w-full py-4 hover:bg-gray-300 rounded-xl">
-                <p>{suggestion.product_name.toLowerCase()}</p>
-                <p className="text-gray-500">
+              <div className="mx-2 rounded-xl px-4 py-3 transition-colors hover:bg-slate-50">
+                <p className="text-sm font-medium text-slate-900">
+                  {suggestion.product_name.toLowerCase()}
+                </p>
+                <p className="text-sm text-slate-500">
                   {suggestion.category_name.toLowerCase()}
                 </p>
               </div>

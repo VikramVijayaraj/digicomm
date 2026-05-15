@@ -111,7 +111,7 @@ export default function BannerCTA() {
                 <span className="flex-shrink-0 font-medium text-slate-600">
                   Trending:
                 </span>
-                <div className="flex flex-nowrap overflow-x-auto gap-2 pb-1">
+                <div className="flex flex-nowrap overflow-x-auto gap-2 pb-1 no-scrollbar">
                   {trendingTopics.map((topic) => (
                     <button
                       key={topic}
