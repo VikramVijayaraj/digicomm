@@ -4,28 +4,22 @@ import { Minus, Plus } from "lucide-react";
 
 export default function Quantity({
   quantity,
-  width = "auto",
   incrementQuantity,
   decrementQuantity,
 }) {
   return (
-    <div
-      className={`flex justify-between m-auto w-full md:w-${width} border border-gray-400
-        rounded-full h-full`}
-    >
+    <div className="flex h-14 w-full items-center justify-between rounded-full border border-slate-200 bg-slate-50 p-1">
       <p
-        className="cursor-pointer rounded-full py-3 flex items-center justify-center w-12
-          hover:bg-primary hover:text-white"
+        className="flex w-12 cursor-pointer items-center justify-center rounded-full py-3 text-slate-700 transition-colors hover:bg-slate-900 hover:text-white"
         onClick={() => decrementQuantity()}
       >
         <Minus />
       </p>
-      <p className="flex items-center justify-center w-14 select-none">
+      <p className="flex w-14 select-none items-center justify-center text-base font-semibold text-slate-900">
         {quantity}
       </p>
       <p
-        className="cursor-pointer rounded-full py-3 flex items-center justify-center w-12
-          hover:bg-primary hover:text-white"
+        className="flex w-12 cursor-pointer items-center justify-center rounded-full py-3 text-slate-700 transition-colors hover:bg-slate-900 hover:text-white"
         onClick={() => incrementQuantity()}
       >
         <Plus />

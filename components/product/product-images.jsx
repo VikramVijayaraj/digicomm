@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { X } from "lucide-react";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { getStoragePath } from "@/utils/utils";
@@ -22,11 +21,16 @@ export default function ProductImages({ images, alt_texts }) {
 
   const product_images = images.map((image, index) => {
     const imagePath = getStoragePath(image);
+    const isActive = displayImage === imagePath;
     return (
       <div
         onClick={() => setDisplayImage(imagePath)}
         key={image}
-        className="relative w-24 h-24 mr-5 rounded-sm cursor-pointer"
+        className={`relative h-20 w-20 shrink-0 cursor-pointer overflow-hidden rounded-[1rem] border bg-white transition sm:h-24 sm:w-24 ${
+          isActive
+            ? "border-primary-brand shadow-[0_10px_25px_rgba(251,32,26,0.12)]"
+            : "border-slate-200 hover:border-slate-300"
+        }`}
       >
         <Image
           src={imagePath}
@@ -40,29 +44,25 @@ export default function ProductImages({ images, alt_texts }) {
   });
 
   return (
-    <div className="relative w-full lg:w-2/3 h-[20rem] md:h-[30rem] flex justify-start space-x-2">
-      {/* Additional Images */}
-      <div
-        className="space-y-2 overflow-hidden no-scrollbar hover:overflow-auto
-          hover:overflow-x-hidden"
-      >
+    <div className="grid gap-4 lg:grid-cols-[96px_minmax(0,1fr)] lg:items-start">
+      <div className="order-2 flex gap-3 overflow-x-auto pb-1 no-scrollbar lg:order-1 lg:max-h-[38rem] lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden">
         {product_images}
       </div>
 
-      {/* Display Image */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <div className="relative w-full h-full cursor-zoom-in">
+          <div className="relative order-1 h-[22rem] w-full cursor-zoom-in overflow-hidden rounded-[1.75rem] border border-white/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] sm:h-[28rem] lg:order-2 lg:h-[38rem]">
             <Image
               src={displayImage}
               fill
               style={{ objectFit: "contain" }}
               alt="Display Image"
               onContextMenu={(e) => e.preventDefault()}
+              className="p-4 sm:p-6"
             />
           </div>
         </DialogTrigger>
-        <DialogContent className="max-w-[60vw] max-h-[90vh] p-0 text-white bg-black border-none">
+        <DialogContent className="max-h-[90vh] max-w-[92vw] border-none bg-black p-0 text-white lg:max-w-[70vw]">
           <div className="relative w-full h-[90vh]">
             <Image
               src={displayImage}
@@ -71,13 +71,6 @@ export default function ProductImages({ images, alt_texts }) {
               alt="Full Size Image"
               onContextMenu={(e) => e.preventDefault()}
             />
-            {/* <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 p-2 bg-black bg-opacity-50 rounded-full text-white
-                hover:bg-opacity-75 transition-opacity"
-            >
-              <X size={24} />
-            </button> */}
           </div>
         </DialogContent>
       </Dialog>

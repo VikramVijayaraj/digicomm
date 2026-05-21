@@ -38,7 +38,7 @@ export default async function Header() {
   return (
     <>
       <header className="global-padding relative z-50 pt-6">
-        <div className="relative z-50 flex items-center justify-between gap-4 rounded-[1.75rem] border border-slate-200 bg-white/90 px-4 py-4 shadow-[0_16px_40px_rgba(15,23,42,0.05)] backdrop-blur md:px-5 lg:px-6">
+        <div className="relative z-50 flex items-center justify-between gap-4 rounded-[1.75rem] border border-slate-200 bg-white/90 px-4 py-4 md:px-5 lg:px-6">
           <div className="flex items-center gap-3 lg:gap-4">
             <div className="lg:hidden">
               <Sheet>

@@ -88,32 +88,23 @@ export default function AddToCart({ product, initialCartItems }) {
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row justify-between md:space-x-2 space-y-4 md:space-y-0">
-        {/* Product quantity */}
-        <Quantity
-          quantity={quantity}
-          incrementQuantity={incrementQuantity}
-          decrementQuantity={decrementQuantity}
-        />
+      <div className="flex flex-col gap-4 md:flex-row md:items-center">
+        <div className="w-full md:flex-1">
+          <Quantity
+            quantity={quantity}
+            incrementQuantity={incrementQuantity}
+            decrementQuantity={decrementQuantity}
+          />
+        </div>
 
-        {/* Add to cart button */}
         <Button
           onClick={handleAddToCart}
           disabled={isAdding}
-          className="flex items-center text-base grow w-full md:w-28 bg-primary py-6 select-none"
+          className="h-14 w-full rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-base font-semibold text-white transition hover:from-primary-light hover:to-primary-brand md:flex-1 select-none"
         >
-          {isAdding ? "Adding..." : "Add To Cart"}
+          {isAdding ? "Adding..." : "Add to cart"}
         </Button>
       </div>
-
-      {/* Stock status */}
-      {/* <div className="text-center md:text-left mt-2">
-        {product.stock <= 10 && (
-          <p className="text-red-700 select-none font-semibold">
-            Only {product.stock} items left!
-          </p>
-        )}
-      </div> */}
     </div>
   );
 }
