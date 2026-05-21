@@ -26,12 +26,12 @@ export default async function ShopLayout({ children }) {
   }
 
   return (
-    <div className="global-padding flex flex-col lg:flex-row min-h-screen gap-8 lg:gap-4">
-      <div className="w-full lg:w-1/6">
+    <div className="global-padding grid min-h-screen gap-6 pb-10 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-8">
+      <aside className="min-w-0">
         <Sidebar tabs={shopTabs} />
-      </div>
+      </aside>
 
-      <div className="w-full lg:w-5/6">{children}</div>
+      <main className="min-w-0">{children}</main>
     </div>
   );
 }
