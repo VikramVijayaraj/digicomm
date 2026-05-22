@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { ShieldCheck } from "lucide-react";
 
 import { fetchPaymentDetails } from "@/lib/api";
 import { getCartItems, getGuestCart } from "@/lib/db/cart";
@@ -82,15 +83,21 @@ export default async function Checkout() {
   }
 
   return (
-    <div className="container mx-auto max-w-6xl px-4 md:px-6 lg:px-8 py-8 md:py-12">
-      <div className="mb-8 md:mb-10">
-        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
-          Checkout
-        </h1>
-        <p className="text-muted-foreground mt-1">
-          Secure checkout. No hidden fees.
-        </p>
-      </div>
+    <div className="global-padding min-h-screen space-y-6 pb-10">
+      <section className="rounded-[1.75rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(255,247,241,1)_0%,rgba(255,255,255,1)_48%,rgba(245,248,255,1)_100%)] p-4 shadow-[0_16px_40px_rgba(15,23,42,0.05)] sm:p-6 lg:p-7">
+        <div className="max-w-2xl">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/80 px-4 py-2 text-sm font-semibold text-orange-700 shadow-sm">
+            <ShieldCheck className="h-4 w-4" />
+            Checkout
+          </div>
+          <h1 className="text-3xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-4xl">
+            Complete your purchase
+          </h1>
+          <p className="mt-3 text-base leading-7 text-slate-600">
+            Confirm your details and finish payment securely.
+          </p>
+        </div>
+      </section>
 
       <CheckoutPanel
         isGuest={isGuest}
