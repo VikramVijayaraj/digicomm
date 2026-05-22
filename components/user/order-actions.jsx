@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { EllipsisVertical } from "lucide-react";
+import { Download, EllipsisVertical, Eye, RefreshCcw } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -63,14 +63,28 @@ export default function OrderActions({ order, userEmail }) {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger>
-          <EllipsisVertical className="stroke-1" />
+        <DropdownMenuTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="h-10 w-10 rounded-full border-slate-200 bg-white text-slate-600 shadow-sm hover:bg-slate-50 hover:text-slate-950"
+          >
+            <EllipsisVertical className="h-4 w-4" />
+          </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="min-w-[5rem]">
-          <DropdownMenuItem asChild>
-            <Link href={`/products/${order.product_slug}`}>View</Link>
+        <DropdownMenuContent
+          align="end"
+          className="w-48 rounded-2xl border-slate-200 p-2 shadow-[0_18px_40px_rgba(15,23,42,0.12)]"
+        >
+          <DropdownMenuItem asChild className="rounded-xl">
+            <Link href={`/products/${order.product_slug}`}>
+              <Eye className="mr-2 h-4 w-4" />
+              View
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem className="rounded-xl">
+            <Download className="mr-2 h-4 w-4" />
             <FileDownloader
               fileUrls={order.files}
               fileName={order.product_name}
@@ -78,21 +92,25 @@ export default function OrderActions({ order, userEmail }) {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
+            className="rounded-xl text-red-600 focus:bg-red-50 focus:text-red-700"
             onSelect={(event) => {
               event.preventDefault();
               setOpenDialog(true);
             }}
           >
+            <RefreshCcw className="mr-2 h-4 w-4" />
             Request Refund
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent>
+        <DialogContent className="rounded-[1.75rem] border-slate-200 p-6 sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-xl font-semibold text-slate-950">
+              Request refund?
+            </DialogTitle>
+            <DialogDescription className="leading-6 text-slate-600">
               Once requested, the team will be notified and get back to you.
             </DialogDescription>
           </DialogHeader>
@@ -100,12 +118,15 @@ export default function OrderActions({ order, userEmail }) {
             <Button
               disabled={isSubmitting}
               onClick={() => setOpenDialog(false)}
+              variant="outline"
+              className="h-11 rounded-full border-slate-200 px-5"
             >
               Cancel
             </Button>
             <Button
               disabled={isSubmitting}
-              variant="outline"
+              variant="destructive"
+              className="h-11 rounded-full px-5"
               onClick={() => {
                 handleRequest();
               }}

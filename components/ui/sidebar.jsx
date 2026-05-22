@@ -6,7 +6,9 @@ import {
   CreditCard,
   LayoutDashboard,
   Package2,
+  ReceiptText,
   ShoppingBag,
+  UserRound,
 } from "lucide-react";
 
 const tabIcons = {
@@ -14,6 +16,8 @@ const tabIcons = {
   Products: Package2,
   Orders: ShoppingBag,
   Payment: CreditCard,
+  Profile: UserRound,
+  "My Orders": ReceiptText,
 };
 
 export default function Sidebar({ tabs }) {
@@ -23,7 +27,7 @@ export default function Sidebar({ tabs }) {
     <div className="rounded-[1.75rem] border border-slate-200 bg-white p-3 shadow-[0_16px_40px_rgba(15,23,42,0.05)] lg:sticky lg:top-24 lg:p-4">
       <div className="mb-3 hidden px-2 lg:block">
         <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-          Seller Workspace
+          My Account
         </p>
       </div>
 
