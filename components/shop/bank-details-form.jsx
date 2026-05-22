@@ -24,6 +24,9 @@ import {
 } from "@/actions/seller-actions";
 import { notifyOnSlack } from "@/lib/api";
 
+const inputClassName =
+  "h-12 rounded-2xl border-slate-200 bg-slate-50 px-4 text-base shadow-none";
+
 export default function BankDetailsForm({ session, existingData }) {
   const form = useForm({
     resolver: zodResolver(paymentDetailsSchema),
@@ -62,20 +65,24 @@ export default function BankDetailsForm({ session, existingData }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 w-full flex flex-col"
+        className="flex w-full flex-col space-y-5"
       >
         <FormField
           control={form.control}
           name="accountHolderName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="flex items-center gap-1">
+              <FormLabel className="flex items-center gap-1 text-sm font-semibold text-slate-700">
                 Account Holder Name <Asterisk stroke="red" size={13} />
               </FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} />
+                <Input
+                  placeholder="John Doe"
+                  className={inputClassName}
+                  {...field}
+                />
               </FormControl>
-              <FormDescription>
+              <FormDescription className="text-sm text-slate-500">
                 Enter the full name as it appears on your bank account.
               </FormDescription>
               <FormMessage />
@@ -87,13 +94,19 @@ export default function BankDetailsForm({ session, existingData }) {
           name="accountNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="flex items-center gap-1">
+              <FormLabel className="flex items-center gap-1 text-sm font-semibold text-slate-700">
                 Account Number <Asterisk stroke="red" size={13} />
               </FormLabel>
               <FormControl>
-                <Input placeholder="123456789" {...field} />
+                <Input
+                  placeholder="123456789"
+                  className={inputClassName}
+                  {...field}
+                />
               </FormControl>
-              <FormDescription>Enter your bank account number.</FormDescription>
+              <FormDescription className="text-sm text-slate-500">
+                Enter your bank account number.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -103,14 +116,18 @@ export default function BankDetailsForm({ session, existingData }) {
           name="ifscCode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="flex items-center gap-1">
+              <FormLabel className="flex items-center gap-1 text-sm font-semibold text-slate-700">
                 IFSC Code <Asterisk stroke="red" size={13} />
               </FormLabel>
 
               <FormControl>
-                <Input placeholder="SBIN0123456" {...field} />
+                <Input
+                  placeholder="SBIN0123456"
+                  className={inputClassName}
+                  {...field}
+                />
               </FormControl>
-              <FormDescription>
+              <FormDescription className="text-sm text-slate-500">
                 Enter the IFSC code of your bank branch.
               </FormDescription>
               <FormMessage />
@@ -122,11 +139,18 @@ export default function BankDetailsForm({ session, existingData }) {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone Number</FormLabel>
+              <FormLabel className="text-sm font-semibold text-slate-700">
+                Phone Number
+              </FormLabel>
               <FormControl>
-                <Input type="number" placeholder="9876543210" {...field} />
+                <Input
+                  type="number"
+                  placeholder="9876543210"
+                  className={inputClassName}
+                  {...field}
+                />
               </FormControl>
-              <FormDescription>
+              <FormDescription className="text-sm text-slate-500">
                 Enter your registered mobile number.
               </FormDescription>
               <FormMessage />
@@ -134,8 +158,12 @@ export default function BankDetailsForm({ session, existingData }) {
           )}
         />
 
-        <Button disabled={form.formState.isSubmitting} type="submit">
-          {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+        <Button
+          disabled={form.formState.isSubmitting}
+          type="submit"
+          className="h-12 rounded-full bg-gradient-to-r from-primary-brand to-red-400 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+        >
+          {form.formState.isSubmitting ? "Saving..." : "Save Bank Details"}
         </Button>
       </form>
     </Form>

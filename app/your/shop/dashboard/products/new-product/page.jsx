@@ -13,11 +13,11 @@ export default async function NewProductPage() {
 
   return (
     <div className="space-y-6 pb-10">
-      {/* <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-        <Link href="/your/shop/dashboard" className="hover:text-slate-900">
+      <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+        {/* <Link href="/your/shop/dashboard" className="hover:text-slate-900">
           Dashboard
         </Link>
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className="h-4 w-4" /> */}
         <Link
           href="/your/shop/dashboard/products"
           className="hover:text-slate-900"
@@ -26,7 +26,7 @@ export default async function NewProductPage() {
         </Link>
         <ChevronRight className="h-4 w-4" />
         <span className="text-slate-900">New Product</span>
-      </div> */}
+      </div>
 
       <section className="rounded-[1.75rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(255,247,241,1)_0%,rgba(255,255,255,1)_48%,rgba(245,248,255,1)_100%)] p-5 shadow-[0_16px_40px_rgba(15,23,42,0.05)] sm:p-6 lg:p-7">
         <div className="max-w-3xl space-y-3">

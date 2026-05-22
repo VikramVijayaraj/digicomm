@@ -1,13 +1,6 @@
+import { ClipboardList } from "lucide-react";
+
 import { getSellerOrders } from "@/lib/db/sellers";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import OrdersListContainer from "@/components/ui/orders-list-container";
 import { createClient } from "@/utils/supabase/server";
 
@@ -17,48 +10,25 @@ export default async function ShopOrdersPage() {
 
   const shopOrders = await getSellerOrders(data?.user?.email);
 
-  if (shopOrders.length === 0) {
-    return <p className="text-center mt-10">No orders found.</p>;
-  }
-
   return (
-    <>
-      <OrdersListContainer orderData={shopOrders} />
+    <div className="space-y-6">
+      <section className="rounded-[1.75rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(255,247,241,1)_0%,rgba(255,255,255,1)_48%,rgba(245,248,255,1)_100%)] p-4 shadow-[0_16px_40px_rgba(15,23,42,0.05)] sm:p-6 lg:p-7">
+        <div className="max-w-2xl">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/80 px-4 py-2 text-sm font-semibold text-orange-700 shadow-sm">
+            <ClipboardList className="h-4 w-4" />
+            Seller Orders
+          </div>
+          <h1 className="text-3xl font-semibold tracking-[-0.04em] text-slate-950 sm:text-4xl">
+            Orders
+          </h1>
+          <p className="mt-3 text-base leading-7 text-slate-600">
+            Track recent purchases, quantities, and order value from your shop
+            in one place.
+          </p>
+        </div>
+      </section>
 
-      {/* <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Order ID</TableHead>
-            <TableHead>Product</TableHead>
-            <TableHead>Ordered At</TableHead>
-            <TableHead className="text-right">Price</TableHead>
-            <TableHead>Quantity</TableHead>
-            <TableHead className="text-right">Total</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {shopOrders.map((order) => (
-            <TableRow key={order.product_name}>
-              <TableCell>{order.order_id}</TableCell>
-              <TableCell>{order.product_name}</TableCell>
-              <TableCell>{dateConverter(order.order_date)}</TableCell>
-              <TableCell className="text-right">₹{order.price}</TableCell>
-              <TableCell>{order.quantity}</TableCell>
-              <TableCell className="text-right">
-                ₹{(Number(order.price) * order.quantity).toFixed(2)}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-        <TableRow>
-          <TableCell colSpan={5}>Order Total</TableCell>
-          <TableCell className="text-right">
-            ₹{shopOrders[0].total_amount}
-          </TableCell>
-        </TableRow>
-      </TableFooter>
-      </Table> */}
-    </>
+      <OrdersListContainer orderData={shopOrders} />
+    </div>
   );
 }
