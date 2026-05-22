@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -59,9 +58,15 @@ export default function SignInForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="text-sm font-semibold text-slate-700">
+                Email
+              </FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email" {...field} />
+                <Input
+                  placeholder="Enter your email"
+                  className="h-14 rounded-2xl border-slate-200 bg-slate-50 px-4 text-base shadow-none"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -72,11 +77,14 @@ export default function SignInForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel className="text-sm font-semibold text-slate-700">
+                Password
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="Enter your password"
                   type="password"
+                  className="h-14 rounded-2xl border-slate-200 bg-slate-50 px-4 text-base shadow-none"
                   {...field}
                 />
               </FormControl>
@@ -86,18 +94,18 @@ export default function SignInForm() {
         />
 
         {form.formState.errors.root && (
-          <p className="text-sm font-medium text-destructive">
+          <p className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
             {form.formState.errors.root.message}
           </p>
         )}
 
         <Button
-          className="w-full"
+          className="h-12 w-full rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
           type="submit"
           disabled={form.formState.isSubmitting}
         >
           {form.formState.isSubmitting ? (
-            <LoaderCircle className="animate-spin" />
+            <LoaderCircle className="h-4 w-4 animate-spin" />
           ) : (
             "Sign In"
           )}
