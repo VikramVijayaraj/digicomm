@@ -38,7 +38,7 @@ export default async function Header() {
   return (
     <>
       <header className="global-padding relative z-50 pt-6">
-        <div className="relative z-50 flex items-center justify-between gap-4 rounded-[1.75rem] border border-slate-200 bg-white/90 px-4 py-4 md:px-5 lg:px-6">
+        <div className="relative z-50 flex items-center justify-between gap-4 rounded-[1.75rem] bg-white/90 px-4 py-4 md:px-5 lg:px-6">
           <div className="flex items-center gap-3 lg:gap-4">
             <div className="lg:hidden">
               <Sheet>
@@ -77,7 +77,7 @@ export default async function Header() {
                 alt="Crelands Logo"
                 width={120}
                 height={20}
-                className="h-5 sm:h-6 w-auto object-contain lg:h-8"
+                className="h-5 sm:h-6 w-auto object-contain lg:h-7"
                 priority
                 unoptimized
               />
