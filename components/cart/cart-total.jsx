@@ -12,22 +12,37 @@ export default function CartTotal({
 
   return (
     <div className="w-full">
-      {showTitle && <h4 className="font-semibold text-xl mb-4">Cart total</h4>}
+      {showTitle && (
+        <div className="mb-5">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+            Summary
+          </p>
+          <h4 className="text-2xl font-semibold tracking-[-0.03em] text-slate-950">
+            Cart total
+          </h4>
+        </div>
+      )}
 
-      <div className="space-y-3 text-sm">
+      <div className="space-y-4 text-sm">
         <div className="flex items-center justify-between">
-          <span className="text-muted-foreground">Subtotal</span>
-          <span className="font-medium">{formatAmount(subTotal)}</span>
+          <span className="text-slate-500">Subtotal</span>
+          <span className="font-semibold text-slate-950">
+            {formatAmount(subTotal)}
+          </span>
         </div>
         <Separator />
         <div className="flex items-center justify-between">
-          <span className="text-muted-foreground">Tax</span>
-          <span className="font-medium">{formatAmount(0)}</span>
+          <span className="text-slate-500">Tax</span>
+          <span className="font-semibold text-slate-950">
+            {formatAmount(0)}
+          </span>
         </div>
         <Separator />
         <div className="flex items-center justify-between">
-          <span className="font-semibold">Total</span>
-          <span className="font-semibold">{formatAmount(subTotal)}</span>
+          <span className="text-base font-semibold text-slate-950">Total</span>
+          <span className="text-xl font-semibold tracking-[-0.03em] text-slate-950">
+            {formatAmount(subTotal)}
+          </span>
         </div>
       </div>
     </div>
