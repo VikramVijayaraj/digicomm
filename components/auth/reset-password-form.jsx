@@ -123,7 +123,7 @@ export default function ResetPasswordForm() {
           <Button
             disabled={form.formState.isSubmitting}
             type="submit"
-            className="w-full"
+            className="w-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
           >
             {form.formState.isSubmitting ? (
               <LoaderCircle className="animate-spin" />
