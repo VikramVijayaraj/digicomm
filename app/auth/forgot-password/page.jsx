@@ -85,7 +85,7 @@ export default function ForgotPasswordPage() {
                   </CardTitle>
 
                   <CardDescription className="text-base leading-7 text-slate-600">
-                    We've sent a password reset link to your email address.
+                    We&apos;ve sent a password reset link to your email address.
                     Follow the instructions in the email to reset your password.
                   </CardDescription>
                 </div>
@@ -141,8 +141,8 @@ export default function ForgotPasswordPage() {
                 </CardTitle>
 
                 <CardDescription className="text-sm leading-6 text-slate-600">
-                  We'll email you a secure reset link to regain access to your
-                  account.
+                  We&apos;ll email you a secure reset link to regain access to
+                  your account.
                 </CardDescription>
               </CardHeader>
 
