@@ -29,6 +29,14 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
   },
+  // Google Ad Sense
+  verification: {
+    google: "ca-pub-2845415069575228",
+    // Note: Next.js renders this specifically as a google-adsense-account meta tag
+    other: {
+      "google-adsense-account": ["ca-pub-2845415069575228"],
+    },
+  },
 };
 
 export default function RootLayout({ children }) {
