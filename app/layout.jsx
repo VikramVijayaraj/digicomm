@@ -16,16 +16,14 @@ import DiscordInviteBanner from "@/components/cta/discord-invite-banner";
 
 export const metadata = {
   metadataBase: new URL(
-    process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000",
+    process.env.NEXT_PUBLIC_APP_BASE_URL || "http://localhost:3000",
   ),
   title: {
     default: process.env.NEXT_PUBLIC_APP_NAME,
     template: "%s | " + process.env.NEXT_PUBLIC_APP_NAME,
   },
   description:
-    "Buy and sell digital and physical products with ease on Crelands — India’s go-to marketplace for creators, designers, developers, and entrepreneurs.",
+    "Buy and sell digital products with ease on Crelands — India’s go-to marketplace for creators, designers, developers, and entrepreneurs.",
   twitter: {
     card: "summary_large_image",
   },
