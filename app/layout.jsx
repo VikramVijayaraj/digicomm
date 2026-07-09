@@ -83,9 +83,9 @@ export default function RootLayout({ children }) {
             <div className="py-8">{children}</div>
             <Toaster richColors />
 
-            <div className="global-padding">
+            {/* <div className="global-padding">
               <DiscordInviteBanner />
-            </div>
+            </div> */}
             <Footer />
           </ThemeProvider>
         </ReduxProvider>
