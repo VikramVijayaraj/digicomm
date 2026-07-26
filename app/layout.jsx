@@ -10,7 +10,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import { Toaster } from "@/components/ui/sonner";
-import FacebookPixel from "@/components/FacebookPixel";
 import ReportAnIssueButton from "@/components/cta/report-an-issue-button";
 import DiscordInviteBanner from "@/components/cta/discord-invite-banner";
 
@@ -64,12 +63,6 @@ export default function RootLayout({ children }) {
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
           })(window, document, "clarity", "script", "u1erxceaxm");`}
         </Script>
-
-        {/* Facebook Domain Verification */}
-        <meta
-          name="facebook-domain-verification"
-          content="reqlxzifjs2ql6zst9fod7o2t53mzh"
-        />
       </head>
       <body className="font-poppins">
         <ReduxProvider>
@@ -92,8 +85,6 @@ export default function RootLayout({ children }) {
 
         {/* Vercel's Speed Insights */}
         <SpeedInsights />
-
-        <FacebookPixel />
 
         {/* Fixed button */}
         <ReportAnIssueButton />
