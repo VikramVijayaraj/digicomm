@@ -50,7 +50,7 @@
     "@tiptap/pm": "^3.10.7",
     "@tiptap/react": "^3.10.7",
     "@tiptap/starter-kit": "^3.10.7",
-    "axios": "^1.7.7",
+    "axios": "^1.18.1",
     "browser-image-compression": "^2.0.2",
     "cashfree-pg": "^5.0.8",
     "cashfree-verification": "^3.0.0",
