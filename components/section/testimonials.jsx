@@ -11,7 +11,7 @@ export default function Testimonials() {
       <SectionLayout
         eyebrow="Social Proof"
         heading="What people like about Crelands"
-        description="The marketplace should feel useful, so these testimonials reflect product discovery, selling speed, and India-first payments."
+        description="Crelands is a marketplace for creators and buyers of digital products. Here’s what our users have to say about their experience."
       >
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
           <TestimonialCard client="Sriram" role="eBook seller">

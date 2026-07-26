@@ -1,5 +1,4 @@
 import Script from "next/script";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 import "@/styles/_variables.scss";
@@ -82,9 +81,6 @@ export default function RootLayout({ children }) {
             <Footer />
           </ThemeProvider>
         </ReduxProvider>
-
-        {/* Vercel's Speed Insights */}
-        <SpeedInsights />
 
         {/* Fixed button */}
         <ReportAnIssueButton />
