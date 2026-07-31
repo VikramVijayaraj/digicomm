@@ -11,6 +11,7 @@ import Footer from "@/components/footer/footer";
 import { Toaster } from "@/components/ui/sonner";
 import ReportAnIssueButton from "@/components/cta/report-an-issue-button";
 import DiscordInviteBanner from "@/components/cta/discord-invite-banner";
+import ChatWidget from "@/components/cta/chat-widget";
 
 export const metadata = {
   metadataBase: new URL(
@@ -83,7 +84,8 @@ export default function RootLayout({ children }) {
         </ReduxProvider>
 
         {/* Fixed button */}
-        <ReportAnIssueButton />
+        {/* <ReportAnIssueButton /> */}
+        <ChatWidget />
       </body>
     </html>
   );

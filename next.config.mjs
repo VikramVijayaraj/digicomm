@@ -44,6 +44,16 @@ const nextConfig = {
       static: 0,
     },
   },
+
+  // This is only for dev mode, in production we will use a reverse proxy to route /api/rag/* to the backend server
+  async rewrites() {
+    return [
+      {
+        source: "/api/rag/:path*",
+        destination: "https://crelands.com/api/rag/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
