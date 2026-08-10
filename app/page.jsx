@@ -4,7 +4,6 @@ import Newsletter from "@/components/cta/newsletter";
 import { getUserSourceByEmail } from "@/lib/db/users";
 import FilteredProductsPage from "./products/page";
 import BannerCTA from "@/components/cta/banner-cta";
-import Testimonials from "@/components/section/testimonials";
 import { createClient } from "@/utils/supabase/server";
 import AllSections from "@/components/section/all-sections";
 
@@ -33,7 +32,6 @@ export default async function Home({ searchParams }) {
       {/* <BannerCarousel /> */}
       {/* <Categories /> */}
       <AllSections />
-      <Testimonials />
       <div className="global-padding">
         <Newsletter />
       </div>
