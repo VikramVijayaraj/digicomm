@@ -6,6 +6,7 @@ import FilteredProductsPage from "./products/page";
 import BannerCTA from "@/components/cta/banner-cta";
 import { createClient } from "@/utils/supabase/server";
 import AllSections from "@/components/section/all-sections";
+import WhatsAppSupportBanner from "@/components/cta/whatsapp-support-banner";
 
 export default async function Home({ searchParams }) {
   const supabase = await createClient();
@@ -32,6 +33,7 @@ export default async function Home({ searchParams }) {
       {/* <BannerCarousel /> */}
       {/* <Categories /> */}
       <AllSections />
+      <WhatsAppSupportBanner />
       <div className="global-padding">
         <Newsletter />
       </div>
