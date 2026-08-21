@@ -5,12 +5,13 @@ import { MessageCircle, X, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const URL_PATTERN = /(https?:\/\/[^\s]+)/g;
 
 // Splits message text on URLs and wraps each one in a real <a> tag.
-// Only matches http(s) links (never javascript:/data: etc.), and strips
-// trailing punctuation like a period or closing paren that isn't part of the URL.
+// Used for the user's own typed messages (plain text, may contain a pasted link).
 function linkify(text) {
   return text.split(URL_PATTERN).map((part, i) => {
     if (!/^https?:\/\//.test(part)) {
@@ -34,6 +35,77 @@ function linkify(text) {
     );
   });
 }
+
+// Markdown rendering for assistant messages (GPT-120B returns Markdown).
+// Styled to sit inside a chat bubble instead of a full page — tighter
+// spacing than a typical "prose" block, no default text-size jumps.
+const markdownComponents = {
+  a: ({ node, ...props }) => (
+    <a
+      {...props}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="break-all underline underline-offset-2 hover:opacity-80"
+    />
+  ),
+  p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />,
+  ul: ({ node, ...props }) => (
+    <ul className="mb-2 ml-4 list-disc space-y-1 last:mb-0" {...props} />
+  ),
+  ol: ({ node, ...props }) => (
+    <ol className="mb-2 ml-4 list-decimal space-y-1 last:mb-0" {...props} />
+  ),
+  li: ({ node, ...props }) => <li className="leading-relaxed" {...props} />,
+  strong: ({ node, ...props }) => <strong className="font-bold" {...props} />,
+  em: ({ node, ...props }) => <em className="italic" {...props} />,
+  h1: ({ node, ...props }) => (
+    <h1
+      className="mb-1.5 mt-2 text-base font-extrabold first:mt-0"
+      {...props}
+    />
+  ),
+  h2: ({ node, ...props }) => (
+    <h2 className="mb-1.5 mt-2 text-[15px] font-bold first:mt-0" {...props} />
+  ),
+  h3: ({ node, ...props }) => (
+    <h3 className="mb-1 mt-2 text-sm font-bold first:mt-0" {...props} />
+  ),
+  hr: ({ node, ...props }) => (
+    <hr className="my-2.5 border-black/10" {...props} />
+  ),
+  blockquote: ({ node, ...props }) => (
+    <blockquote
+      className="border-l-2 border-black/15 pl-2.5 italic opacity-80"
+      {...props}
+    />
+  ),
+  code: ({ node, inline, ...props }) =>
+    inline ? (
+      <code
+        className="rounded bg-black/[0.06] px-1 py-0.5 font-mono text-[13px]"
+        {...props}
+      />
+    ) : (
+      <code
+        className="block overflow-x-auto rounded-lg bg-black/[0.06] p-2 font-mono text-[13px]"
+        {...props}
+      />
+    ),
+  table: ({ node, ...props }) => (
+    <div className="my-2 overflow-x-auto">
+      <table className="w-full border-collapse text-[13px]" {...props} />
+    </div>
+  ),
+  th: ({ node, ...props }) => (
+    <th
+      className="border border-black/10 px-2 py-1 text-left font-semibold"
+      {...props}
+    />
+  ),
+  td: ({ node, ...props }) => (
+    <td className="border border-black/10 px-2 py-1" {...props} />
+  ),
+};
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -114,7 +186,7 @@ export default function ChatWidget() {
           className={cn(
             "fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full",
             "bg-[#E8321A] shadow-lg shadow-[#E8321A]/35 hover:bg-[#c92913]",
-            "transition-transform hover:scale-105 motion-reduce:transition-none motion-reduce:hover:scale-100"
+            "transition-transform hover:scale-105 motion-reduce:transition-none motion-reduce:hover:scale-100",
           )}
         >
           <MessageCircle className="h-6 w-6 text-white" strokeWidth={2.5} />
@@ -129,7 +201,7 @@ export default function ChatWidget() {
             "fixed bottom-6 right-6 z-50 flex h-[520px] w-[360px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl",
             "bg-gradient-to-br from-[#fff6ec] to-[#ffe9d6] shadow-2xl",
             "origin-bottom-right transition-all duration-150 motion-reduce:transition-none",
-            isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
+            isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0",
           )}
         >
           <div className="flex items-center justify-between border-b border-black/[0.06] px-[18px] py-4">
@@ -137,9 +209,6 @@ export default function ChatWidget() {
               <div className="text-base font-extrabold text-neutral-900">
                 Crelands Assistant
               </div>
-              {/* <div className="mt-0.5 text-xs text-[#6b5d54]">
-                Ask about buying or selling digital products on Crelands.
-              </div> */}
             </div>
             <Button
               onClick={closeChat}
@@ -148,7 +217,10 @@ export default function ChatWidget() {
               aria-label="Close chat"
               className="h-8 w-8 rounded-full hover:bg-black/5"
             >
-              <X className="h-[18px] w-[18px] text-neutral-900" strokeWidth={2.5} />
+              <X
+                className="h-[18px] w-[18px] text-neutral-900"
+                strokeWidth={2.5}
+              />
             </Button>
           </div>
 
@@ -163,13 +235,22 @@ export default function ChatWidget() {
               <div
                 key={i}
                 className={cn(
-                  "max-w-[82%] whitespace-pre-wrap break-words rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
+                  "max-w-[82%] break-words rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
                   m.role === "user"
-                    ? "self-end rounded-br-md bg-[#E8321A] text-white"
-                    : "self-start rounded-bl-md bg-white text-neutral-900"
+                    ? "self-end whitespace-pre-wrap rounded-br-md bg-[#E8321A] text-white"
+                    : "self-start rounded-bl-md bg-white text-neutral-900",
                 )}
               >
-                {linkify(m.content)}
+                {m.role === "assistant" ? (
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={markdownComponents}
+                  >
+                    {m.content}
+                  </ReactMarkdown>
+                ) : (
+                  linkify(m.content)
+                )}
               </div>
             ))}
 
@@ -207,7 +288,10 @@ export default function ChatWidget() {
               aria-label="Send message"
               className="h-10 w-10 shrink-0 rounded-full bg-[#E8321A] hover:bg-[#c92913] disabled:opacity-40"
             >
-              <Send className="h-[18px] w-[18px] text-white" strokeWidth={2.5} />
+              <Send
+                className="h-[18px] w-[18px] text-white"
+                strokeWidth={2.5}
+              />
             </Button>
           </div>
         </div>
