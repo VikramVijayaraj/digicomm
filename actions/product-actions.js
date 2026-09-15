@@ -42,50 +42,59 @@ export async function addProductAction(email, productDetails) {
   productDetails["seller"] = sellerId;
   productDetails["slug"] = slug;
 
-  // Insert product details into products table and get product id
-  const { id: productId } = await addProduct(productDetails);
+  // Insert product details into products table and get product id and slug
+  const { id: productId, slug: productSlug } = await addProduct(productDetails);
 
   // Insert images into product_images table with the returned product id
-  for (const image of productDetails.images) {
-    await addProductImage(productId, image);
+  if (productDetails.images && productDetails.images.length > 0) {
+    for (const image of productDetails.images) {
+      await addProductImage(productId, image);
+    }
   }
 
   // Insert files into product_files table with the returned product id
-  for (const file of productDetails.files) {
-    await addProductFile(productId, file);
+  if (productDetails.files && productDetails.files.length > 0) {
+    for (const file of productDetails.files) {
+      await addProductFile(productId, file);
+    }
   }
 
-  revalidatePath("/", "layout");
-  return productId;
+  return { id: productId, slug: productSlug || slug };
 }
 
 export async function updateProductAction(productId, productDetails) {
-  // Generate slug from product name
-  productDetails["slug"] =
-    slugify(productDetails.name, {
-      lower: true,
-      strict: true,
-    }) +
-    "-" +
-    nanoid(10);
+  // Generate slug from product name only if not already provided
+  if (!productDetails.slug) {
+    productDetails["slug"] =
+      slugify(productDetails.name, {
+        lower: true,
+        strict: true,
+      }) +
+      "-" +
+      nanoid(10);
+  }
 
   await updateProduct(productId, productDetails);
 
   // Insert into product_images table only if new images are uploaded
-  if (productDetails.images.length > 0) {
+  if (productDetails.images && productDetails.images.length > 0) {
     for (const image of productDetails.images) {
       await addProductImage(productId, image);
     }
   }
 
   // Insert into product_files table only if new files are uploaded
-  if (productDetails.files.length > 0) {
+  if (productDetails.files && productDetails.files.length > 0) {
     for (const file of productDetails.files) {
       await addProductFile(productId, file);
     }
   }
 
-  revalidatePath("/", "layout");
+  return { success: true, slug: productDetails.slug };
+}
+
+export async function revalidateProductsDashboardAction() {
+  revalidatePath("/your/shop/dashboard/products");
 }
 
 export async function deleteProductAction(productDetails) {

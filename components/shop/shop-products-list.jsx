@@ -1,8 +1,10 @@
+import { Suspense } from "react";
 import { CalendarDays, IndianRupee, PackageOpen } from "lucide-react";
 
 import { getShopProducts } from "@/lib/db/sellers";
 import { dateConverter } from "@/utils/dateConverter";
 import ShopProductActions from "./shop-product-actions";
+import ShopProductsShareHandler from "./shop-products-share-handler";
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,24 +16,26 @@ export default async function ShopProductsList() {
 
   const products = await getShopProducts(data?.user?.email);
 
-  if (products.length === 0) {
-    return (
-      <div className="rounded-[1.75rem] border border-dashed border-slate-300 bg-white px-6 py-14 text-center shadow-[0_14px_35px_rgba(15,23,42,0.04)]">
-        <div className="mx-auto mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-50 text-primary-brand">
-          <PackageOpen className="h-6 w-6" />
-        </div>
-        <h2 className="text-xl font-semibold text-slate-950">
-          No products yet
-        </h2>
-        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
-          Add your first product to start building your storefront catalog.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.05)]">
+    <>
+      <Suspense fallback={null}>
+        <ShopProductsShareHandler products={products} />
+      </Suspense>
+
+      {products.length === 0 ? (
+        <div className="rounded-[1.75rem] border border-dashed border-slate-300 bg-white px-6 py-14 text-center shadow-[0_14px_35px_rgba(15,23,42,0.04)]">
+          <div className="mx-auto mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-50 text-primary-brand">
+            <PackageOpen className="h-6 w-6" />
+          </div>
+          <h2 className="text-xl font-semibold text-slate-950">
+            No products yet
+          </h2>
+          <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
+            Add your first product to start building your storefront catalog.
+          </p>
+        </div>
+      ) : (
+        <div className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.05)]">
       <div className="hidden border-b border-slate-200 bg-slate-50 px-5 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 lg:grid lg:grid-cols-[minmax(0,1fr)_160px_170px_56px] lg:items-center">
         <span>Product</span>
         <span>Price</span>
@@ -105,5 +109,7 @@ export default async function ShopProductsList() {
       })}
       </div>
     </div>
-  );
+  )}
+</>
+);
 }

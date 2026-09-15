@@ -40,6 +40,7 @@ import {
   addProductAction,
   deleteProductFilesAction,
   deleteProductImageAction,
+  revalidateProductsDashboardAction,
   updateProductAction,
 } from "@/actions/product-actions";
 import { createClient } from "@/utils/supabase/client";
@@ -223,16 +224,20 @@ export default function ProductDetailsForm({
 
   async function onSubmit(data) {
     let productId;
+    let productSlug;
+    const isNewProduct = !productData;
 
     if (productData) {
       productId = productData.product_id;
+      productSlug = productData.product_slug || productData.slug;
     } else {
-      const id = await addProductAction(session?.user?.email, {
+      const newProduct = await addProductAction(session?.user?.email, {
         ...data,
         images: [],
         files: [],
       });
-      productId = id;
+      productId = newProduct?.id || newProduct;
+      productSlug = newProduct?.slug;
     }
 
     const uploadedImages = await handleUpload(
@@ -249,6 +254,7 @@ export default function ProductDetailsForm({
 
     const updatePayload = {
       ...data,
+      slug: productSlug,
       images: uploadedImages,
       files: uploadedFiles,
     };
@@ -259,15 +265,11 @@ export default function ProductDetailsForm({
           const imagePath = decodeURIComponent(
             image.split("/public-assets/")[1],
           );
-
           const { error } = await supabase.storage
             .from("public-assets")
             .remove([imagePath]);
-
-          if (error) {
+          if (error)
             console.error("Error deleting image from storage: ", error);
-          }
-
           await deleteProductImageAction(image);
         }
       }
@@ -275,28 +277,36 @@ export default function ProductDetailsForm({
       if (uploadedFiles.length > 0) {
         for (let file of productData.files) {
           const filePath = decodeURIComponent(file.split("/product-files/")[1]);
-
           const { error } = await supabase.storage
             .from("product-files")
             .remove([filePath]);
-
-          if (error) {
-            console.error("Error deleting file from storage: ", error);
-          }
-
+          if (error) console.error("Error deleting file from storage: ", error);
           await deleteProductFilesAction(file);
         }
       }
 
       await updateProductAction(productId, updatePayload);
+      await revalidateProductsDashboardAction();
+      router.push("/your/shop/dashboard/products");
+      router.refresh();
+      toast.success("Product Updated Successfully.");
     } else {
-      await updateProductAction(productId, updatePayload);
-    }
+      const updateResult = await updateProductAction(productId, updatePayload);
+      await revalidateProductsDashboardAction();
+      toast.success("Product Added Successfully.");
 
-    router.push("/your/shop/dashboard/products");
-    productData
-      ? toast.success("Product Updated Successfully.")
-      : toast.success("Product Added Successfully.");
+      const finalSlug = updateResult?.slug || productSlug;
+      const queryParams = new URLSearchParams({
+        created: finalSlug,
+        name: data.name,
+        price: data.price !== undefined && data.price !== null ? String(data.price) : "0",
+      });
+      if (uploadedImages?.[0]) {
+        queryParams.set("image", uploadedImages[0]);
+      }
+      router.push(`/your/shop/dashboard/products?${queryParams.toString()}`);
+      router.refresh();
+    }
   }
 
   return (

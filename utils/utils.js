@@ -93,3 +93,15 @@ export function getStoragePath(url) {
 
   return url;
 }
+
+export function generateSlug(name) {
+  const slug =
+    slugify(name, {
+      lower: true,
+      strict: true,
+    }) +
+    "-" +
+    nanoid(10);
+
+  return slug;
+}
