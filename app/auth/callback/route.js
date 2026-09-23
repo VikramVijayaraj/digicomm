@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 // The client you created from the Server-Side Auth instructions
 import { createClient } from "@/utils/supabase/server";
+import { getOnboardingStatus } from "@/lib/db/users";
 
 export async function GET(request) {
   const { searchParams, origin } = new URL(request.url);
@@ -16,6 +17,15 @@ export async function GET(request) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
+      // Check if user needs onboarding
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData?.user?.email) {
+        const status = await getOnboardingStatus(userData.user.email);
+        if (status && status.onboarding_completed === false) {
+          next = "/welcome";
+        }
+      }
+
       const forwardedHost = request.headers.get("x-forwarded-host"); // original origin before load balancer
       const isLocalEnv = process.env.NODE_ENV === "development";
       if (isLocalEnv) {
@@ -32,3 +42,4 @@ export async function GET(request) {
   // return the user to an error page with instructions
   return NextResponse.redirect(`${origin}/auth/auth-code-error`);
 }
+

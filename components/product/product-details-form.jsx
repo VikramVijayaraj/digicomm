@@ -111,6 +111,7 @@ export default function ProductDetailsForm({
   session,
   categories,
   productData,
+  onSuccess,
 }) {
   const form = useForm({
     resolver: zodResolver(productSchema),
@@ -296,6 +297,12 @@ export default function ProductDetailsForm({
       toast.success("Product Added Successfully.");
 
       const finalSlug = updateResult?.slug || productSlug;
+
+      if (onSuccess) {
+        onSuccess({ productId, productSlug: finalSlug });
+        return;
+      }
+
       const queryParams = new URLSearchParams({
         created: finalSlug,
         name: data.name,

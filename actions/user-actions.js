@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import {
   createUserSource,
   getUserByEmail,
+  getOnboardingStatus,
   updateUserDetails,
 } from "../lib/db/users";
 import { createClient } from "@/utils/supabase/server";
@@ -131,4 +132,28 @@ export async function createGuestUserAction(guestDetails) {
   }
 
   return newUser;
+}
+
+export async function completeOnboardingAction() {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+
+  if (!data?.user) {
+    redirect("/auth/signin");
+  }
+
+  const { error } = await supabase
+    .from("users")
+    .update({ onboarding_completed: true })
+    .eq("email", data.user.email);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Error completing onboarding. Please try again later!");
+  }
+}
+
+export async function checkOnboardingStatusAction(email) {
+  const status = await getOnboardingStatus(email);
+  return status;
 }

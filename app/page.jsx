@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import Newsletter from "@/components/cta/newsletter";
 import { getUserSourceByEmail } from "@/lib/db/users";
+import { getOnboardingStatus } from "@/lib/db/users";
 import FilteredProductsPage from "./products/page";
 import BannerCTA from "@/components/cta/banner-cta";
 import { createClient } from "@/utils/supabase/server";
@@ -13,11 +14,12 @@ export default async function Home({ searchParams }) {
   const { data } = await supabase.auth.getUser();
 
   if (data?.user?.email) {
-    // const user = await getUserByEmail(data.user.email);
-    const userSource = await getUserSourceByEmail(data.user.email);
+    const status = await getOnboardingStatus(data.user.email);
 
-    if (!userSource) {
-      redirect("/info");
+    // Only redirect if we got a valid response AND onboarding is explicitly not completed.
+    // If status is null (query error, column missing), let the user through.
+    if (status && status.onboarding_completed === false) {
+      redirect("/welcome");
     }
   }
 
