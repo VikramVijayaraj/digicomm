@@ -29,7 +29,11 @@ export default async function WelcomePage() {
 
   return (
     <div className="global-padding pb-10">
-      <OnboardingWizard session={data} categories={categories} />
+      <OnboardingWizard
+        session={data}
+        categories={categories}
+        savedUserType={status?.role || null}
+      />
     </div>
   );
 }

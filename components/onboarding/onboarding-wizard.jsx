@@ -25,7 +25,7 @@ const BUYER_STEPS = [
   { label: "Done" },
 ];
 
-export default function OnboardingWizard({ session, categories }) {
+export default function OnboardingWizard({ session, categories, savedUserType }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -34,7 +34,7 @@ export default function OnboardingWizard({ session, categories }) {
   const [currentStep, setCurrentStep] = useState(
     isNaN(initialStep) ? 0 : initialStep,
   );
-  const [userType, setUserType] = useState(null);
+  const [userType, setUserType] = useState(savedUserType);
   const [shopSlug, setShopSlug] = useState("");
 
   const updateStep = useCallback(
@@ -43,6 +43,7 @@ export default function OnboardingWizard({ session, categories }) {
       const params = new URLSearchParams(searchParams.toString());
       params.set("step", step.toString());
       router.replace(`/welcome?${params.toString()}`, { scroll: false });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
     [router, searchParams],
   );
@@ -50,7 +51,7 @@ export default function OnboardingWizard({ session, categories }) {
   // Step 1: User type + attribution
   async function handleUserTypeSubmit({ userType: type, source }) {
     try {
-      await createUserSourceAction(source);
+      await createUserSourceAction(source, type);
     } catch (error) {
       console.error("Error saving source:", error);
     }

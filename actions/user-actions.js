@@ -63,7 +63,7 @@ export async function getUserByEmailAction(email) {
   return user[0];
 }
 
-export async function createUserSourceAction(source) {
+export async function createUserSourceAction(source, userType) {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
 
@@ -72,6 +72,16 @@ export async function createUserSourceAction(source) {
   }
 
   await createUserSource(data.user.email, source);
+
+  // Save buyer/seller choice in the role column (only if not already set, e.g. 'admin')
+  if (userType) {
+    await supabase
+      .from("users")
+      .update({ role: userType })
+      .eq("email", data.user.email)
+      .is("role", null);
+  }
+
   revalidatePath("/info");
 }
 
