@@ -6,8 +6,13 @@ import { Cashfree, CFEnvironment } from "cashfree-pg";
 // Cashfree.XClientSecret = process.env.CASHFREE_CLIENT_SECRET;
 // Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
 
+const cfEnvironment =
+  process.env.CASHFREE_ENVIRONMENT === "production"
+    ? CFEnvironment.PRODUCTION
+    : CFEnvironment.SANDBOX;
+
 const cashfree = new Cashfree(
-  CFEnvironment.PRODUCTION,
+  cfEnvironment,
   process.env.CASHFREE_CLIENT_ID,
   process.env.CASHFREE_CLIENT_SECRET,
 );

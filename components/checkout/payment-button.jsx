@@ -23,7 +23,7 @@ export default function PaymentButton({
 
   var initializeSDK = async function () {
     cashfree = await load({
-      mode: "production", // "production" or "sandbox"
+      mode: process.env.NEXT_PUBLIC_CASHFREE_ENVIRONMENT === "production" ? "production" : "sandbox",
     });
   };
   initializeSDK();
