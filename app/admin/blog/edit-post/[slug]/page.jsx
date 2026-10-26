@@ -1,5 +1,3 @@
-import { unstable_noStore } from "next/cache";
-
 import BlogPostForm from "@/components/blog/blog-post-form";
 import { getBlogPostBySlug } from "@/lib/db/blog";
 
@@ -8,7 +6,6 @@ export const revalidate = 0;
 
 export default async function EditPostPage(props) {
   const params = await props.params;
-  unstable_noStore();
 
   const { slug } = params;
   const post = await getBlogPostBySlug(slug);

@@ -57,13 +57,13 @@ export default function BannerCarousel() {
                 <Image
                   src={item.imageUrl}
                   alt={item.alt}
-                  width={1200} 
+                  width={1200}
                   height={600}
                   className={cn(
                     "w-full h-auto object-cover transition-opacity duration-500",
                     index === activeIndex ? "opacity-100" : "opacity-0",
                   )}
-                  priority={index === 0}
+                  preload={index === 0}
                 />
               </CardContent>
             </Card>

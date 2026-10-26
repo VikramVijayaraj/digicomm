@@ -75,7 +75,7 @@ export default async function PostPage(props) {
           alt={post.title}
           className="object-cover"
           fill
-          priority
+          preload
         />
       </div>
 

@@ -29,7 +29,7 @@ export default async function ShopPage(props) {
             alt={`${shop.shop_name} Banner`}
             className="object-cover"
             unoptimized={!bannerImagePath}
-            priority
+            preload
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent" />
           <div className="absolute inset-x-0 bottom-0">

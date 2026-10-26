@@ -4,6 +4,7 @@ const nextConfig = {
   images: {
     loader: "custom",
     loaderFile: "lib/supabase-image-loader.js",
+    qualities: [75],
     // domains: ["plus.unsplash.com", "images.unsplash.com"],
     remotePatterns: [
       {
@@ -38,10 +39,11 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: "5mb", // increase as needed
     },
-    // Remove caching
+    // Keep dynamic navigation uncached; Next.js 16 requires a 30-second
+    // minimum cache lifetime for static entries.
     staleTimes: {
       dynamic: 0,
-      static: 0,
+      static: 30,
     },
   },
 
