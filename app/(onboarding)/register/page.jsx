@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import UserDetailsForm from "@/components/user/user-details-form";
 import { createClient } from "@/utils/supabase/server";
 
-export default async function RegisterPage({ searchParams }) {
+export default async function RegisterPage(props) {
+  const searchParams = await props.searchParams;
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
 

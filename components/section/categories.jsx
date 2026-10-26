@@ -1,4 +1,3 @@
-import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -15,8 +14,6 @@ import {
 
 export default async function Categories() {
   const categories = await getCategories();
-
-  revalidatePath("/");
 
   // const categoryCards = categories.map((category) => (
   //   <div className="grid grid-cols-3">

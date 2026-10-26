@@ -6,7 +6,8 @@ import { getBlogPostBySlug } from "@/lib/db/blog";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default async function EditPostPage({ params }) {
+export default async function EditPostPage(props) {
+  const params = await props.params;
   unstable_noStore();
 
   const { slug } = params;

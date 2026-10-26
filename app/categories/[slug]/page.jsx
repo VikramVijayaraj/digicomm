@@ -5,7 +5,8 @@ import SectionLayout from "@/components/section/section-layout";
 import { getCategoryName } from "@/lib/db/categories";
 import { getProductsByCategory } from "@/lib/db/products";
 
-export default async function CategoryProductsPage({ params }) {
+export default async function CategoryProductsPage(props) {
+  const params = await props.params;
   try {
     const { name: categoryName } = await getCategoryName(params.slug);
     const products = await getProductsByCategory(params.slug);

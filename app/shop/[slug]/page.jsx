@@ -9,7 +9,8 @@ import { getAvgShopRating } from "@/lib/db/reviews";
 import AvgRatingContainer from "@/components/ui/avg-rating-container";
 import { getStoragePath } from "@/utils/utils";
 
-export default async function ShopPage({ params }) {
+export default async function ShopPage(props) {
+  const params = await props.params;
   const { slug } = params;
 
   const shop = await getShopBySlug(slug);

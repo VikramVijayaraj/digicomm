@@ -16,7 +16,8 @@ const getCurrentPost = cache(async (slug) => {
   return currentPost;
 });
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const { slug } = params;
   const result = await getCurrentPost(slug);
 
@@ -30,7 +31,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function PostPage({ params }) {
+export default async function PostPage(props) {
+  const params = await props.params;
   const post = await getCurrentPost(params.slug);
   const coverImagePath = getStoragePath(post?.cover_image);
   const otherBlogPosts = await getBlogPosts(6, params.slug);

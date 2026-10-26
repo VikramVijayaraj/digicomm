@@ -29,7 +29,8 @@ const currentProduct = cache(async (slug) => {
   return product;
 });
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const { slug } = params;
   const result = await currentProduct(slug);
 
@@ -60,7 +61,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function ProductPage({ params }) {
+export default async function ProductPage(props) {
+  const params = await props.params;
   const { slug } = params;
   const result = await currentProduct(slug);
 
@@ -198,7 +200,6 @@ export default async function ProductPage({ params }) {
           </div>
         </div>
       </section>
-
       <section
         id="desc"
         className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.05)] sm:p-8"
@@ -225,7 +226,6 @@ export default async function ProductPage({ params }) {
             ))}
         </div>
       </section>
-
       <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.05)] sm:p-8">
         <div className="mb-6 max-w-3xl">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">

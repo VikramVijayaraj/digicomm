@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { revalidatePath } from "next/cache";
 import { Plus } from "lucide-react";
 
 import { getBlogPosts } from "@/lib/db/blog";
@@ -9,8 +8,6 @@ import TogglePostStatus from "@/components/blog/toggle-post-status";
 export default async function AdminBlogPage() {
   // Fetch blog posts from the database
   const posts = await getBlogPosts();
-
-  revalidatePath("/admin/blog");
 
   return (
     <div>
