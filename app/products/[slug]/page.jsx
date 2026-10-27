@@ -15,13 +15,8 @@ import { getProduct } from "@/lib/db/products";
 import Reviews from "@/components/product/reviews/reviews";
 import { getAvgProductRating } from "@/lib/db/reviews";
 import AvgRatingContainer from "@/components/ui/avg-rating-container";
-import { getCartItems } from "@/lib/db/cart";
 import ShortDesc from "./short-desc";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { createClient } from "@/utils/supabase/server";
-
-// Force dynamic rendering for this page
-export const dynamic = "force-dynamic";
 
 // Cache the product data to avoid fetching it multiple times for the same slug when not using fetch
 const currentProduct = cache(async (slug) => {
@@ -71,11 +66,6 @@ export default async function ProductPage(props) {
   }
 
   const rating = await getAvgProductRating(slug);
-
-  const supabase = await createClient();
-  const { data } = await supabase.auth.getUser();
-
-  const cartItems = data?.user ? await getCartItems(data?.user?.email) : [];
 
   return (
     <div className="global-padding scroll-smooth space-y-12 pb-6 lg:space-y-16">
@@ -135,7 +125,7 @@ export default async function ProductPage(props) {
             </div>
 
             <div className="order-1 rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_18px_40px_rgba(15,23,42,0.06)] lg:order-2">
-              <AddToCart product={result} initialCartItems={cartItems} />
+              <AddToCart product={result} />
             </div>
 
             <div className="order-2 grid gap-3 rounded-[1.5rem] border border-white/80 bg-white/85 p-4 shadow-[0_16px_35px_rgba(15,23,42,0.05)] sm:grid-cols-3 lg:order-1">

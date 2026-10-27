@@ -19,45 +19,43 @@ const COOKIE_OPTIONS = {
   path: "/",
 };
 
-export async function addToCartAction(slug, quantity) {
-  const supabase = await createClient();
+export async function addToCartAction(slug, _previousState, formData) {
+  const quantity = Number(formData.get("quantity"));
 
-  const { data } = await supabase.auth.getUser();
+  if (!Number.isSafeInteger(quantity) || quantity < 1) {
+    return {
+      status: "error",
+      message: "Choose a valid quantity before adding this product.",
+    };
+  }
 
-  if (!data?.user) {
-    // Guest cart
-    await setGuestCartAction(slug, quantity);
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase.auth.getUser();
+
+    if (!data?.user) {
+      await setGuestCartAction(slug, quantity);
+    } else {
+      const cartId = await createCartUserByEmail(data.user.email);
+      const { product_id: productId } = await getProduct(slug);
+
+      await createCartItem(cartId, productId, quantity);
+    }
+
     revalidatePath("/your/cart");
-    return;
-  }
 
-  let cartId;
-
-  try {
-    const id = await createCartUserByEmail(data?.user.email);
-    cartId = id;
+    return {
+      status: "success",
+      message: "Product added to cart successfully.",
+    };
   } catch (error) {
-    console.log(error);
-    throw new Error("Cannot get cart information. Please try again later!");
-  }
+    console.error("Failed to add product to cart:", error);
 
-  let productId;
-  try {
-    const { product_id } = await getProduct(slug);
-    productId = product_id;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Cannot get product information. Please try again later!");
+    return {
+      status: "error",
+      message: "Failed to add the product to cart. Please try again.",
+    };
   }
-
-  try {
-    await createCartItem(cartId, productId, quantity);
-  } catch (error) {
-    console.log(error);
-    throw new Error("Failed to add the product to cart. Try again!");
-  }
-
-  revalidatePath("/your/cart");
 }
 
 export async function removeFromCartAction(cartId, productId) {
