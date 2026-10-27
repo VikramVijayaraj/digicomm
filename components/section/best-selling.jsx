@@ -5,8 +5,6 @@ import SectionLayout from "./section-layout";
 import { getProducts } from "@/lib/db/products";
 import { Button } from "../ui/button";
 
-export const dynamic = "force-dynamic";
-
 export default async function BestSelling() {
   let allProducts;
 

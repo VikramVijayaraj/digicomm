@@ -39,12 +39,6 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: "5mb", // increase as needed
     },
-    // Keep dynamic navigation uncached; Next.js 16 requires a 30-second
-    // minimum cache lifetime for static entries.
-    staleTimes: {
-      dynamic: 0,
-      static: 30,
-    },
   },
 
   // This is only for dev mode, in production we will use a reverse proxy to route /api/rag/* to the backend server
