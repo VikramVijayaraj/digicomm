@@ -9,6 +9,7 @@ import {
   Sparkles,
   LoaderCircle,
 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { completeOnboardingAction } from "@/actions/user-actions";
 
@@ -34,12 +35,24 @@ export default function StepCelebration({ userType, shopSlug }) {
   async function handleContinue() {
     setIsNavigating(true);
     try {
-      await completeOnboardingAction();
+      const result = await completeOnboardingAction();
+
+      if (!result.success) {
+        toast.error(result.error);
+        setIsNavigating(false);
+
+        if (result.requiresSignIn) {
+          router.push("/auth/signin");
+        }
+
+        return;
+      }
+
       router.push(isSeller ? "/your/shop/dashboard" : "/");
     } catch (error) {
       console.error(error);
-      // Navigate anyway even if marking fails — they can still use the app
-      router.push(isSeller ? "/your/shop/dashboard" : "/");
+      toast.error("Unable to complete onboarding. Please try again.");
+      setIsNavigating(false);
     }
   }
 
@@ -141,4 +154,3 @@ export default function StepCelebration({ userType, shopSlug }) {
     </div>
   );
 }
-

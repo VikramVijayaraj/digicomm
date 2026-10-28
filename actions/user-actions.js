@@ -11,6 +11,7 @@ import {
 } from "../lib/db/users";
 import { createClient } from "@/utils/supabase/server";
 import { supabaseAdmin } from "@/utils/supabase/admin";
+import { sendWelcomeEmail } from "./send-email-action";
 
 export async function createUserAction(userDetails) {
   const { data, error } = await supabaseAdmin
@@ -82,7 +83,7 @@ export async function createUserSourceAction(source, userType) {
       .is("role", null);
   }
 
-  revalidatePath("/info");
+  revalidatePath("/welcome");
 }
 
 // Guest Cart
@@ -148,19 +149,55 @@ export async function completeOnboardingAction() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
 
-  if (!data?.user) {
-    redirect("/auth/signin");
+  if (!data?.user?.email) {
+    return {
+      success: false,
+      error: "Your session has expired. Please sign in and try again.",
+      requiresSignIn: true,
+    };
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("users")
+    .select("onboarding_completed")
+    .eq("id", data.user.id)
+    .single();
+
+  if (profileError) {
+    console.error(profileError);
+    return {
+      success: false,
+      error: "Unable to complete onboarding. Please try again.",
+    };
+  }
+
+  if (profile.onboarding_completed) {
+    return { success: true, welcomeEmail: "already-sent" };
+  }
+
+  const welcomeEmailResult = await sendWelcomeEmail(data.user.email);
+
+  if (!welcomeEmailResult.success) {
+    return {
+      success: false,
+      error: "We couldn't send your welcome email. Please try again.",
+    };
   }
 
   const { error } = await supabase
     .from("users")
     .update({ onboarding_completed: true })
-    .eq("email", data.user.email);
+    .eq("id", data.user.id);
 
   if (error) {
     console.error(error);
-    throw new Error("Error completing onboarding. Please try again later!");
+    return {
+      success: false,
+      error: "Unable to complete onboarding. Please try again.",
+    };
   }
+
+  return { success: true, welcomeEmail: "sent" };
 }
 
 export async function checkOnboardingStatusAction(email) {

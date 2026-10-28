@@ -40,17 +40,22 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendWelcomeEmail(email) {
   try {
-    await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: "Crelands <contact@crelands.com>",
       to: email,
       subject: "Welcome to Crelands 🎉",
       react: <WelcomeEmail />,
     });
 
-    return { success: true };
+    if (error) {
+      console.error("Error sending welcome email:", error);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, id: data?.id };
   } catch (error) {
-    console.error("Error sending email:", error);
-    return { success: false, error: "Failed to send email" };
+    console.error("Unexpected error sending welcome email:", error);
+    return { success: false, error: "Failed to send welcome email" };
   }
 }
 
