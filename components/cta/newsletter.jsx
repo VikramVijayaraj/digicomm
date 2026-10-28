@@ -24,14 +24,13 @@ export default function Newsletter() {
       return;
     }
 
-    const emailExists = await getLeadAction(email);
-    if (emailExists) {
+    const result = await getLeadAction(email);
+    if (result.exists) {
       toast.info("You are already subscribed to our newsletter.");
       return;
     }
 
     try {
-      // Store the email in db
       await storeLeadAction(email);
 
       setEmail("");

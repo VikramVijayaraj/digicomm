@@ -19,9 +19,8 @@ export async function getLeadAction(email) {
     .single();
 
   if (error) {
-    console.error("Error fetching lead from Supabase:", error);
-    throw new Error("Failed to fetch lead");
+    return { exists: false };
   }
 
-  return data;
+  return { exists: true, ...data };
 }
