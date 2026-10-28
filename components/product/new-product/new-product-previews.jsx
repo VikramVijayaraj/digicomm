@@ -15,7 +15,7 @@ export function NewProductPreviews({ images }) {
         images.map((image, index) => (
           <div
             key={index}
-            className="relative h-48 w-40 flex-shrink-0 overflow-hidden rounded-[1.25rem] border border-slate-200 bg-white shadow-sm"
+            className="relative h-48 w-40 shrink-0 overflow-hidden rounded-[1.25rem] border border-slate-200 bg-white shadow-xs"
           >
             <Image
               src={image}

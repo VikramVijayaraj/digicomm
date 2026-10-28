@@ -126,7 +126,7 @@ async function AllSections() {
         </section>
       ))}
 
-      <section className="rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(255,248,242,1)_0%,rgba(255,255,255,1)_45%,rgba(244,247,255,1)_100%)] p-8 shadow-sm md:p-10">
+      <section className="rounded-4xl border border-slate-200 bg-[linear-gradient(135deg,rgba(255,248,242,1)_0%,rgba(255,255,255,1)_45%,rgba(244,247,255,1)_100%)] p-8 shadow-xs md:p-10">
         <SectionLayout
           eyebrow="Marketplace Benefits"
           heading="Built for both discovery and selling"
@@ -152,7 +152,7 @@ async function AllSections() {
             ].map((item) => (
               <div
                 key={item.title}
-                className="rounded-[1.5rem] border border-white/80 bg-white/80 p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]"
+                className="rounded-3xl border border-white/80 bg-white/80 p-6 shadow-[0_18px_40px_rgba(15,23,42,0.06)]"
               >
                 <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-white">
                   <ArrowRight className="h-4 w-4" />

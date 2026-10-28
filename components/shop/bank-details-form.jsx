@@ -161,7 +161,7 @@ export default function BankDetailsForm({ session, existingData }) {
         <Button
           disabled={form.formState.isSubmitting}
           type="submit"
-          className="h-12 rounded-full bg-gradient-to-r from-primary-brand to-red-400 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+          className="h-12 rounded-full bg-linear-to-r from-primary-brand to-red-400 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
         >
           {form.formState.isSubmitting ? "Saving..." : "Save Bank Details"}
         </Button>

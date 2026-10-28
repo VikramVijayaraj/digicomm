@@ -465,7 +465,7 @@ export default function BannerCTA() {
         </span>
       </div> */}
 
-      <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 shadow-[0_30px_80px_rgba(15,23,42,0.10)]">
+      <div className="relative overflow-hidden rounded-4xl border border-slate-200 shadow-[0_30px_80px_rgba(15,23,42,0.10)]">
         <div className="grid lg:grid-cols-2">
           {/* ---------------- BUY SIDE ---------------- */}
           <div className="relative flex flex-col bg-[#FFF8F0] px-6 py-10 sm:px-10 sm:py-12">
@@ -491,14 +491,14 @@ export default function BannerCTA() {
               </div>
             </div>
             <form action={handleSearch} className="mt-auto w-full">
-              <div className="flex items-center gap-3 rounded-2xl border border-orange-200 bg-white px-4 py-3 shadow-sm">
+              <div className="flex items-center gap-3 rounded-2xl border border-orange-200 bg-white px-4 py-3 shadow-xs">
                 <Search className="h-5 w-5 shrink-0 text-slate-400" />
                 <input
                   type="text"
                   name="query"
                   defaultValue={searchParams.get("query")?.toString() ?? ""}
                   placeholder="Ebooks, templates, planners, fonts…"
-                  className="h-full w-full bg-transparent text-base text-slate-900 outline-none placeholder:text-slate-400"
+                  className="h-full w-full bg-transparent text-base text-slate-900 outline-hidden placeholder:text-slate-400"
                 />
               </div>
 
@@ -573,7 +573,7 @@ export default function BannerCTA() {
             </div>
             <Button
               asChild
-              className="mt-auto h-14 w-full rounded-full bg-gradient-to-r from-primary-brand to-red-400 text-base text-white hover:scale-[1.02] hover:from-primary-light hover:to-primary-brand transition-transform"
+              className="mt-auto h-14 w-full rounded-full bg-linear-to-r from-primary-brand to-red-400 text-base text-white hover:scale-[1.02] hover:from-primary-light hover:to-primary-brand transition-transform"
             >
               <Link href="/your/shop/register">
                 Start Selling — It&apos;s Free

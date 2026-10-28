@@ -47,7 +47,7 @@ function UploadPanel({
         className="hidden"
       />
       <label htmlFor={id} className="block cursor-pointer">
-        <div className="rounded-[1rem] border border-slate-200 bg-white p-4 transition-colors hover:bg-slate-50">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 transition-colors hover:bg-slate-50">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="font-semibold text-slate-900">{title}</p>
@@ -359,7 +359,7 @@ export default function ShopDetailsForm({ session, data }) {
           </div>
 
           <Button
-            className="h-12 w-full rounded-full bg-gradient-to-r from-primary-brand to-red-400 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+            className="h-12 w-full rounded-full bg-linear-to-r from-primary-brand to-red-400 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
             disabled={form.formState.isSubmitting}
             type="submit"
           >
@@ -387,7 +387,7 @@ export default function ShopDetailsForm({ session, data }) {
           </div>
 
           <div className="relative px-5 pb-5 pt-12">
-            <div className="absolute -top-10 left-5 h-20 w-20 overflow-hidden rounded-2xl border-4 border-white bg-slate-100 shadow-sm">
+            <div className="absolute -top-10 left-5 h-20 w-20 overflow-hidden rounded-2xl border-4 border-white bg-slate-100 shadow-xs">
               {logo ? (
                 <Image
                   src={logo}
@@ -418,7 +418,7 @@ export default function ShopDetailsForm({ session, data }) {
           </div>
         </div>
 
-        <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)]">
+        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)]">
           <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-orange-50 text-primary-brand">
             <PenSquare className="h-5 w-5" />
           </div>

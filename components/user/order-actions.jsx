@@ -68,7 +68,7 @@ export default function OrderActions({ order, userEmail }) {
             type="button"
             variant="outline"
             size="icon"
-            className="h-10 w-10 rounded-full border-slate-200 bg-white text-slate-600 shadow-sm hover:bg-slate-50 hover:text-slate-950"
+            className="h-10 w-10 rounded-full border-slate-200 bg-white text-slate-600 shadow-xs hover:bg-slate-50 hover:text-slate-950"
           >
             <EllipsisVertical className="h-4 w-4" />
           </Button>

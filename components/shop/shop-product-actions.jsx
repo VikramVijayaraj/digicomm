@@ -34,7 +34,7 @@ export default function ShopProductActions({ product }) {
           type="button"
           variant="outline"
           size="icon"
-          className="h-10 w-10 rounded-full border-slate-200 bg-white text-slate-600 shadow-sm hover:bg-slate-50 hover:text-slate-950"
+          className="h-10 w-10 rounded-full border-slate-200 bg-white text-slate-600 shadow-xs hover:bg-slate-50 hover:text-slate-950"
         >
           <EllipsisVertical className="h-4 w-4" />
         </Button>
@@ -91,7 +91,7 @@ export const DeleteDialog = React.forwardRef(({ product }, ref) => {
         <button
           ref={ref}
           type="button"
-          className="flex w-full cursor-pointer items-center rounded-xl px-2 py-1.5 text-left text-sm text-red-600 outline-none transition-colors hover:bg-red-50"
+          className="flex w-full cursor-pointer items-center rounded-xl px-2 py-1.5 text-left text-sm text-red-600 outline-hidden transition-colors hover:bg-red-50"
         >
           <Trash2 className="mr-2 h-4 w-4" />
           Delete

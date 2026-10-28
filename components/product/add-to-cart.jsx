@@ -54,7 +54,7 @@ export default function AddToCart({ product }) {
           type="submit"
           disabled={isPending}
           aria-busy={isPending}
-          className="h-14 w-full rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-base font-semibold text-white transition hover:from-primary-light hover:to-primary-brand md:flex-1 select-none"
+          className="h-14 w-full rounded-full bg-linear-to-r from-primary-brand to-red-400 px-6 text-base font-semibold text-white transition hover:from-primary-light hover:to-primary-brand md:flex-1 select-none"
         >
           {isPending ? "Adding..." : "Add to cart"}
         </Button>

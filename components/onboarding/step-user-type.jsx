@@ -80,8 +80,8 @@ export default function StepUserType({ onContinue }) {
               onClick={() => setSelectedType(type.value)}
               className={`rounded-[1.75rem] border-2 p-6 text-left transition-all ${
                 isSelected
-                  ? "border-primary-brand bg-orange-50/50 shadow-sm ring-1 ring-orange-200"
-                  : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm"
+                  ? "border-primary-brand bg-orange-50/50 shadow-xs ring-1 ring-orange-200"
+                  : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-xs"
               }`}
             >
               <div
@@ -102,7 +102,7 @@ export default function StepUserType({ onContinue }) {
 
       {/* Attribution source */}
       {selectedType && (
-        <div className="mt-8 rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)] sm:p-6">
+        <div className="mt-8 rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)] sm:p-6">
           <p className="text-sm font-semibold text-slate-700 mb-3">
             How did you find out about Crelands?
           </p>
@@ -136,7 +136,7 @@ export default function StepUserType({ onContinue }) {
           type="button"
           disabled={isDisabled}
           onClick={handleContinue}
-          className="h-12 rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-8 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+          className="h-12 rounded-full bg-linear-to-r from-primary-brand to-red-400 px-8 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
         >
           Continue
           <ArrowRight className="h-4 w-4 ml-2" />

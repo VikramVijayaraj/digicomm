@@ -64,7 +64,7 @@ export default function StepCelebration({ userType, shopSlug }) {
       {/* Party icon */}
       <div className="relative mb-6">
         <div
-          className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-100 to-orange-50 animate-bounce"
+          className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-linear-to-br from-orange-100 to-orange-50 animate-bounce"
           style={{ animationDuration: "2s" }}
         >
           <PartyPopper className="h-10 w-10 text-primary-brand" />
@@ -88,7 +88,7 @@ export default function StepCelebration({ userType, shopSlug }) {
         <Button
           onClick={handleContinue}
           disabled={isNavigating}
-          className="h-12 rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-8 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+          className="h-12 rounded-full bg-linear-to-r from-primary-brand to-red-400 px-8 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
         >
           {isNavigating ? (
             <>
@@ -128,7 +128,7 @@ export default function StepCelebration({ userType, shopSlug }) {
       </div> */}
 
       {/* Info card */}
-      <div className="mt-10 rounded-[1.5rem] border border-slate-200 bg-slate-50 px-6 py-4 max-w-md">
+      <div className="mt-10 rounded-3xl border border-slate-200 bg-slate-50 px-6 py-4 max-w-md">
         <p className="inline-flex items-start gap-2 text-sm leading-6 text-slate-600">
           <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-orange-400" />
           <span>

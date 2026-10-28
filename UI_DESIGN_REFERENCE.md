@@ -139,7 +139,7 @@ Sidebar should be a rounded white panel:
 Primary CTA:
 
 ```jsx
-className="h-12 rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+className="h-12 rounded-full bg-linear-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
 ```
 
 Secondary button:
@@ -175,7 +175,7 @@ className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_16px
 Field group:
 
 ```jsx
-className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)] sm:p-6"
+className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)] sm:p-6"
 ```
 
 Inputs:
@@ -210,7 +210,7 @@ Pattern:
 
 - Hide the actual `<input type="file" />`.
 - Use a dashed outer panel: `rounded-[1.25rem] border border-dashed border-slate-300 bg-slate-50 p-4`
-- Use an inner clickable panel: `rounded-[1rem] border border-slate-200 bg-white p-4 hover:bg-slate-50`
+- Use an inner clickable panel: `rounded-2xl border border-slate-200 bg-white p-4 hover:bg-slate-50`
 - Add a dark rounded upload button inside the label.
 - Show file summary text in a small `bg-slate-50` pill/panel.
 

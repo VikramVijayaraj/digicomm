@@ -42,9 +42,9 @@ export default function Sidebar({ tabs }) {
           return (
             <Link
               href={tab.link}
-              className={`inline-flex min-w-fit items-center gap-3 rounded-[1rem] px-4 py-3 text-sm font-medium transition-all lg:w-full ${
+              className={`inline-flex min-w-fit items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-all lg:w-full ${
                 isActive
-                  ? "bg-[linear-gradient(135deg,rgba(255,247,241,1)_0%,rgba(255,255,255,1)_100%)] text-slate-950 shadow-sm ring-1 ring-orange-100"
+                  ? "bg-[linear-gradient(135deg,rgba(255,247,241,1)_0%,rgba(255,255,255,1)_100%)] text-slate-950 shadow-xs ring-1 ring-orange-100"
                   : "text-slate-600 hover:bg-slate-50 hover:text-slate-950"
               }`}
               key={tab.name}

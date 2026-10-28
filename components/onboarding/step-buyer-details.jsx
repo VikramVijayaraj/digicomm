@@ -245,7 +245,7 @@ export default function StepBuyerDetails({ onContinue, onSkip }) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="h-12 rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+              className="h-12 rounded-full bg-linear-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
             >
               {isSubmitting ? (
                 <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />

@@ -23,7 +23,7 @@ export default function CopyStoreUrlButton({ shopSlug }) {
     <button
       type="button"
       onClick={handleCopy}
-      className="inline-flex h-12 items-center justify-center rounded-full border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50"
+      className="inline-flex h-12 items-center justify-center rounded-full border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 shadow-xs transition-colors hover:bg-slate-50"
     >
       {copied ? (
         <>

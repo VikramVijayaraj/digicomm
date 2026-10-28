@@ -8,7 +8,7 @@ export default function AddToFavourites() {
 
   return (
     <div
-      className="flex justify-center items-center w-10 border border-gray-400 cursor-pointer rounded-sm hover:fill-primary"
+      className="flex justify-center items-center w-10 border border-gray-400 cursor-pointer rounded-xs hover:fill-primary"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

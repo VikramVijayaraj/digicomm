@@ -137,7 +137,7 @@ export default function NavLinks({ userData, shopDetails }) {
         <div className="hidden md:block">
           <Button
             asChild
-            className="h-11 rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-5 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+            className="h-11 rounded-full bg-linear-to-r from-primary-brand to-red-400 px-5 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
           >
             <Link href="/your/shop/register">Start Selling</Link>
           </Button>

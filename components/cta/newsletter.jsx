@@ -43,7 +43,7 @@ export default function Newsletter() {
   }
 
   return (
-    <section className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(255,245,238,1)_0%,rgba(255,255,255,1)_52%,rgba(244,247,255,1)_100%)] px-4 py-7 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:px-8 sm:py-10 lg:px-12">
+    <section className="relative overflow-hidden rounded-4xl border border-slate-200 bg-[linear-gradient(135deg,rgba(255,245,238,1)_0%,rgba(255,255,255,1)_52%,rgba(244,247,255,1)_100%)] px-4 py-7 shadow-[0_20px_55px_rgba(15,23,42,0.06)] sm:px-8 sm:py-10 lg:px-12">
       <div className="absolute left-0 top-0 h-40 w-40 -translate-x-1/4 -translate-y-1/4 rounded-full bg-orange-200/40 blur-3xl" />
       <div className="absolute bottom-0 right-0 h-48 w-48 translate-x-1/4 translate-y-1/4 rounded-full bg-sky-200/40 blur-3xl" />
 
@@ -56,7 +56,7 @@ export default function Newsletter() {
           <h2 className="max-w-[18rem] text-[1.75rem] font-semibold leading-[1.08] tracking-[-0.04em] text-slate-950 sm:max-w-none sm:text-3xl md:text-4xl">
             Get product drops, buyer picks, and creator tips in your inbox
           </h2>
-          <p className="mt-3 max-w-[18.5rem] text-[15px] leading-6 text-slate-600 sm:mt-4 sm:max-w-xl sm:text-base sm:leading-7 md:text-lg">
+          <p className="mt-3 max-w-74 text-[15px] leading-6 text-slate-600 sm:mt-4 sm:max-w-xl sm:text-base sm:leading-7 md:text-lg">
             Subscribe for curated product highlights, launch ideas for sellers,
             and updates from {process.env.NEXT_PUBLIC_APP_NAME}.
           </p>
@@ -64,14 +64,14 @@ export default function Newsletter() {
 
         <form
           onSubmit={handleSubmit}
-          className="rounded-[1.5rem] border border-white/80 bg-white/90 p-3 shadow-[0_18px_40px_rgba(15,23,42,0.06)] sm:rounded-[1.75rem] sm:p-5"
+          className="rounded-3xl border border-white/80 bg-white/90 p-3 shadow-[0_18px_40px_rgba(15,23,42,0.06)] sm:rounded-[1.75rem] sm:p-5"
         >
           <label className="mb-2 block text-xs font-semibold text-slate-500 sm:mb-3 sm:text-sm sm:font-medium sm:text-slate-600">
             Email address
           </label>
           <div className="flex flex-col gap-3 sm:flex-row">
             <input
-              className="h-16 flex-1 rounded-[1rem] border border-slate-200 bg-slate-50 px-4 text-base text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-300 sm:h-14 sm:rounded-2xl"
+              className="h-16 flex-1 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-base text-slate-900 outline-hidden transition placeholder:text-slate-400 focus:border-slate-300 sm:h-14 sm:rounded-2xl"
               type="email"
               placeholder="Enter your email"
               value={email}
@@ -80,7 +80,7 @@ export default function Newsletter() {
             />
             <button
               type="submit"
-              className="inline-flex h-16 items-center justify-center rounded-[1rem] bg-slate-950 px-6 text-sm font-semibold text-white transition hover:bg-slate-800 sm:h-14 sm:rounded-2xl"
+              className="inline-flex h-16 items-center justify-center rounded-2xl bg-slate-950 px-6 text-sm font-semibold text-white transition hover:bg-slate-800 sm:h-14 sm:rounded-2xl"
             >
               Subscribe
               <ArrowRight className="ml-2 h-4 w-4" />

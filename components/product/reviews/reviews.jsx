@@ -8,13 +8,13 @@ export default function Reviews({ productId, sellerId }) {
       <Tabs defaultValue="product">
         <TabsList className="h-auto w-full rounded-full border border-slate-200 bg-slate-50 p-1">
           <TabsTrigger
-            className="h-11 w-1/2 rounded-full text-sm font-semibold data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm"
+            className="h-11 w-1/2 rounded-full text-sm font-semibold data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-xs"
             value="product"
           >
             Product Reviews
           </TabsTrigger>
           <TabsTrigger
-            className="h-11 w-1/2 rounded-full text-sm font-semibold data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm"
+            className="h-11 w-1/2 rounded-full text-sm font-semibold data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-xs"
             value="shop"
           >
             Shop Reviews

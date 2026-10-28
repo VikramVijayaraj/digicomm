@@ -26,7 +26,7 @@ export default function ProductImages({ images, alt_texts }) {
       <div
         onClick={() => setDisplayImage(imagePath)}
         key={image}
-        className={`relative h-20 w-20 shrink-0 cursor-pointer overflow-hidden rounded-[1rem] border bg-white transition sm:h-24 sm:w-24 ${
+        className={`relative h-20 w-20 shrink-0 cursor-pointer overflow-hidden rounded-2xl border bg-white transition sm:h-24 sm:w-24 ${
           isActive
             ? "border-primary-brand shadow-[0_10px_25px_rgba(251,32,26,0.12)]"
             : "border-slate-200 hover:border-slate-300"
@@ -45,13 +45,13 @@ export default function ProductImages({ images, alt_texts }) {
 
   return (
     <div className="grid gap-4 lg:grid-cols-[96px_minmax(0,1fr)] lg:items-start">
-      <div className="order-2 flex gap-3 overflow-x-auto pb-1 no-scrollbar lg:order-1 lg:max-h-[38rem] lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden">
+      <div className="order-2 flex gap-3 overflow-x-auto pb-1 no-scrollbar lg:order-1 lg:max-h-152 lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden">
         {product_images}
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <div className="relative order-1 h-[22rem] w-full cursor-zoom-in overflow-hidden rounded-[1.75rem] border border-white/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] sm:h-[28rem] lg:order-2 lg:h-[38rem]">
+          <div className="relative order-1 h-88 w-full cursor-zoom-in overflow-hidden rounded-[1.75rem] border border-white/80 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] sm:h-112 lg:order-2 lg:h-152">
             <Image
               src={displayImage}
               fill

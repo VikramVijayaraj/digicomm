@@ -9,7 +9,7 @@ export default function ProductCard({ imgUrl, name, price, category }) {
   const fallbackImage = "/images/image-avatar.svg";
 
   return (
-    <Card className="group overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(15,23,42,0.1)]">
+    <Card className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_55px_rgba(15,23,42,0.1)]">
       <CardHeader className="m-0 p-0">
         <CardTitle className="relative h-[220px] lg:h-[280px] w-full overflow-hidden bg-slate-100">
           <Image

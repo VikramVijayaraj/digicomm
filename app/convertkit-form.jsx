@@ -20,7 +20,7 @@ const ConvertKitForm = () => {
   };
 
   return (
-    <div className="bg-white rounded-md shadow-sm max-w-lg mx-auto overflow-hidden">
+    <div className="bg-white rounded-md shadow-xs max-w-lg mx-auto overflow-hidden">
       <div className="flex flex-col md:flex-row">
         {/* Background Image */}
         <div
@@ -43,14 +43,14 @@ const ConvertKitForm = () => {
           )}
 
           {isSuccess ? (
-            <div className="p-4 bg-green-100 text-green-800 rounded mb-4">
+            <div className="p-4 bg-green-100 text-green-800 rounded-xs mb-4">
               Success! Now check your email to confirm your subscription.
             </div>
           ) : (
             <div onSubmit={handleSubmit}>
               <div className="mb-4">
                 <input
-                  className="w-full border-b border-gray-300 p-2 text-gray-600 focus:outline-none
+                  className="w-full border-b border-gray-300 p-2 text-gray-600 focus:outline-hidden
                     focus:border-blue-500"
                   type="email"
                   placeholder="Email Address"
@@ -63,7 +63,7 @@ const ConvertKitForm = () => {
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="w-full bg-pink-300 text-white py-2 px-4 rounded font-bold hover:bg-pink-400
+                className="w-full bg-pink-300 text-white py-2 px-4 rounded-xs font-bold hover:bg-pink-400
                   transition-colors"
               >
                 {isSubmitting ? (
