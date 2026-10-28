@@ -66,7 +66,7 @@ export default function ForgotPasswordPage() {
   if (isEmailSent) {
     return (
       <main className="min-h-screen">
-        <div className="global-padding flex min-h-screen items-center justify-center py-10">
+        <div className="global-padding flex lg:mt-20 items-center justify-center py-10">
           <div className="w-full max-w-lg">
             <Card className="rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.05)]">
               <CardHeader className="space-y-5 p-6 sm:p-8">

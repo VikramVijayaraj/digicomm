@@ -306,7 +306,10 @@ export default function ProductDetailsForm({
       const queryParams = new URLSearchParams({
         created: finalSlug,
         name: data.name,
-        price: data.price !== undefined && data.price !== null ? String(data.price) : "0",
+        price:
+          data.price !== undefined && data.price !== null
+            ? String(data.price)
+            : "0",
       });
       if (uploadedImages?.[0]) {
         queryParams.set("image", uploadedImages[0]);
@@ -317,9 +320,12 @@ export default function ProductDetailsForm({
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_340px] lg:items-start">
+    <div className="grid min-w-0 grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.05fr)_240px] lg:items-start">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="min-w-0 space-y-6"
+        >
           <FieldShell
             icon={PenSquare}
             title="Core details"
@@ -379,7 +385,7 @@ export default function ProductDetailsForm({
             title="Category and pricing"
             description="Help buyers understand where this product belongs and what it costs."
           >
-            <div className="grid gap-5 md:grid-cols-2">
+            <div className="grid gap-5 xl:grid-cols-2">
               <FormField
                 control={form.control}
                 name="category"
@@ -472,7 +478,7 @@ export default function ProductDetailsForm({
               )}
             />
 
-            <div className="mt-5">
+            <div className="mt-5 min-w-0">
               <NewProductPreviews images={imagePreviews} />
             </div>
           </FieldShell>

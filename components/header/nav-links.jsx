@@ -32,7 +32,7 @@ export default function NavLinks({ userData, shopDetails }) {
       <Link href="/auth/signin">
         <Button
           variant="outline"
-          className="h-11 rounded-full border-slate-200 bg-white px-5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="h-11 rounded-full border-slate-200 bg-white px-5 text-sm font-medium text-slate-700 hover:bg-slate-50 cursor-pointer"
         >
           Sign in
         </Button>
