@@ -21,6 +21,13 @@ export async function generateMetadata(props) {
   const { slug } = params;
   const result = await getCurrentPost(slug);
 
+  if (!result || !result.published_status) {
+    return {
+      title: "Blog Post Not Found",
+      description: "The blog post you are looking for does not exist.",
+    };
+  }
+
   // Take the first paragraph, <p> tag from the content for the description
   const match = result.content.match(/<p[^>]*>(.*?)<\/p>/i);
   const firstParagraph = match ? match[1] : "";
@@ -34,13 +41,14 @@ export async function generateMetadata(props) {
 export default async function PostPage(props) {
   const params = await props.params;
   const post = await getCurrentPost(params.slug);
-  const coverImagePath = getStoragePath(post?.cover_image);
-  const otherBlogPosts = await getBlogPosts(6, params.slug);
 
   // If the post is not found or not published, return a 404 page
   if (!post || !post.published_status) {
-    return notFound();
+    notFound();
   }
+
+  const coverImagePath = getStoragePath(post.cover_image);
+  const otherBlogPosts = await getBlogPosts(6, params.slug);
 
   return (
     <article className="global-padding space-y-6 pb-10">

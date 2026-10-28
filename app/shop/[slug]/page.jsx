@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import { PackageOpen, Store } from "lucide-react";
 
 import { getShopBySlug, getShopProductsBySlug } from "@/lib/db/sellers";
@@ -14,6 +15,11 @@ export default async function ShopPage(props) {
   const { slug } = params;
 
   const shop = await getShopBySlug(slug);
+
+  if (!shop) {
+    notFound();
+  }
+
   const products = await getShopProductsBySlug(slug);
   const rating = await getAvgShopRating(slug);
   const bannerImagePath = getStoragePath(shop?.shop_banner);
