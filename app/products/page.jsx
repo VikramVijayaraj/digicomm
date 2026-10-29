@@ -5,7 +5,8 @@ import { getFilteredProducts, getProducts } from "@/lib/db/products";
 import BestSelling from "@/components/section/best-selling";
 import SectionLayout from "@/components/section/section-layout";
 
-export default async function FilteredProductsPage({ searchParams }) {
+export default async function FilteredProductsPage(props) {
+  const searchParams = await props.searchParams;
   const { query } = searchParams;
   let result;
 

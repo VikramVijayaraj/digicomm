@@ -2,7 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { CalendarDays, IndianRupee, PackageOpen, ShoppingBag } from "lucide-react";
+import {
+  CalendarDays,
+  IndianRupee,
+  PackageOpen,
+  ShoppingBag,
+} from "lucide-react";
 
 import { dateConverter } from "@/utils/dateConverter";
 import { getStoragePath } from "@/utils/utils";
@@ -40,8 +45,8 @@ export default function OrdersListContainer({ orderData }) {
           const total = (Number(order.price) * order.quantity).toFixed(2);
 
           return (
-            <Link
-              href={`/your/shop/dashboard/order-details?order_id=${order.order_id}&item_id=${order.item_id}`}
+            <div
+              // href={`/your/shop/dashboard/order-details?order_id=${order.order_id}&item_id=${order.item_id}`}
               key={`${order.order_id}-${order.item_id}`}
               className="grid gap-4 px-4 py-5 transition-colors hover:bg-slate-50/70 sm:px-5 lg:grid-cols-[minmax(0,1fr)_140px_170px_150px] lg:items-center"
             >
@@ -95,7 +100,7 @@ export default function OrdersListContainer({ orderData }) {
                   {total}
                 </p>
               </div>
-            </Link>
+            </div>
           );
         })}
       </div>

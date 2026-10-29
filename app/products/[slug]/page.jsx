@@ -15,13 +15,8 @@ import { getProduct } from "@/lib/db/products";
 import Reviews from "@/components/product/reviews/reviews";
 import { getAvgProductRating } from "@/lib/db/reviews";
 import AvgRatingContainer from "@/components/ui/avg-rating-container";
-import { getCartItems } from "@/lib/db/cart";
 import ShortDesc from "./short-desc";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { createClient } from "@/utils/supabase/server";
-
-// Force dynamic rendering for this page
-export const dynamic = "force-dynamic";
 
 // Cache the product data to avoid fetching it multiple times for the same slug when not using fetch
 const currentProduct = cache(async (slug) => {
@@ -29,7 +24,8 @@ const currentProduct = cache(async (slug) => {
   return product;
 });
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const { slug } = params;
   const result = await currentProduct(slug);
 
@@ -60,7 +56,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function ProductPage({ params }) {
+export default async function ProductPage(props) {
+  const params = await props.params;
   const { slug } = params;
   const result = await currentProduct(slug);
 
@@ -70,14 +67,9 @@ export default async function ProductPage({ params }) {
 
   const rating = await getAvgProductRating(slug);
 
-  const supabase = await createClient();
-  const { data } = await supabase.auth.getUser();
-
-  const cartItems = data?.user ? await getCartItems(data?.user?.email) : [];
-
   return (
     <div className="global-padding scroll-smooth space-y-12 pb-6 lg:space-y-16">
-      <section className="rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(255,247,241,1)_0%,rgba(255,255,255,1)_38%,rgba(245,248,255,1)_100%)] p-5 shadow-[0_22px_60px_rgba(15,23,42,0.06)] sm:p-8 lg:p-10">
+      <section className="rounded-4xl border border-slate-200 bg-[linear-gradient(135deg,rgba(255,247,241,1)_0%,rgba(255,255,255,1)_38%,rgba(245,248,255,1)_100%)] p-5 shadow-[0_22px_60px_rgba(15,23,42,0.06)] sm:p-8 lg:p-10">
         <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-slate-500">
           <Link href="/" className="transition-colors hover:text-slate-900">
             Home
@@ -132,11 +124,11 @@ export default async function ProductPage({ params }) {
               <ShortDesc result={result} />
             </div>
 
-            <div className="order-1 rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_18px_40px_rgba(15,23,42,0.06)] lg:order-2">
-              <AddToCart product={result} initialCartItems={cartItems} />
+            <div className="order-1 rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_18px_40px_rgba(15,23,42,0.06)] lg:order-2">
+              <AddToCart product={result} />
             </div>
 
-            <div className="order-2 grid gap-3 rounded-[1.5rem] border border-white/80 bg-white/85 p-4 shadow-[0_16px_35px_rgba(15,23,42,0.05)] sm:grid-cols-3 lg:order-1">
+            <div className="order-2 grid gap-3 rounded-3xl border border-white/80 bg-white/85 p-4 shadow-[0_16px_35px_rgba(15,23,42,0.05)] sm:grid-cols-3 lg:order-1">
               {[
                 {
                   icon: Zap,
@@ -158,7 +150,7 @@ export default async function ProductPage({ params }) {
                   key={title}
                   className="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4"
                 >
-                  <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-primary-brand shadow-sm">
+                  <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-primary-brand shadow-xs">
                     <Icon className="h-4 w-4" />
                   </div>
                   <p className="text-sm font-semibold text-slate-900">
@@ -171,7 +163,7 @@ export default async function ProductPage({ params }) {
               ))}
             </div>
 
-            <div className="order-3 rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-[0_16px_35px_rgba(15,23,42,0.05)]">
+            <div className="order-3 rounded-3xl border border-slate-200 bg-white p-4 shadow-[0_16px_35px_rgba(15,23,42,0.05)]">
               <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
                 Sold by
               </p>
@@ -198,10 +190,9 @@ export default async function ProductPage({ params }) {
           </div>
         </div>
       </section>
-
       <section
         id="desc"
-        className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.05)] sm:p-8"
+        className="rounded-4xl border border-slate-200 bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.05)] sm:p-8"
       >
         <div className="mb-6 max-w-3xl">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
@@ -225,8 +216,7 @@ export default async function ProductPage({ params }) {
             ))}
         </div>
       </section>
-
-      <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.05)] sm:p-8">
+      <section className="rounded-4xl border border-slate-200 bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.05)] sm:p-8">
         <div className="mb-6 max-w-3xl">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
             Reviews

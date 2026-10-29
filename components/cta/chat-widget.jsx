@@ -82,12 +82,12 @@ const markdownComponents = {
   code: ({ node, inline, ...props }) =>
     inline ? (
       <code
-        className="rounded bg-black/[0.06] px-1 py-0.5 font-mono text-[13px]"
+        className="rounded-xs bg-black/6 px-1 py-0.5 font-mono text-[13px]"
         {...props}
       />
     ) : (
       <code
-        className="block overflow-x-auto rounded-lg bg-black/[0.06] p-2 font-mono text-[13px]"
+        className="block overflow-x-auto rounded-lg bg-black/6 p-2 font-mono text-[13px]"
         {...props}
       />
     ),
@@ -199,12 +199,12 @@ export default function ChatWidget() {
           aria-label="Crelands assistant chat"
           className={cn(
             "fixed bottom-6 right-6 z-50 flex h-[520px] w-[360px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl",
-            "bg-gradient-to-br from-[#fff6ec] to-[#ffe9d6] shadow-2xl",
+            "bg-linear-to-br from-[#fff6ec] to-[#ffe9d6] shadow-2xl",
             "origin-bottom-right transition-all duration-150 motion-reduce:transition-none",
             isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0",
           )}
         >
-          <div className="flex items-center justify-between border-b border-black/[0.06] px-[18px] py-4">
+          <div className="flex items-center justify-between border-b border-black/6 px-[18px] py-4">
             <div>
               <div className="text-base font-extrabold text-neutral-900">
                 Crelands Assistant
@@ -235,7 +235,7 @@ export default function ChatWidget() {
               <div
                 key={i}
                 className={cn(
-                  "max-w-[82%] break-words rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
+                  "max-w-[82%] wrap-break-word rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
                   m.role === "user"
                     ? "self-end whitespace-pre-wrap rounded-br-md bg-[#E8321A] text-white"
                     : "self-start rounded-bl-md bg-white text-neutral-900",
@@ -271,7 +271,7 @@ export default function ChatWidget() {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="flex gap-2 border-t border-black/[0.06] bg-white/50 p-3">
+          <div className="flex gap-2 border-t border-black/6 bg-white/50 p-3">
             <Textarea
               ref={inputRef}
               value={input}

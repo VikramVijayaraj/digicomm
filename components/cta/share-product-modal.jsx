@@ -103,7 +103,7 @@ export default function ShareProductModal({ open, onOpenChange, product }) {
         <div className="mt-4 flex flex-col gap-2.5">
           <Button
             asChild
-            className="h-11 w-full rounded-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] font-medium text-white shadow-sm transition-all hover:opacity-90"
+            className="h-11 w-full rounded-full bg-linear-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] font-medium text-white shadow-xs transition-all hover:opacity-90"
           >
             <a
               href={instagram || "https://www.instagram.com/"}
@@ -126,7 +126,7 @@ export default function ShareProductModal({ open, onOpenChange, product }) {
 
           <Button
             asChild
-            className="h-11 w-full rounded-full bg-slate-950 font-medium text-white hover:bg-slate-800 shadow-sm transition-all"
+            className="h-11 w-full rounded-full bg-slate-950 font-medium text-white hover:bg-slate-800 shadow-xs transition-all"
           >
             <a
               href={twitter}

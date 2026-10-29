@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function MaintenancePage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 px-6 text-center">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-br from-indigo-50 via-white to-purple-50 px-6 text-center">
       <div className="max-w-lg">
         {/* Illustration */}
         <div className="mb-6">

@@ -70,7 +70,9 @@ export default function WelcomeEmail() {
                   showcase, sell, and grow their work — without limits.
                 </Text>
 
-                <Text className="text-base">Here's how to get started:</Text>
+                <Text className="text-base">
+                  Here&apos;s how to get started:
+                </Text>
               </Row>
             </Section>
 

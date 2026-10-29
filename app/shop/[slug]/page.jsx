@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import { PackageOpen, Store } from "lucide-react";
 
 import { getShopBySlug, getShopProductsBySlug } from "@/lib/db/sellers";
@@ -9,10 +10,16 @@ import { getAvgShopRating } from "@/lib/db/reviews";
 import AvgRatingContainer from "@/components/ui/avg-rating-container";
 import { getStoragePath } from "@/utils/utils";
 
-export default async function ShopPage({ params }) {
+export default async function ShopPage(props) {
+  const params = await props.params;
   const { slug } = params;
 
   const shop = await getShopBySlug(slug);
+
+  if (!shop) {
+    notFound();
+  }
+
   const products = await getShopProductsBySlug(slug);
   const rating = await getAvgShopRating(slug);
   const bannerImagePath = getStoragePath(shop?.shop_banner);
@@ -21,20 +28,20 @@ export default async function ShopPage({ params }) {
   return (
     <div className="space-y-8 pb-10">
       <section className="relative overflow-hidden">
-        <div className="relative h-[22rem] md:h-[28rem] lg:h-[34rem]">
+        <div className="relative h-88 md:h-112 lg:h-136">
           <Image
             src={bannerImagePath || "/images/shop-banner-default.jpg"}
             fill
             alt={`${shop.shop_name} Banner`}
             className="object-cover"
             unoptimized={!bannerImagePath}
-            priority
+            preload
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-slate-950/80 via-slate-950/30 to-transparent" />
           <div className="absolute inset-x-0 bottom-0">
             <div className="global-padding pb-8 md:pb-10">
               <div className="flex max-w-4xl flex-col gap-5 sm:flex-row sm:items-end">
-                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[1.5rem] border-4 border-white bg-white shadow-[0_18px_40px_rgba(15,23,42,0.18)] md:h-32 md:w-32">
+                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-3xl border-4 border-white bg-white shadow-[0_18px_40px_rgba(15,23,42,0.18)] md:h-32 md:w-32">
                   <Image
                     src={logoImagePath || "/images/shop-avatar.png"}
                     alt={`${shop.shop_name} Logo`}
@@ -45,7 +52,7 @@ export default async function ShopPage({ params }) {
                 </div>
 
                 <div className="min-w-0 text-white">
-                  <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/15 px-4 py-2 text-sm font-semibold text-white shadow-sm backdrop-blur">
+                  <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/15 px-4 py-2 text-sm font-semibold text-white shadow-xs backdrop-blur-sm">
                     <Store className="h-4 w-4" />
                     Creator Storefront
                   </div>
@@ -99,13 +106,13 @@ export default async function ShopPage({ params }) {
         <Tabs defaultValue="products" className="space-y-8">
           <TabsList className="h-auto w-full rounded-full border border-slate-200 bg-slate-50 p-1">
             <TabsTrigger
-              className="h-11 w-1/2 rounded-full text-sm font-semibold data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm"
+              className="h-11 w-1/2 rounded-full text-sm font-semibold data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-xs"
               value="products"
             >
               Products
             </TabsTrigger>
             <TabsTrigger
-              className="h-11 w-1/2 rounded-full text-sm font-semibold data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-sm"
+              className="h-11 w-1/2 rounded-full text-sm font-semibold data-[state=active]:bg-white data-[state=active]:text-slate-950 data-[state=active]:shadow-xs"
               value="reviews"
             >
               Reviews

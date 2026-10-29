@@ -45,7 +45,7 @@ function UploadPanel({ id, title, description, buttonLabel, onChange, summary })
         className="hidden"
       />
       <label htmlFor={id} className="block cursor-pointer">
-        <div className="rounded-[1rem] border border-slate-200 bg-white p-4 transition-colors hover:bg-slate-50">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 transition-colors hover:bg-slate-50">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="font-semibold text-slate-900">{title}</p>
@@ -306,7 +306,7 @@ export default function StepStoreSetup({ session, onContinue }) {
 
           <div className="flex justify-end pt-2">
             <Button
-              className="h-12 rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-8 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+              className="h-12 rounded-full bg-linear-to-r from-primary-brand to-red-400 px-8 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
               disabled={form.formState.isSubmitting}
               type="submit"
             >
@@ -345,7 +345,7 @@ export default function StepStoreSetup({ session, onContinue }) {
           </div>
 
           <div className="relative px-5 pb-5 pt-12">
-            <div className="absolute -top-10 left-5 h-20 w-20 overflow-hidden rounded-2xl border-4 border-white bg-slate-100 shadow-sm">
+            <div className="absolute -top-10 left-5 h-20 w-20 overflow-hidden rounded-2xl border-4 border-white bg-slate-100 shadow-xs">
               {logo ? (
                 <Image
                   src={logo}

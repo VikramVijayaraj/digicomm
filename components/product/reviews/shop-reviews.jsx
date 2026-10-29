@@ -20,7 +20,7 @@ export default async function ShopReviews({ sellerId }) {
       </div>
 
       {reviews.length === 0 && (
-        <div className="rounded-[1.5rem] border border-dashed border-slate-200 bg-slate-50 px-6 py-10 text-center text-slate-500">
+        <div className="rounded-3xl border border-dashed border-slate-200 bg-slate-50 px-6 py-10 text-center text-slate-500">
           No reviews yet
         </div>
       )}

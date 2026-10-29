@@ -72,7 +72,7 @@ export default function OptimisticCart({ initialCartItems }) {
         <CartTotal subTotal={subTotal} />
         <Button
           asChild
-          className="mt-6 h-12 w-full rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+          className="mt-6 h-12 w-full rounded-full bg-linear-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
         >
           <Link href="/your/cart/checkout">
             Proceed to checkout <MoveRight className="ml-2 h-4 w-4" />

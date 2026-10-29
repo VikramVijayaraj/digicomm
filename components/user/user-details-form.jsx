@@ -24,7 +24,7 @@ const inputClassName =
 
 function FieldGroup({ icon: Icon, title, description, children }) {
   return (
-    <section className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)] sm:p-6">
+    <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)] sm:p-6">
       <div className="mb-5 flex items-start gap-4">
         <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-orange-50 text-primary-brand">
           <Icon className="h-5 w-5" />
@@ -271,7 +271,7 @@ export default function UserDetailsForm({ data, callbackUrl }) {
 
           <div className="flex justify-end">
             <Button
-              className="h-12 w-full rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand sm:w-auto"
+              className="h-12 w-full rounded-full bg-linear-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand sm:w-auto"
               disabled={form.formState.isSubmitting}
               type="submit"
             >

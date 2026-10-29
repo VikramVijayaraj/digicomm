@@ -131,7 +131,7 @@ export default function SignUpForm() {
         )}
 
         <Button
-          className="h-12 w-full rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+          className="h-12 w-full rounded-full bg-linear-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
           type="submit"
           disabled={form.formState.isSubmitting}
         >

@@ -1,110 +1,67 @@
 "use client";
 
-import { useState, useOptimistic } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useActionState, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import Quantity from "./quantity";
 import { Button } from "../ui/button";
 import { addToCartAction } from "@/actions/cart-action";
 
-export default function AddToCart({ product, initialCartItems }) {
-  const { slug } = useParams();
-  const router = useRouter();
+const initialState = {
+  status: "idle",
+  message: "",
+};
 
+export default function AddToCart({ product }) {
   const [quantity, setQuantity] = useState(1);
-  const [isAdding, setIsAdding] = useState(false);
-
-  const [optimisticCartItems, addOptimisticCartItem] = useOptimistic(
-    initialCartItems,
-    (state, newItem) => {
-      // const existingItemIndex = state.findIndex(
-      //   (item) => item.product_id === newItem.product_id,
-      // );
-      // if (existingItemIndex > -1) {
-      //   // If the item already exists, update its quantity
-      //   const newState = [...state];
-      //   newState[existingItemIndex] = {
-      //     ...newState[existingItemIndex],
-      //     quantity: newState[existingItemIndex].quantity + newItem.quantity,
-      //     total_price:
-      //       (newState[existingItemIndex].quantity + newItem.quantity) *
-      //       newState[existingItemIndex].price,
-      //   };
-      //   return newState;
-      // } else {
-      //   // If it's a new item, add it to the cart
-      //   return [...state, newItem];
-      // }
-      return [...state, newItem];
-    },
+  const router = useRouter();
+  const addProductToCart = addToCartAction.bind(null, product.product_slug);
+  const [state, formAction, isPending] = useActionState(
+    addProductToCart,
+    initialState,
   );
 
-  function incrementQuantity() {
-    // if (quantity < product.stock) {
-    setQuantity((q) => q + 1);
-    // }
-  }
-
-  function decrementQuantity() {
-    if (quantity > 1) {
-      setQuantity((q) => q - 1);
-    }
-  }
-
-  async function handleAddToCart() {
-    setIsAdding(true);
-
-    // Optimistically update the cart
-    const optimisticCartItem = {
-      product_id: product.product_id,
-      name: product.product_name,
-      quantity: quantity,
-      price: product.price,
-      description: product.product_desc,
-      // stock: product.stock,
-      slug: product.slug,
-      total_price: quantity * product.price,
-    };
-    addOptimisticCartItem(optimisticCartItem);
-
-    try {
-      await addToCartAction(slug, quantity);
-      toast.success("Product added to cart successfully.");
+  useEffect(() => {
+    if (state.status === "success") {
+      toast.success(state.message);
       router.push("/your/cart");
-    } catch (error) {
-      toast.error("Failed to add the product to cart. Please try again.");
-
-      // Remove the optimistic update if there's an error
-      addOptimisticCartItem(
-        optimisticCartItems.filter(
-          (item) => item.product_id !== optimisticCartItems.product_id,
-        ),
-      );
-    } finally {
-      setIsAdding(false);
     }
-  }
+
+    if (state.status === "error") {
+      toast.error(state.message);
+    }
+  }, [router, state]);
+
+  const incrementQuantity = () => setQuantity((current) => current + 1);
+  const decrementQuantity = () =>
+    setQuantity((current) => Math.max(1, current - 1));
 
   return (
-    <div>
+    <form action={formAction}>
+      <input name="quantity" type="hidden" value={quantity} readOnly />
       <div className="flex flex-col gap-4 md:flex-row md:items-center">
         <div className="w-full md:flex-1">
           <Quantity
             quantity={quantity}
             incrementQuantity={incrementQuantity}
             decrementQuantity={decrementQuantity}
+            disabled={isPending}
           />
         </div>
 
         <Button
-          onClick={handleAddToCart}
-          disabled={isAdding}
-          className="h-14 w-full rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-base font-semibold text-white transition hover:from-primary-light hover:to-primary-brand md:flex-1 select-none"
+          type="submit"
+          disabled={isPending}
+          aria-busy={isPending}
+          className="h-14 w-full rounded-full bg-linear-to-r from-primary-brand to-red-400 px-6 text-base font-semibold text-white transition hover:from-primary-light hover:to-primary-brand md:flex-1 select-none"
         >
-          {isAdding ? "Adding..." : "Add to cart"}
+          {isPending ? "Adding..." : "Add to cart"}
         </Button>
       </div>
-    </div>
+      <p className="sr-only" aria-live="polite">
+        {state.message}
+      </p>
+    </form>
   );
 }

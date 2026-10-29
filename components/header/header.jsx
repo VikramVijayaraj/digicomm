@@ -42,7 +42,7 @@ export default async function Header() {
           <div className="flex items-center gap-3 lg:gap-4">
             <div className="lg:hidden">
               <Sheet>
-                <SheetTrigger className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm transition-colors hover:bg-slate-50">
+                <SheetTrigger className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-xs transition-colors hover:bg-slate-50">
                   <Menu className="h-5 w-5 text-slate-700" />
                 </SheetTrigger>
                 <SheetContent side="left" className="border-slate-200 bg-white">
@@ -78,7 +78,7 @@ export default async function Header() {
                 width={120}
                 height={20}
                 className="h-6 sm:h-6 w-auto object-contain lg:h-7"
-                priority
+                preload
                 unoptimized
               />
             </Link>

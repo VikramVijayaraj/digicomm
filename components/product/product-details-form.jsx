@@ -48,7 +48,7 @@ import { formatFileName, optimizeImage } from "@/utils/utils";
 
 function FieldShell({ icon: Icon, title, description, children }) {
   return (
-    <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)] sm:p-6">
+    <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)] sm:p-6">
       <div className="mb-4 flex items-start gap-4">
         <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-orange-50 text-primary-brand">
           <Icon className="h-5 w-5" />
@@ -85,7 +85,7 @@ function UploadField({
       />
 
       <label htmlFor={id} className="block cursor-pointer">
-        <div className="rounded-[1rem] border border-slate-200 bg-white p-4 transition-colors hover:bg-slate-50">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 transition-colors hover:bg-slate-50">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="font-semibold text-slate-900">{title}</p>
@@ -306,7 +306,10 @@ export default function ProductDetailsForm({
       const queryParams = new URLSearchParams({
         created: finalSlug,
         name: data.name,
-        price: data.price !== undefined && data.price !== null ? String(data.price) : "0",
+        price:
+          data.price !== undefined && data.price !== null
+            ? String(data.price)
+            : "0",
       });
       if (uploadedImages?.[0]) {
         queryParams.set("image", uploadedImages[0]);
@@ -317,9 +320,12 @@ export default function ProductDetailsForm({
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_340px] lg:items-start">
+    <div className="grid min-w-0 grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.05fr)_240px] lg:items-start">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="min-w-0 space-y-6"
+        >
           <FieldShell
             icon={PenSquare}
             title="Core details"
@@ -379,7 +385,7 @@ export default function ProductDetailsForm({
             title="Category and pricing"
             description="Help buyers understand where this product belongs and what it costs."
           >
-            <div className="grid gap-5 md:grid-cols-2">
+            <div className="grid gap-5 xl:grid-cols-2">
               <FormField
                 control={form.control}
                 name="category"
@@ -472,7 +478,7 @@ export default function ProductDetailsForm({
               )}
             />
 
-            <div className="mt-5">
+            <div className="mt-5 min-w-0">
               <NewProductPreviews images={imagePreviews} />
             </div>
           </FieldShell>
@@ -525,7 +531,7 @@ export default function ProductDetailsForm({
             <Button
               disabled={form.formState.isSubmitting}
               type="submit"
-              className="h-12 rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+              className="h-12 rounded-full bg-linear-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
             >
               {form.formState.isSubmitting ? "Saving..." : "Save Product"}
             </Button>
@@ -534,7 +540,7 @@ export default function ProductDetailsForm({
       </Form>
 
       <aside className="space-y-4 lg:sticky lg:top-24">
-        <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)]">
+        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)]">
           <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-white">
             <Package className="h-5 w-5" />
           </div>
@@ -549,7 +555,7 @@ export default function ProductDetailsForm({
           </div>
         </div>
 
-        <div className="rounded-[1.5rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(255,248,242,1)_0%,rgba(255,255,255,1)_100%)] p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)]">
+        <div className="rounded-3xl border border-slate-200 bg-[linear-gradient(135deg,rgba(255,248,242,1)_0%,rgba(255,255,255,1)_100%)] p-5 shadow-[0_14px_35px_rgba(15,23,42,0.04)]">
           <div className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-50 text-primary-brand">
             <FileUp className="h-5 w-5" />
           </div>

@@ -5,7 +5,6 @@ import "@/styles/_variables.scss";
 import "@/styles/_keyframe-animations.scss";
 import { poppins } from "@/lib/fonts";
 import { ReduxProvider } from "./redux-provider";
-import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
 import { Toaster } from "@/components/ui/sonner";
@@ -66,21 +65,14 @@ export default function RootLayout({ children }) {
       </head>
       <body className="font-poppins">
         <ReduxProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Header />
-            <div className="py-8">{children}</div>
-            <Toaster richColors />
+          <Header />
+          <div className="py-8">{children}</div>
+          <Toaster richColors />
 
-            {/* <div className="global-padding">
-              <DiscordInviteBanner />
-            </div> */}
-            <Footer />
-          </ThemeProvider>
+          {/* <div className="global-padding">
+            <DiscordInviteBanner />
+          </div> */}
+          <Footer />
         </ReduxProvider>
 
         {/* Fixed button */}

@@ -1,13 +1,8 @@
-import { unstable_noStore } from "next/cache";
-
 import BlogPostForm from "@/components/blog/blog-post-form";
 import { getBlogPostBySlug } from "@/lib/db/blog";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
-export default async function EditPostPage({ params }) {
-  unstable_noStore();
+export default async function EditPostPage(props) {
+  const params = await props.params;
 
   const { slug } = params;
   const post = await getBlogPostBySlug(slug);

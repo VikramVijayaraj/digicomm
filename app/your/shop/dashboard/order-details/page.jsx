@@ -13,7 +13,8 @@ import {
 import { dateConverter } from "@/utils/dateConverter";
 import OrderTrackingEmailForm from "@/components/shop/order-tracking-email-form";
 
-export default async function ShopOrderDetails({ searchParams }) {
+export default async function ShopOrderDetails(props) {
+  const searchParams = await props.searchParams;
   const { order_id: orderId, item_id: itemId } = searchParams;
   const buyerDetails = await getBuyerDetails(orderId, itemId);
 

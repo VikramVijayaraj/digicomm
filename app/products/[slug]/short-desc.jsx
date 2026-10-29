@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function ShortDesc({ result }) {
   return (
-    <div className="rounded-[1.5rem] border border-white/80 bg-white/80 p-5 shadow-[0_12px_30px_rgba(15,23,42,0.04)]">
+    <div className="rounded-3xl border border-white/80 bg-white/80 p-5 shadow-[0_12px_30px_rgba(15,23,42,0.04)]">
       <div className="line-clamp-3 text-base leading-7 text-slate-700">
         {result?.product_desc
           .trim()

@@ -32,7 +32,7 @@ export default function NavLinks({ userData, shopDetails }) {
       <Link href="/auth/signin">
         <Button
           variant="outline"
-          className="h-11 rounded-full border-slate-200 bg-white px-5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="h-11 rounded-full border-slate-200 bg-white px-5 text-sm font-medium text-slate-700 hover:bg-slate-50 cursor-pointer"
         >
           Sign in
         </Button>
@@ -137,7 +137,7 @@ export default function NavLinks({ userData, shopDetails }) {
         <div className="hidden md:block">
           <Button
             asChild
-            className="h-11 rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-5 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+            className="h-11 rounded-full bg-linear-to-r from-primary-brand to-red-400 px-5 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
           >
             <Link href="/your/shop/register">Start Selling</Link>
           </Button>

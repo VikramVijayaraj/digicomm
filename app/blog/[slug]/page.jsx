@@ -16,9 +16,17 @@ const getCurrentPost = cache(async (slug) => {
   return currentPost;
 });
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const { slug } = params;
   const result = await getCurrentPost(slug);
+
+  if (!result || !result.published_status) {
+    return {
+      title: "Blog Post Not Found",
+      description: "The blog post you are looking for does not exist.",
+    };
+  }
 
   // Take the first paragraph, <p> tag from the content for the description
   const match = result.content.match(/<p[^>]*>(.*?)<\/p>/i);
@@ -30,15 +38,17 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function PostPage({ params }) {
+export default async function PostPage(props) {
+  const params = await props.params;
   const post = await getCurrentPost(params.slug);
-  const coverImagePath = getStoragePath(post?.cover_image);
-  const otherBlogPosts = await getBlogPosts(6, params.slug);
 
   // If the post is not found or not published, return a 404 page
   if (!post || !post.published_status) {
-    return notFound();
+    notFound();
   }
+
+  const coverImagePath = getStoragePath(post.cover_image);
+  const otherBlogPosts = await getBlogPosts(6, params.slug);
 
   return (
     <article className="global-padding space-y-6 pb-10">
@@ -52,7 +62,7 @@ export default async function PostPage({ params }) {
 
       <section className="rounded-[1.75rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(255,247,241,1)_0%,rgba(255,255,255,1)_48%,rgba(245,248,255,1)_100%)] p-4 shadow-[0_16px_40px_rgba(15,23,42,0.05)] sm:p-6 lg:p-7">
         <div className="max-w-3xl">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/80 px-4 py-2 text-sm font-semibold text-orange-700 shadow-sm">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/80 px-4 py-2 text-sm font-semibold text-orange-700 shadow-xs">
             <Newspaper className="h-4 w-4" />
             {post.category}
           </div>
@@ -73,7 +83,7 @@ export default async function PostPage({ params }) {
           alt={post.title}
           className="object-cover"
           fill
-          priority
+          preload
         />
       </div>
 
@@ -82,7 +92,7 @@ export default async function PostPage({ params }) {
           {parse(post.content)}
         </div>
 
-        <div className="mt-8 rounded-[1.5rem] border border-orange-200 bg-orange-50/70 p-5 sm:flex sm:items-center sm:justify-between sm:gap-6 sm:p-6">
+        <div className="mt-8 rounded-3xl border border-orange-200 bg-orange-50/70 p-5 sm:flex sm:items-center sm:justify-between sm:gap-6 sm:p-6">
           <div className="min-w-0">
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-700">
               Start selling
@@ -97,7 +107,7 @@ export default async function PostPage({ params }) {
           </div>
           <Button
             asChild
-            className="mt-5 h-12 w-full rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand sm:mt-0 sm:w-auto"
+            className="mt-5 h-12 w-full rounded-full bg-linear-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand sm:mt-0 sm:w-auto"
           >
             <Link href={"/your/shop/dashboard"}>
               Sign Up Now

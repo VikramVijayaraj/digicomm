@@ -22,7 +22,7 @@ export default function DiscordInviteBanner() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(88,101,242,0.22),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.18),transparent_28%)]" />
 
       {/* Grid Overlay */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px]" />
+      <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-size-[40px_40px]" />
 
       {/* Blur Orbs */}
       <div className="absolute -top-20 left-10 h-56 w-56 rounded-full bg-[#5865F2]/20 blur-3xl" />
@@ -43,7 +43,7 @@ export default function DiscordInviteBanner() {
 
           <h2 className="max-w-xl text-3xl font-bold leading-tight tracking-tight text-white md:text-5xl">
             Build, Learn & Grow With
-            <span className="bg-gradient-to-r from-[#8EA1FF] via-[#C4B5FD] to-[#57F287] bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-[#8EA1FF] via-[#C4B5FD] to-[#57F287] bg-clip-text text-transparent">
               {" "}
               Creators Like You
             </span>
@@ -84,8 +84,8 @@ export default function DiscordInviteBanner() {
         </div>
 
         {/* Right CTA Card */}
-        <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-2xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.07] to-transparent" />
+        <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-white/4 p-6 backdrop-blur-2xl">
+          <div className="absolute inset-0 bg-linear-to-br from-white/[0.07] to-transparent" />
 
           <div className="relative z-10">
             <div className="mb-6 flex items-center justify-between">
@@ -98,7 +98,7 @@ export default function DiscordInviteBanner() {
                 </h3>
               </div>
 
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#5865F2] to-[#7289DA] shadow-lg shadow-[#5865F2]/30">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-[#5865F2] to-[#7289DA] shadow-lg shadow-[#5865F2]/30">
                 <FaDiscord className="h-7 w-7 text-white" />
               </div>
             </div>
@@ -122,7 +122,7 @@ export default function DiscordInviteBanner() {
             <Button
               asChild
               size="lg"
-              className="group mt-6 h-14 w-full rounded-2xl bg-gradient-to-r from-[#5865F2] to-[#7289DA] text-base font-semibold text-white shadow-xl shadow-[#5865F2]/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-[#5865F2]/40"
+              className="group mt-6 h-14 w-full rounded-2xl bg-linear-to-r from-[#5865F2] to-[#7289DA] text-base font-semibold text-white shadow-xl shadow-[#5865F2]/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-[#5865F2]/40"
             >
               <Link
                 href="https://discord.gg/nJE8Kf9GWJ"

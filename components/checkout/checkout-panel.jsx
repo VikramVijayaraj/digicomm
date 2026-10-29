@@ -237,7 +237,7 @@ export default function CheckoutPanel({
               </CardDescription>
             </CardHeader>
             <CardContent className="px-5 pb-5 pt-0 sm:px-6 sm:pb-6">
-              <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white">
+              <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white">
                 <div className="flex items-center justify-between gap-4 px-4 py-4">
                   <span className="inline-flex items-center gap-2 text-sm font-medium text-slate-500">
                     <UserRound className="h-4 w-4" />

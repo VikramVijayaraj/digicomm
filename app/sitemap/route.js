@@ -1,5 +1,3 @@
-import { revalidatePath } from "next/cache";
-
 import { getBlogPosts } from "@/lib/db/blog";
 import { getProducts } from "@/lib/db/products";
 import { getCategories } from "@/lib/db/categories";

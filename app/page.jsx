@@ -9,7 +9,8 @@ import { createClient } from "@/utils/supabase/server";
 import AllSections from "@/components/section/all-sections";
 import WhatsAppSupportBanner from "@/components/cta/whatsapp-support-banner";
 
-export default async function Home({ searchParams }) {
+export default async function Home(props) {
+  const searchParams = await props.searchParams;
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
 
@@ -24,7 +25,9 @@ export default async function Home({ searchParams }) {
   }
 
   if (searchParams?.query) {
-    return <FilteredProductsPage />;
+    return (
+      <FilteredProductsPage searchParams={Promise.resolve(searchParams)} />
+    );
   }
 
   return (

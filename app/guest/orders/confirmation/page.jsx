@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { notifyOnSlack } from "@/lib/api";
 import { getOrders } from "@/lib/db/orders";
 
-export default async function OrderConfirmation({ searchParams }) {
+export default async function OrderConfirmation(props) {
+  const searchParams = await props.searchParams;
   const { orderId, email } = searchParams;
 
   if (!orderId || !email) redirect("/");
@@ -86,9 +87,9 @@ export default async function OrderConfirmation({ searchParams }) {
         </Button>
       </div>
 
-      <a href="/" className="text-sm text-gray-400 underline">
+      <Link href="/" className="text-sm text-gray-400 underline">
         Continue Shopping
-      </a>
+      </Link>
     </div>
   );
 }

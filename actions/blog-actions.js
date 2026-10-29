@@ -35,6 +35,7 @@ export async function createPostAction(data) {
 
   // Revalidate both the blog page and sitemap
   revalidatePath("/blog");
+  revalidatePath("/admin/blog");
   revalidatePath(`/blog/${slug}`);
   revalidatePath("/sitemap");
 }
@@ -89,6 +90,7 @@ export async function updatePostAction(data, currentSlug) {
 
     // Revalidate paths
     revalidatePath("/blog");
+    revalidatePath("/admin/blog");
     revalidatePath(`/blog/${newSlug}`);
     if (oldSlug !== newSlug) {
       revalidatePath(`/blog/${oldSlug}`);
@@ -114,6 +116,7 @@ export async function togglePostStatusAction(postId, status) {
   }
 
   revalidatePath("/blog");
+  revalidatePath("/admin/blog");
   revalidatePath("/sitemap");
 }
 

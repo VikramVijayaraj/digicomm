@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import AddReviewForm from "@/components/product/reviews/add-review-form";
 import { createClient } from "@/utils/supabase/server";
 
-export default async function AddReviewPage({ searchParams }) {
+export default async function AddReviewPage(props) {
+  const searchParams = await props.searchParams;
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
 

@@ -289,7 +289,7 @@ export default function Loading() {
     <>
       <style dangerouslySetInnerHTML={{ __html: STYLE }} />
 
-      <div className="h-[100dvh] w-full flex flex-col items-center justify-center pb-[12vh]">
+      <div className="h-dvh w-full flex flex-col items-center justify-center pb-[12vh]">
         {/* ── Card cluster ── */}
         <div
           className="relative"

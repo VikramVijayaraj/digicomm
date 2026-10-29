@@ -21,7 +21,7 @@ export default function StepIndicator({ steps = [], currentStep = 0 }) {
                     isCompleted
                       ? "bg-green-500 text-white"
                       : isActive
-                      ? "bg-gradient-to-r from-primary-brand to-red-400 text-white"
+                      ? "bg-linear-to-r from-primary-brand to-red-400 text-white"
                       : "border-2 border-slate-200 bg-white text-slate-400"
                   }`}
                 >
@@ -53,7 +53,7 @@ export default function StepIndicator({ steps = [], currentStep = 0 }) {
                     index < currentStep - 1
                       ? "bg-green-500"
                       : index === currentStep - 1
-                      ? "bg-gradient-to-r from-green-500 to-primary-brand"
+                      ? "bg-linear-to-r from-green-500 to-primary-brand"
                       : "bg-slate-200"
                   }`}
                 />

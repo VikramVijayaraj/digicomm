@@ -23,7 +23,10 @@ export default function PaymentButton({
 
   var initializeSDK = async function () {
     cashfree = await load({
-      mode: process.env.NEXT_PUBLIC_CASHFREE_ENVIRONMENT === "production" ? "production" : "sandbox",
+      mode:
+        process.env.NEXT_PUBLIC_CASHFREE_ENVIRONMENT === "production"
+          ? "production"
+          : "sandbox",
     });
   };
   initializeSDK();
@@ -149,7 +152,7 @@ export default function PaymentButton({
   return (
     <Button
       disabled={isProcessing || disabled}
-      className="h-12 w-full rounded-full bg-gradient-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand"
+      className="h-12 w-full rounded-full bg-linear-to-r from-primary-brand to-red-400 px-6 text-sm font-semibold text-white hover:from-primary-light hover:to-primary-brand cursor-pointer"
       onClick={handleClick}
     >
       {isProcessing ? (

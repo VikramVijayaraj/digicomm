@@ -93,7 +93,7 @@ export default function Footer() {
               href="https://wa.me/message/D6W6LVXULB74N1"
               target="_blank"
               rel="noopener noreferrer"
-              className="group mt-4 block rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition-colors hover:border-[#25D366]/40 hover:bg-[#25D366]/10"
+              className="group mt-4 block rounded-2xl border border-white/10 bg-white/4 p-4 transition-colors hover:border-[#25D366]/40 hover:bg-[#25D366]/10"
             >
               <div className="flex items-center gap-3">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-[#10221A]">

@@ -27,4 +27,6 @@ jobs:
             cd ~/digicomm
             git fetch origin main
             git reset --hard origin/main
+            nvm install --no-progress
+            nvm use
             bash deploy.sh
