@@ -1,6 +1,7 @@
 import { getBlogPosts } from "@/lib/db/blog";
 import { getProducts } from "@/lib/db/products";
 import { getCategories } from "@/lib/db/categories";
+import { unstable_rethrow } from "next/navigation";
 
 export async function GET() {
   try {
@@ -79,6 +80,7 @@ export async function GET() {
       },
     });
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Error generating sitemap:", error);
     return new Response("Error generating sitemap", {
       status: 500,

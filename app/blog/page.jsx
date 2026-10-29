@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { unstable_rethrow } from "next/navigation";
 import {
   AlertCircle,
   BookOpenText,
@@ -15,6 +16,7 @@ export default async function BlogPage() {
   try {
     posts = await getBlogPosts();
   } catch (error) {
+    unstable_rethrow(error);
     console.error("Failed to fetch blog posts:", error);
 
     return (
